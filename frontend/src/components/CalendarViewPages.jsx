@@ -66,7 +66,7 @@ const CalendarViewPages = () => {
         <>
             <div className='CalendarViewPages-container flex flex-col items-center'>
                 <Text size='xl' fw={700}>Your Calendar</Text>
-                <Calendar getDayProps={(date) => ({
+                <Calendar style={{ transform: 'scale(1.3)', transformOrigin: 'top left' }} getDayProps={(date) => ({
                     onClick: () => handleDateClick(date),
                 })}
                     renderDay={(date) => {
