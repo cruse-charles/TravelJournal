@@ -5,7 +5,7 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewPages from './CalendarViewPages'
 import UserPages from './UserPages'
 
-import { Button, Grid } from '@mantine/core';
+import { Button, Grid, Stack, Group, rem } from '@mantine/core';
 
 const Profile = () => {
 
@@ -20,6 +20,7 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log('update button clicked')
 
         // Dispatch updateUserStart action of userSlice to indicate that the update process has started
         dispatch(updateUserStart())
@@ -27,6 +28,7 @@ const Profile = () => {
         // POST request to update user endpoint
         await axios.post(`api/user/update/${currentUser._id}`, formData)
             .then(res => {
+                console.log(res.data)
                 dispatch(updateUserSuccess(res.data))
             })
             .catch(err => {
@@ -69,20 +71,25 @@ const Profile = () => {
                 <Grid.Col span={6}>
                     <UserPages />
                 </Grid.Col>
-                <Grid.Col span={12}>
-                    <form onSubmit={handleSubmit}>
-                        <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                        <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                        <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                        <Button disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
-                    </form>
+                <Grid.Col>
+                    <Group gap='xs' style={{ justifyContent: 'center' }}>
+                        <form onSubmit={handleSubmit}>
+                            <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
+                            <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
+                            <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
+                            <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
+                        </form>
+                    </Group>
                 </Grid.Col>
                 <Grid.Col>
-                    <Button variant="filled" onClick={handleLogout}>logout</Button>
-                    <Button variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
-                    <p>{error ? error : ''}</p>
+                    <Stack style={{ alignItems: 'center' }}>
+                        <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
+                        <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                        <p>{error ? error : ''}</p>
+
+                    </Stack>
                 </Grid.Col>
-            </Grid>
+            </Grid >
         </>
     )
 }
