@@ -2,6 +2,7 @@ import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
 import Page from '../models/page.model.js';
+import { getImageURLsFromS3 } from '../utils/s3Service.js';
 
 export const updateUser = async (req, res, next) => {
     // Check if user is updating their own data
@@ -48,7 +49,13 @@ export const getUserPages = async (req, res, next) => {
     if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only view your own pages'));
     
     try {
-        const pages = await Page.find({user: req.params.id})    
+        const pages = await Page.find({user: req.params.id})
+        
+        for (const page of pages) {
+            const urls = await getImageURLsFromS3(page.attachments);
+            page.attachments = urls;
+        }
+
         res.status(200).json(pages);
     } catch (error) {
         next(error)
