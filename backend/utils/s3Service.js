@@ -22,7 +22,7 @@ const s3 = new S3Client({
     region: s3BucketRegion
 })
 
-export const getImagesFromS3 = async (pageAttachments) => {
+export const getImageURLsFromS3 = async (pageAttachments) => {
     const urlPromises = pageAttachments.map(async (attachment) => {
         const getObjectParams = {
             Bucket: s3BucketName,
