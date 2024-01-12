@@ -26,13 +26,13 @@ export const pageIndex = async (req, res) => {
 }
 
 export const pageSave = async (req, res) => {
-    const {title, text, date} = req.body;
+    const {title, text, date, user} = req.body;
 
     // save images to S3 and get image names
     const attachments = await saveImagesToS3(req.files);
 
     // save page data to MongoDB with image names
-    const newPage = new Page({title, text, attachments, date});
+    const newPage = new Page({title, text, attachments, date, user});
     await newPage.save()
         .then(() => {
             res.status(201).json('Page created');

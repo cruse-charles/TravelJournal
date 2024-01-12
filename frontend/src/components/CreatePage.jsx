@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
 import axios from 'axios';
-
+import { useSelector } from 'react-redux';
 
 const CreatePage = () => {
+    const { currentUser } = useSelector(state => state.user);
+
     const [formValues, setFormValues] = useState({
         title: '',
         text: '',
         date: '',
         attachments: [],
+        user: currentUser._id,
     });
 
     const createFormData = () => {
@@ -19,11 +22,13 @@ const CreatePage = () => {
         data.append('title', formValues.title);
         data.append('text', formValues.text);
         data.append('date', date);
+        data.append('user', formValues.user)
 
         formValues.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
         });
 
+        console.log(formValues)
         return data;
     }
 
