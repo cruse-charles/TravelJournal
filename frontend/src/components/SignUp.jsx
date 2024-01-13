@@ -19,6 +19,7 @@ const SignUp = () => {
             .then(res => {
                 console.log(res.data);
                 setLoading(false);
+                setError(null);
             })
             .catch(err => {
                 console.log(err.response.data);
@@ -34,7 +35,9 @@ const SignUp = () => {
                 <input type="text" id="username" placeholder="Username" onChange={handleChange} />
                 <input type="email" id="email" placeholder="Email" onChange={handleChange} />
                 <input type="password" id="password" placeholder="Password" onChange={handleChange} />
-                <button >Sign Up</button>
+                <button disabled={loading}>
+                    {loading ? 'Loading...' : 'Sign Up'}
+                </button>
                 {error && <div>{error}</div>}
             </form>
         </>
