@@ -42,3 +42,11 @@ export const deleteUser = async (req, res, next) => {
         next(error)
     }
 }
+
+export const getUserPages = async (req, res, next) => {
+    try {
+        
+    } catch (error) {
+        next(error)
+    }
+}
