@@ -1,9 +1,10 @@
 import { randomImageName } from "../utils/s3ImageNameHelper.js";
+import { resizeImage } from "./s3ImageResizer.js";
 
 import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
-import sharp from 'sharp';
+// import sharp from 'sharp';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -38,7 +39,7 @@ export const saveImagesToS3 = async (files) => {
     const attachments = [];
 
     const uploadPromises = files.map(async (file) => {
-        const buffer = await sharp(file.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer()
+        const buffer = await resizeImage(file.buffer);
         const imageName = randomImageName();
         attachments.push(imageName);
 
