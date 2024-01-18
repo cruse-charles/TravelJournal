@@ -33,3 +33,26 @@ export const getImagesFromS3 = async (pageAttachments) => {
     })
     return Promise.all(urlPromises);
 }
+
+export const saveImagesToS3 = async (files) => {
+    const attachments = [];
+
+    const uploadPromises = files.map(async (file) => {
+        const buffer = await sharp(file.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer()
+        const imageName = randomImageName();
+        attachments.push(imageName);
+
+        const params = {
+            Bucket: s3BucketName,
+            Key: imageName,
+            Body: buffer,
+            ContentType: file.mimetype
+        };
+    
+        const command = new PutObjectCommand(params);
+        return s3.send(command);
+    });
+    
+    await Promise.all(uploadPromises);
+    return attachments;
+}
