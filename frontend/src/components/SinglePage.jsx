@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CalendarViewPages from './CalendarViewPages';
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
 
 
 const SinglePage = () => {
@@ -38,11 +39,15 @@ const SinglePage = () => {
     return (
         <>
             <Flex align="flex-start">
-                <Group style={{ width: '70%' }}>
+                <Carousel style={{ width: '70%' }} loop withIndicators>
                     {page?.attachments?.map((imageURL, index) => {
-                        return <Image key={index} src={imageURL} h={600} w={1000} />
+                        return (
+                            <Carousel.Slide>
+                                <Image key={index} src={imageURL} />
+                            </Carousel.Slide>
+                        )
                     })}
-                </Group>
+                </Carousel>
                 <Stack style={{ width: '30%' }}>
                     <Title>{page?.title}</Title>
                     <ScrollArea h={500}>
