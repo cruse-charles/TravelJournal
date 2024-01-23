@@ -245,7 +245,7 @@ const SingleEntry = () => {
                         </Flex>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
-                                onChange={(date) => setFormValues({ ...formValues, date: date })}
+                                onChange={(date) => setEntry({ ...entry, date: date })}
                                 getDayProps={getDayProps}
                                 excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
                             />
