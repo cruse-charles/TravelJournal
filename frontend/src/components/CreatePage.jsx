@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import CalendarViewPages from './CalendarViewPages';
-import { FileInput, TextInput, Textarea, Button } from '@mantine/core';
+import { FileInput, TextInput, Textarea, Button, Grid } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 
 const CreatePage = () => {
@@ -65,31 +65,33 @@ const CreatePage = () => {
 
     return (
         <>
-            <div className=''>
-                <form onSubmit={handleSubmit} className=''>
-                    <div className=''>
+            <form onSubmit={handleSubmit}>
+                <Grid justify='flex-start'>
+                    <Grid.Col span={3}>
                         <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
-                    </div>
-                    <div className=''>
-                        <div className=''>
-                            <FileInput label="Upload photos" placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} />
-                        </div>
-                        <div className=''>
-                            <TextInput onChange={handleChange} label='Title' placeholder='Title of your day!' name='title' />
-                        </div>
-                        <div className=''>
-                            <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={10} maxRows={10} style={{ height: '400' }} />
-                        </div>
-                        <div className=''>
-                            <Button type='submit'>Save</Button>
-                        </div>
+                    </Grid.Col>
+                    {/* <div> */}
+                    {/* <div> */}
+                    <Grid.Col span={9}>
+                        <FileInput label="Upload photos" placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} />
+                        {/* </div>
+                        <div> */}
+                        <TextInput onChange={handleChange} label='Title' placeholder='Title of your day!' name='title' />
+                        {/* </div>
+                        <div> */}
+                        <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={10} maxRows={10} style={{ height: '400' }} />
+                        {/* </div>
+                        <div> */}
+                        <Button type='submit'>Save</Button>
+                    </Grid.Col>
+                    {/* </div> */}
 
-                    </div>
+                    {/* </div> */}
                     {error && <div>{error}</div>}
-                </form>
+                </Grid>
+            </form>
 
-                {/* < CalendarViewPages /> */}
-            </div>
+            {/* < CalendarViewPages /> */}
         </>
     )
 }
