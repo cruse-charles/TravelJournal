@@ -11,6 +11,7 @@ import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate } from '../../utils/dateUtils';
+import { getUpdatedFiles } from '../../utils/uploaderHelper';
 
 
 // https://react-icons.github.io/react-icons/icons/fa6/
@@ -135,29 +136,7 @@ const SingleEntry = () => {
             console.log('PREVIEW ITEM', item)
         })
 
-        const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') || file.startsWith('https://'));
-
-        const filePromises = previews.map(async (file) => {
-            if (isUrl(file)) {
-                // Item is a URL, fetch the image and append it as a Blob
-                try {
-                    const response = await fetch(file);
-                    const blob = await response.blob();
-                    const filename = file.split('/').pop();
-                    const newFile = new File([blob], filename, { type: blob.type });
-                    return newFile
-                } catch (error) {
-                    console.error('Error fetching image from URL:', error);
-                    return null
-                }
-
-            } else {
-                // Item is assumed to be a File object
-                return file
-            }
-        });
-
-        const updatedFiles = await Promise.all(filePromises);
+        const updatedFiles = await getUpdatedFiles(previews)
 
         updatedFiles.forEach((file, index) => {
             formData.append(`attachments`, file);
