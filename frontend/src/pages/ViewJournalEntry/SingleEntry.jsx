@@ -10,7 +10,7 @@ import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
-import { getFormattedDate } from '../../utils/dateUtils';
+import { getFormattedDate, getDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
 
 
@@ -76,13 +76,14 @@ const SingleEntry = () => {
     }
 
     // highlight the date of the entry in the calendar
-    const getDayProps = (date) => {
-        const entryDateObject = new Date(entry.date)
-        if (entryDateObject.getTime() === date.getTime()) {
-            return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
-        }
-        return {};
-    }
+    // const getDayProps = (date) => {
+    //     const entryDateObject = new Date(entry.date)
+    //     if (entryDateObject.getTime() === date.getTime()) {
+    //         return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
+    //     }
+    //     return {};
+    // }
+
 
     const startEdit = () => {
         setIsEditing(true)
@@ -190,7 +191,7 @@ const SingleEntry = () => {
                     </Flex>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <DatePicker
-                            getDayProps={getDayProps}
+                            getDayProps={(date) => getDayProps(entry, date)}
                         />
                     </Modal>
                     <Button onClick={open}><FaCalendarDay />View Calendar</Button>
