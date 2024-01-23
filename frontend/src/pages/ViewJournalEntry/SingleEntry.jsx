@@ -75,16 +75,6 @@ const SingleEntry = () => {
             })
     }
 
-    // highlight the date of the entry in the calendar
-    // const getDayProps = (date) => {
-    //     const entryDateObject = new Date(entry.date)
-    //     if (entryDateObject.getTime() === date.getTime()) {
-    //         return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
-    //     }
-    //     return {};
-    // }
-
-
     const startEdit = () => {
         setIsEditing(true)
     }
