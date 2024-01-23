@@ -1,5 +1,7 @@
+// check if the file is a URL or a file object
 const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') || file.startsWith('https://'));
 
+// if the file is a URL, fetch the file and create a new file object, return as an array of files
 export const getUpdatedFiles = async (previews) => {
     const filePromises = previews.map(async (file) => {
         if (isUrl(file)) {
