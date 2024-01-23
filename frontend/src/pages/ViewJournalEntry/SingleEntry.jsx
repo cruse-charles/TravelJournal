@@ -16,7 +16,6 @@ import { getFormattedDate } from '../../utils/dateUtils';
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 
-// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - CLICKING CALENDAR IN EDIT MODE DOESN'T WORK ReferenceError: entryIdHash is not defined
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - NEED UNIQUE KEYS, IF I DELETE OUT OF ORDER, PICS GET FUCKED UP
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - DELETE IMAGES FROM S3
 
@@ -26,8 +25,6 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
-    const [files, setFiles] = useState([])
-    const [attchmentUrls, setAttachmentUrls] = useState([])
     const [previews, setPreviews] = useState([])
     const { entryIdHash } = useUserEntryDateHash();
 
@@ -48,7 +45,6 @@ const SingleEntry = () => {
                 setEntry(res.data);
                 setIsLoading(false);
                 setPreviews(res.data.attachments)
-                setFiles(res.data.attachments)
             }).catch(error => {
                 console.log(error.response.data.message)
                 setIsLoading(false)
@@ -89,7 +85,6 @@ const SingleEntry = () => {
 
     const startEdit = () => {
         setIsEditing(true)
-        setAttachmentUrls(entry.attachments || [])
     }
 
     const handleChange = (e) => {
@@ -99,25 +94,37 @@ const SingleEntry = () => {
 
     const handleImageChange = (newFiles) => {
         console.log('NEW FILES', newFiles)
-        const updatedFiles = [...files, ...newFiles];
-        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        const updatedFiles = [...entry.attachments, ...newFiles];
         setPreviews((prevState) => [...prevState, ...newFiles])
         setEntry({
             ...entry,
-            // attachments: Array.from(files),
             attachments: updatedFiles,
         });
     };
 
-    const deleteSelectedImage = (index) => {
-        const updatedFiles = previews.filter((_, fileIndex) => fileIndex !== index);
-        setFiles(updatedFiles);
+    const deleteSelectedImage = (key) => {
+        console.log(key)
+        const [type, id] = key.split('-')
+
+        const updatedFiles = previews.filter((item) => {
+            if (type === 'url') {
+                console.log('S3', item)
+                return `url-${item}` !== key
+            } else {
+                console.log('FILE', item.name)
+                return `file-${item.name}` !== key
+            }
+        })
+
+        console.log('updatedFiles', updatedFiles)
+
         setPreviews(updatedFiles)
         setEntry({
             ...entry,
             attachments: updatedFiles,
         });
     };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -138,9 +145,7 @@ const SingleEntry = () => {
                     const blob = await response.blob();
                     const filename = file.split('/').pop();
                     const newFile = new File([blob], filename, { type: blob.type });
-                    console.log('S3 new file', newFile)
                     return newFile
-                    // formData.append('files', newFile);
                 } catch (error) {
                     console.error('Error fetching image from URL:', error);
                     return null
@@ -148,17 +153,14 @@ const SingleEntry = () => {
 
             } else {
                 // Item is assumed to be a File object
-                console.log('FILE UPLOADED BY USER', file)
-                // formData.append('files', file);
                 return file
-                // return Promise.resolve(); // Return a resolved promise for non-URL items
             }
         });
 
         const updatedFiles = await Promise.all(filePromises);
 
         updatedFiles.forEach((file, index) => {
-            formData.append(`attachments`, file); //NOTE::: HERE THE CONSOLE.LOG IS WIERD WITH JUST OBJECT OBJECT, BUT INDIVIDUAL FILES IN CONSOLE SEEM OK
+            formData.append(`attachments`, file);
         })
 
         Object.keys(entry).forEach(key => {
@@ -167,9 +169,9 @@ const SingleEntry = () => {
             }
         });
 
-        for (let [key, value] of formData.entries()) {
-            console.log(key, value);
-        }
+        // for (let [key, value] of formData.entries()) {
+        //     console.log(key, value);
+        // }
 
         await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
         setIsEditing(false)
@@ -227,9 +229,10 @@ const SingleEntry = () => {
                                     {previews.map((item, index) => {
                                         const isFile = item instanceof File;
                                         const src = isFile ? URL.createObjectURL(item) : item;
+                                        const key = isFile ? `file-${item.name}` : `url-${item}`;
                                         return (
-                                            <Indicator key={index} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
-                                                <Image key={index} src={src} onLoad={() => URL.revokeObjectURL(src)} />
+                                            <Indicator key={key} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(key)}>
+                                                <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} />
                                             </Indicator>
                                         )
                                     })}

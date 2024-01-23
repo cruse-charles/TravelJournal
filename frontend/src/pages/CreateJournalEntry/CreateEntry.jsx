@@ -36,8 +36,8 @@ const CreateEntry = () => {
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
         return (
-            <Indicator key={index} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
-                <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
+            <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
+                <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
             </Indicator>
         );
     });
