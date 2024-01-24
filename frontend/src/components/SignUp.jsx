@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const SignUp = () => {
     const [formValues, setFormValues] = useState({})
+    const [error, setError] = useState(null)
+    const [loading, setLoading] = useState(false)
 
     const handleChange = (e) => {
         const { id, value } = e.target
@@ -12,12 +14,16 @@ const SignUp = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         await axios.post('api/auth/signup', formValues)
             .then(res => {
-                console.log(res.data)
+                console.log(res.data);
+                setLoading(false);
             })
             .catch(err => {
-                console.log(err)
+                console.log(err.response.data);
+                setError(err.response.data.message);
+                setLoading(false);
             })
     }
 
@@ -28,7 +34,8 @@ const SignUp = () => {
                 <input type="text" id="username" placeholder="Username" onChange={handleChange} />
                 <input type="email" id="email" placeholder="Email" onChange={handleChange} />
                 <input type="password" id="password" placeholder="Password" onChange={handleChange} />
-                <button>Sign Up</button>
+                <button >Sign Up</button>
+                {error && <div>{error}</div>}
             </form>
         </>
     )
