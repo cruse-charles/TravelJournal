@@ -8,17 +8,18 @@ const SinglePage = () => {
     const { id } = useParams();
 
     useEffect(() => {
-        axios.get(`api/page/${id}`)
+        axios.get(`/api/page/${id}`)
             .then(res => {
+                console.log(res.data)
                 setPage(res.data)
             })
     }, [id])
 
     return (
         <>
-            <div>{page.title}</div>
-            <div>{page.text}</div>
-            {attachments.map((imageURL, index) => {
+            <div>{page?.title}</div>
+            <div>{page?.text}</div>
+            {page?.attachments.map((imageURL, index) => {
                 return <img key={index} src={imageURL} />
             })}
         </>
