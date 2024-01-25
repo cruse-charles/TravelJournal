@@ -55,7 +55,7 @@ export const pageIndex = async (req, res) => {
 }
 
 export const pageSave = async (req, res) => {
-    const {title, text, date, link} = req.body;
+    const {title, text, date} = req.body;
     const attachments = [];
     console.log('req.files', req.files)
     console.log('req.body', req.body);
@@ -79,7 +79,7 @@ export const pageSave = async (req, res) => {
     
     await Promise.all(uploadPromises);
 
-    const newPage = new Page({title, text, attachments, date, link});
+    const newPage = new Page({title, text, attachments, date});
     await newPage.save()
         .then(() => {
             res.status(201).json('Page created');

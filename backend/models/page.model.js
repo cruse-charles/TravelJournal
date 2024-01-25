@@ -16,10 +16,6 @@ const pageSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    link: {
-        type: String,
-        required: true,
-    },
 }, {timestamps: true});
 
 const Page = mongoose.model('Page', pageSchema);

@@ -8,7 +8,6 @@ const CreatePage = () => {
         text: '',
         date: '',
         attachments: [],
-        link: 'a',
     });
 
     const createFormData = () => {
@@ -20,7 +19,6 @@ const CreatePage = () => {
         data.append('title', formValues.title);
         data.append('text', formValues.text);
         data.append('date', date);
-        data.append('link', formValues.link);
 
         formValues.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
