@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CalendarViewPages from './CalendarViewPages';
+import CalendarViewPages from '../../components/CalendarViewPages';
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 

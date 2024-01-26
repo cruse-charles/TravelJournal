@@ -1,13 +1,13 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MantineProvider, AppShell } from '@mantine/core';
 
-import CreatePage from './components/CreatePage';
-import SinglePage from './components/SinglePage';
+import CreatePage from './pages/CreateJournalEntry/CreatePage';
+import SinglePage from './pages/ViewJournalEntry/SinglePage';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Header from './components/Header';
 import PrivateProfileRoute from './components/PrivateProfileRoute';
-import Profile from './components/Profile';
+import Profile from './pages/Profile/Profile';
 
 import '@mantine/core/styles.css';
 import "@mantine/carousel/styles.css";

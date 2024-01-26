@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice'
-import CalendarViewPages from './CalendarViewPages'
-import UserPages from './UserPages'
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../../redux/user/userSlice'
+import CalendarViewPages from '../../components/CalendarViewPages'
+import UserPages from '../../components/UserPages'
 
 import { Button, Grid, Stack, Group, Text, rem } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';

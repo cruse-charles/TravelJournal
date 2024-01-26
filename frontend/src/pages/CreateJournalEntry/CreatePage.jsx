@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import CalendarViewPages from './CalendarViewPages';
+import CalendarViewPages from '../../components/CalendarViewPages';
 import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
