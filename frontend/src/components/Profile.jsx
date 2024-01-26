@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice'
 import Calendar from './Calendar'
+import UserPages from './UserPages'
 
 const Profile = () => {
 
@@ -69,6 +70,7 @@ const Profile = () => {
             <button onClick={handleDeleteUser}>Delete Account</button>
             <p>{error ? error : ''}</p>
             <Calendar />
+            <UserPages />
         </>
     )
 }
