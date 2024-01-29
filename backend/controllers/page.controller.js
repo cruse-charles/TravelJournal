@@ -1,5 +1,7 @@
 import Page from "../models/page.model.js";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+
+import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import crypto from 'crypto';
 import sharp from 'sharp';
 
@@ -28,7 +30,21 @@ export const pageView = async (req, res) => {
         if (!page) {
             return res.status(404).json('Page not found');
         }
-        res.status(200).json(page);
+
+        const urlPromises = page.attachments.map(async (attachment) => {
+            const getObjectParams = {
+                Bucket: s3BucketName,
+                Key: attachment
+            }
+    
+            const command = new GetObjectCommand(getObjectParams);
+            return getSignedUrl(s3, command, { expiresIn: 3600 });
+        })
+
+        const urls = await Promise.all(urlPromises);
+
+        res.status(200).json({...page._doc, attachments: urls});
+        // res.status(200).json(page)
     } catch (error) {
         res.status(500).json({message: error.message});
     }
