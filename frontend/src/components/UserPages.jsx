@@ -26,14 +26,14 @@ const UserPages = () => {
         <>
             <div>UserPages</div>
             {pages.map(page => (
-                <div>
+                <div key={page._id}>
                     <div>{page.title}</div>
                     <div>{page.text}</div>
                     <div>{page._id}</div>
                     <div>{page.date}</div>
-                    {page.attachments?.map((imageURL, index) => {
+                    {/* {page.attachments?.map((imageURL, index) => {
                         return <img key={index} src={imageURL} />
-                    })}
+                    })} */}
                 </div>
             ))}
         </>

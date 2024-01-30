@@ -19,12 +19,12 @@ const CreatePage = () => {
     const createFormData = () => {
         //create FormData object to submit object with files
         const data = new FormData();
-        const date = new Date();
+        // const date = new Date();
 
         // append data and files to FormData object
         data.append('title', formValues.title);
         data.append('text', formValues.text);
-        data.append('date', date);
+        data.append('date', formValues.date);
         data.append('user', formValues.user)
 
         formValues.attachments.forEach((file, index) => {
@@ -70,10 +70,10 @@ const CreatePage = () => {
                 <input type='file' name='' accept='image/*' onChange={handleImageChange} />
                 <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
                 <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
+                <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
                 <button>Save</button>
                 {error && <div>{error}</div>}
             </form>
-            <CalendarCreatePage />
         </>
     )
 }
