@@ -11,15 +11,16 @@ const Profile = () => {
     const [formData, setFormData] = useState({})
 
     const handleChange = (e) => {
-        console.log(formData)
         setFormData({ ...formData, [e.target.id]: e.target.value })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // Dispatch updateUserStart action of userSlice to indicate that the update process has started
         dispatch(updateUserStart())
 
+        // POST request to update user endpoint
         await axios.post(`api/user/update/${currentUser._id}`, formData)
             .then(res => {
                 dispatch(updateUserSuccess(res.data))
