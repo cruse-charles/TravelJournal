@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CalendarViewPages from './CalendarViewPages';
-import { Image, Title, Flex, Text, Stack, Group } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea } from '@mantine/core';
 
 
 const SinglePage = () => {
@@ -37,12 +37,18 @@ const SinglePage = () => {
 
     return (
         <>
-            <Flex>
-                {page?.attachments?.map((imageURL, index) => {
-                    return <Image key={index} src={imageURL} height={500} />
-                })}
-                <Title>{page?.title}</Title>
-                <Text>{page?.text}</Text>
+            <Flex align="flex-start">
+                <Group style={{ width: '70%' }}>
+                    {page?.attachments?.map((imageURL, index) => {
+                        return <Image key={index} src={imageURL} h={1000} w={600} />
+                    })}
+                </Group>
+                <Stack style={{ width: '30%' }}>
+                    <Title>{page?.title}</Title>
+                    <ScrollArea h={500}>
+                        <Text>{page?.text}</Text>
+                    </ScrollArea>
+                </Stack>
             </Flex>
             <CalendarViewPages />
         </>
