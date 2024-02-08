@@ -96,16 +96,14 @@ export const entryUpdate = async (req, res, next) => {
         }
 
         const updatedEntry = await Entry.findByIdAndUpdate(req.params.id, updatedEntryData, {new: true});
-        // res.status(200).json(updatedEntry);
 
-                // NEW
-                // get signed URLs for images
-                const urls = await getImageURLsFromS3(updatedEntryData.attachments)
+        // get signed URLs for images
+        const urls = await getImageURLsFromS3(updatedEntryData.attachments)
 
-                // return entry data with signed URLs
-                res.status(200).json({...updatedEntry._doc, attachments: urls});
-                // NEW
-            } catch (error) {
+        // return entry data with signed URLs
+        res.status(200).json({...updatedEntry._doc, attachments: urls});
 
+    } catch (error) {
+        console.log(error)
     }
 }

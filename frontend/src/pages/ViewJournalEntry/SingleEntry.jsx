@@ -12,7 +12,7 @@ import { Carousel } from '@mantine/carousel';
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
-import { getUserEntry } from '../../utils/apiService';
+import { getUserEntry, getUpdatedEntry } from '../../utils/apiService';
 
 
 // https://react-icons.github.io/react-icons/icons/fa6/
@@ -145,25 +145,13 @@ const SingleEntry = () => {
         // }
 
         updateEntry(formData);
-
-        // await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        //     .then((res) => setEntry(res.data))
-        //     .then(setIsEditing(false))
-
-        // await axios.get(`/api/entry/${id}`).then(res => {
-        //     setEntry(res.data); // Update entry with new data including S3 URLs
-        //     setIsLoading(false);
-        // })
     };
 
     const updateEntry = async (formData) => {
         try {
-            await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                .then((res) => {
-                    setEntry(res.data)
-                    setIsEditing(false)
-                })
-            // .then(() => setIsEditing(false))
+            const response = await getUpdatedEntry(id, formData)
+            setEntry(response.data)
+            setIsEditing(false)
         } catch (error) {
             console.log(error.message)
         }

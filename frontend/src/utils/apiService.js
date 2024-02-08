@@ -20,3 +20,8 @@ export const getUserEntry = async (entryId, controllerSignal = null) => {
         throw error
     }
 }
+
+export const getUpdatedEntry = async (id, formData) => {
+    const response = await  axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    return response
+}
