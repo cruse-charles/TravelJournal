@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
 
 const Login = () => {
+    const dispatch = useDispatch();
+
     const [loginCredentials, setLoginCredentials] = useState({})
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const { loading, error } = useSelector(state => state.user);
 
     const handleChange = (e) => {
         const { id, value } = e.target
@@ -14,16 +17,17 @@ const Login = () => {
     // POST request to login endpoint
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+
+        // Dispatch signInStart action of userSlice
+        dispatch(signInStart());
+
         await axios.post('api/auth/login', loginCredentials)
             // set errors and loading state
             .then(res => {
-                setError(null)
-                setLoading(false)
+                dispatch(signInSuccess(res.data));
             })
             .catch(err => {
-                setError(err.response.data.message)
-                setLoading(false)
+                dispatch(signInFailure(err.response.data.message));
             })
     }
 
