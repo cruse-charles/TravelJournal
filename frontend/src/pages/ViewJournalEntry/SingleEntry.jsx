@@ -12,7 +12,7 @@ import { Carousel } from '@mantine/carousel';
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
-import { getUserEntry, getUpdatedEntry } from '../../utils/apiService';
+import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 
 
 // https://react-icons.github.io/react-icons/icons/fa6/
@@ -37,6 +37,7 @@ const SingleEntry = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // useEffect(() => {
     useEffect(() => {
         // fetch entry data and abort request
         const controller = new AbortController();
@@ -52,7 +53,6 @@ const SingleEntry = () => {
             })
 
         return () => controller.abort();
-        // }, [id])
     }, [id, isEditing])
 
     useEffect(() => {
@@ -66,15 +66,15 @@ const SingleEntry = () => {
     }
 
     // delete entry and navigate to profile page
-    const handleDelete = () => {
-        axios.delete(`/api/entry/${id}`)
-            .then(res => {
-                console.log('Entry deleted')
-                navigate('/profile')
-            }).catch(error => {
-                console.log(error.response.data.message)
-            })
+    const handleDelete = async () => {
+        try {
+            await deleteEntry(id)
+            navigate('/profile')
+        } catch (error) {
+            console.log(error.response.data.message)
+        }
     }
+
 
     const startEdit = () => {
         setIsEditing(true)

@@ -22,6 +22,18 @@ export const getUserEntry = async (entryId, controllerSignal = null) => {
 }
 
 export const getUpdatedEntry = async (id, formData) => {
-    const response = await  axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+    const response = await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     return response
+}
+
+export const deleteEntry = async (id) => {
+    try {
+        await axios.delete(`/api/entry/${id}`)
+        console.log('entry deleted')
+        return
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+
 }
