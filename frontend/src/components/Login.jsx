@@ -20,7 +20,7 @@ const Login = () => {
 
         // Dispatch signInStart action of userSlice
         dispatch(signInStart());
-
+        await new Promise(resolve => setTimeout(resolve, 3000));
         await axios.post('api/auth/login', loginCredentials)
             // set errors and loading state
             .then(res => {
