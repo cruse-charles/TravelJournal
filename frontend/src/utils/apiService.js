@@ -10,3 +10,13 @@ export const getUserEntries = async (userId, controllerSignal) => {
     }
     
 }
+
+export const getUserEntry = async (entryId, controllerSignal = null) => {
+    try {
+        const response = await axios.get(`/api/entry/${entryId}`, {signal: controllerSignal})
+        return response.data
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}

@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text, Indicator } from '@mantine/core';
+import { TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
@@ -109,24 +109,14 @@ const CreateEntry = () => {
         setFiles(updatedFiles)
         setFormValues({
             ...formValues,
-            // attachments: Array.from(files),
             attachments: updatedFiles,
         });
     };
-
-    // Setting background color of selected date in calendar after closing modal
-    // const getDayProps = (date) => {
-    //     if (formValues.date !== null && (formValues.date.getTime() === date.getTime())) {
-    //         return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
-    //     }
-    //     return {};
-    // }
 
     return (
         <>
             <form onSubmit={handleSubmit}>
                 <Flex >
-                    {/* <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} /> */}
                     <div style={{ width: '60%' }}>
                         <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
                             <Text ta="center">Drop images here</Text>

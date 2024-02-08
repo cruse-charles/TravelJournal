@@ -12,6 +12,7 @@ import { Carousel } from '@mantine/carousel';
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
+import { getUserEntry } from '../../utils/apiService';
 
 
 // https://react-icons.github.io/react-icons/icons/fa6/
@@ -19,7 +20,7 @@ import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - NEED UNIQUE KEYS, IF I DELETE OUT OF ORDER, PICS GET FUCKED UP
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - DELETE IMAGES FROM S3
-
+// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - fix calendar in edit mode
 
 const SingleEntry = () => {
     // state vars for entry and loading
@@ -40,19 +41,19 @@ const SingleEntry = () => {
         // fetch entry data and abort request
         const controller = new AbortController();
 
-        // Send request to backend to get entry data
-        axios.get(`/api/entry/${id}`, { signal: controller.signal })
-            .then(res => {
-                setEntry(res.data);
+        getUserEntry(id, controller.id)
+            .then(entryResponse => {
+                setEntry(entryResponse);
                 setIsLoading(false);
-                setPreviews(res.data.attachments)
+                setPreviews(entryResponse.attachments)
             }).catch(error => {
                 console.log(error.response.data.message)
                 setIsLoading(false)
             })
 
         return () => controller.abort();
-    }, [id])
+        // }, [id])
+    }, [id, isEditing])
 
     useEffect(() => {
         console.log('ENTRY', entry)
@@ -143,14 +144,30 @@ const SingleEntry = () => {
         //     console.log(key, value);
         // }
 
-        await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-        setIsEditing(false)
+        updateEntry(formData);
 
-        await axios.get(`/api/entry/${id}`).then(res => {
-            setEntry(res.data); // Update entry with new data including S3 URLs
-            setIsLoading(false);
-        })
+        // await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        //     .then((res) => setEntry(res.data))
+        //     .then(setIsEditing(false))
+
+        // await axios.get(`/api/entry/${id}`).then(res => {
+        //     setEntry(res.data); // Update entry with new data including S3 URLs
+        //     setIsLoading(false);
+        // })
     };
+
+    const updateEntry = async (formData) => {
+        try {
+            await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+                .then((res) => {
+                    setEntry(res.data)
+                    setIsEditing(false)
+                })
+            // .then(() => setIsEditing(false))
+        } catch (error) {
+            console.log(error.message)
+        }
+    }
 
     return (
         <>
@@ -190,7 +207,6 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Flex >
-                            {/* <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} value={entry.attachments} /> */}
                             <div style={{ width: '60%' }}>
                                 <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
                                     <Text ta="center">Drop images here</Text>
@@ -219,7 +235,7 @@ const SingleEntry = () => {
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
                                 onChange={(date) => setEntry({ ...entry, date: date })}
-                                getDayProps={getDayProps}
+                                getDayProps={(date) => getEntryDayProps(entry, date)}
                                 excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
                             />
                         </Modal>
