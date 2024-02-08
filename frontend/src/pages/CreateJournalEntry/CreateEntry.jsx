@@ -10,7 +10,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { FaCalendarDay } from "react-icons/fa6";
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
-import { getFormattedDate } from '../../utils/dateUtils';
+import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 
 const CreateEntry = () => {
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
@@ -115,12 +115,12 @@ const CreateEntry = () => {
     };
 
     // Setting background color of selected date in calendar after closing modal
-    const getDayProps = (date) => {
-        if (formValues.date !== null && (formValues.date.getTime() === date.getTime())) {
-            return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
-        }
-        return {};
-    }
+    // const getDayProps = (date) => {
+    //     if (formValues.date !== null && (formValues.date.getTime() === date.getTime())) {
+    //         return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
+    //     }
+    //     return {};
+    // }
 
     return (
         <>
@@ -149,7 +149,7 @@ const CreateEntry = () => {
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                     <DatePicker
                         onChange={(date) => setFormValues({ ...formValues, date: date })}
-                        getDayProps={getDayProps}
+                        getDayProps={(date) => getSelectedDayProps(formValues, date)}
                         excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
                     />
                 </Modal>

@@ -10,7 +10,7 @@ import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
-import { getFormattedDate, getDayProps } from '../../utils/dateUtils';
+import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
 
 
@@ -181,7 +181,7 @@ const SingleEntry = () => {
                     </Flex>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <DatePicker
-                            getDayProps={(date) => getDayProps(entry, date)}
+                            getDayProps={(date) => getEntryDayProps(entry, date)}
                         />
                     </Modal>
                     <Button onClick={open}><FaCalendarDay />View Calendar</Button>
