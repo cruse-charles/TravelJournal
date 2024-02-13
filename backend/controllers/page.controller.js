@@ -39,18 +39,20 @@ export const pageIndex = async (req, res) => {
 }
 
 export const pageSave = async (req, res) => {
-    const {title, text, attachments, date, link} = req.body;
-    const newPage = new Page({title, text, attachments, date, link});
+    const {title, text, date, link} = req.body;
+    const attachments = [];
     console.log('req.files', req.files)
     console.log('req.body', req.body);
 
     
     const uploadPromises = req.files.map(async (file) => {
         const buffer = await sharp(file.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer()
-        
+        const imageName = randomImageName();
+        attachments.push(imageName);
+
         const params = {
             Bucket: s3BucketName,
-            Key: randomImageName(),
+            Key: imageName,
             Body: buffer,
             ContentType: file.mimetype
         };
@@ -61,7 +63,7 @@ export const pageSave = async (req, res) => {
     
     await Promise.all(uploadPromises);
 
-
+    const newPage = new Page({title, text, attachments, date, link});
     await newPage.save()
         .then(() => {
             res.status(201).json('Page created');
