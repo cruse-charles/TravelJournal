@@ -1,5 +1,6 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
+import { errorHandler } from '../utils/error.js';
 
 export const updateUser = async (req, res, next) => {
     // Check if user is updating their own data

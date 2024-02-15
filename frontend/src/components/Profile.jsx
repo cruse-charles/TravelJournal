@@ -9,7 +9,6 @@ const Profile = () => {
 
     const { currentUser, loading, error } = useSelector(state => state.user)
     const [formData, setFormData] = useState({})
-    const [status, setStatus] = useState(null)
 
     const handleChange = (e) => {
         console.log(formData)
@@ -23,12 +22,10 @@ const Profile = () => {
 
         await axios.post(`api/user/update/${currentUser._id}`, formData)
             .then(res => {
-                console.log(res.data)
                 dispatch(updateUserSuccess(res.data))
             })
             .catch(err => {
-                console.log(err.response.data)
-                dispatch(updateUserFailure(err.response.data))
+                dispatch(updateUserFailure(err.response.data.message))
             })
     }
 
@@ -42,6 +39,7 @@ const Profile = () => {
                 <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
                 <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
             </form>
+            <p>{error ? error : ''}</p>
         </>
     )
 }
