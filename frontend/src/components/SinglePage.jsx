@@ -39,23 +39,23 @@ const SinglePage = () => {
     return (
         <>
             <Flex align="flex-start">
-                <Carousel style={{ width: '70%' }} loop withIndicators>
+                <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
                     {page?.attachments?.map((imageURL, index) => {
                         return (
-                            <Carousel.Slide>
+                            <Carousel.Slide key={index} style={{ width: '75%', height: '560px' }} >
                                 <Image key={index} src={imageURL} />
                             </Carousel.Slide>
                         )
                     })}
                 </Carousel>
-                <Stack style={{ width: '30%' }}>
+                <Stack style={{ width: '25%' }}>
                     <Title>{page?.title}</Title>
                     <ScrollArea h={500}>
                         <Text>{page?.text}</Text>
                     </ScrollArea>
                 </Stack>
             </Flex>
-            <CalendarViewPages />
+            {/* <CalendarViewPages /> */}
         </>
     )
 }
