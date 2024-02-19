@@ -21,11 +21,11 @@ const s3 = new S3Client({
     region: s3BucketRegion
 })
 
-// Get signed URLs for images in S3 for a entry
-export const getImageURLsFromS3 = async (entryAttachments) => {
+// Get signed URLs for images in S3 for a page
+export const getImageURLsFromS3 = async (pageAttachments) => {
 
     // Create an array of signed URLs for each image
-    const urlPromises = entryAttachments.map(async (attachment) => {
+    const urlPromises = pageAttachments.map(async (attachment) => {
         const getObjectParams = {
             Bucket: s3BucketName,
             Key: attachment

@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import User from '../models/user.model.js';
 import { errorHandler } from '../utils/error.js';
-import Entry from '../models/entry.model.js';
+import Page from '../models/page.model.js';
 import { getImageURLsFromS3 } from '../utils/s3Service.js';
 
 export const updateUser = async (req, res, next) => {
@@ -45,21 +45,21 @@ export const deleteUser = async (req, res, next) => {
     }
 }
 
-export const getUserEntries = async (req, res, next) => {
-    // Check if user is viewing their own entrys
-    if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only view your own entries'));
+export const getUserPages = async (req, res, next) => {
+    // Check if user is viewing their own pages
+    if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only view your own pages'));
     try {
-        // Find all entries created by the user
-        const entries = await Entry.find({user: req.params.id})
+        // Find all pages created by the user
+        const pages = await Page.find({user: req.params.id})
         
         // Get signed URLs for images from S3 and replace the attachment names with URLs
-        for (const entry of entries) {
-            const urls = await getImageURLsFromS3(entry.attachments);
-            entry.attachments = urls;
+        for (const page of pages) {
+            const urls = await getImageURLsFromS3(page.attachments);
+            page.attachments = urls;
         }
 
-        // Send the entrys data with signed URLs
-        res.status(200).json(entries);
+        // Send the pages data with signed URLs
+        res.status(200).json(pages);
     } catch (error) {
         next(error)
     }

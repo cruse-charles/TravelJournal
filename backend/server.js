@@ -3,7 +3,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 
-import pageRouter from './routes/page.js';
+// import pageRouter from './routes/page.js';
+import entryRouter from './routes/entry.js';
 import authRouter from './routes/auth.js';
 import userRouter from './routes/user.js';
 
@@ -31,7 +32,8 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
 
-app.use('/api/page', pageRouter);
+// app.use('/api/page', pageRouter);
+app.use('/api/entry', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
 
