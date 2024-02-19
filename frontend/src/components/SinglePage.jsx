@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CalendarViewPages from './CalendarViewPages';
+import { Image, Title, Flex, Text, Stack, Group } from '@mantine/core';
+
 
 const SinglePage = () => {
     // state vars for page and loading
@@ -35,24 +37,14 @@ const SinglePage = () => {
 
     return (
         <>
-            <div className=''>
-                <div className=''>
-                    <CalendarViewPages />
-                </div>
-                <div className=''>
-                    <div className=''>
-                        <div className=''>{page?.title}</div>
-                    </div>
-                    <div className=''>
-                        {page?.attachments?.map((imageURL, index) => {
-                            return <img key={index} src={imageURL} className='' />
-                        })}
-                    </div>
-                    <div className=''>
-                        <div>{page?.text}</div>
-                    </div>
-                </div>
-            </div>
+            <Flex>
+                {page?.attachments?.map((imageURL, index) => {
+                    return <Image key={index} src={imageURL} height={500} />
+                })}
+                <Title>{page?.title}</Title>
+                <Text>{page?.text}</Text>
+            </Flex>
+            <CalendarViewPages />
         </>
     )
 }
