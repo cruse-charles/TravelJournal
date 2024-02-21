@@ -6,6 +6,8 @@ import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 import axios from 'axios';
 
+import { getFormattedDate } from '../utils/dateUtils';
+
 // export const CalendarViewEntries = () => {
 const CalendarViewEntries = () => {
 
@@ -55,7 +57,7 @@ const CalendarViewEntries = () => {
                 // Create hash with dates as keys and entryID as values
                 for (let entry of res.data) {
                     let date = new Date(entry.date);
-                    let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                    let formattedDate = getFormattedDate(date);
 
                     entryIdHash.current[formattedDate] = entry._id;
                 }
@@ -68,23 +70,14 @@ const CalendarViewEntries = () => {
 
     const handleRenderDate = (date) => {
         // Check if date is in hash of entry dates and add indicator if true
-        let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        let formattedDate = getFormattedDate(date)
         return !entryIdHash.current[formattedDate]
-        // SUXIONG - Don't do return true/false on these, just return the condition
-        // if (entryIdHash.current[formattedDate]) {
-        //     return false
-        // } else {
-        //     return true
-        // }
-
-
-        // SUXIONG - get a utils folder and put put this date formatting in there, and import it into this file since we use it twice
     }
 
 
 
     const handleDateClick = (date) => {
-        let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        let formattedCalendarDate = getFormattedDate(date);
 
         // When selecting calendar cell, navigate to entry with matching date in hash
         if (entryIdHash?.current[formattedCalendarDate]) {
