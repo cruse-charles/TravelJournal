@@ -4,7 +4,7 @@ import 'air-datepicker/air-datepicker.css';
 import en from 'air-datepicker/locale/en.js';
 import './Calendar.css';
 
-const Calendar = () => {
+const CalendarViewPages = () => {
 
     const datepickerRef = useRef(null);
 
@@ -42,10 +42,10 @@ const Calendar = () => {
 
     return (
         <>
-            <div>Calendar</div>
+            <div>CalendarViewPages</div>
             <div ref={datepickerRef}></div>
         </>
     )
 }
 
-export default Calendar
+export default CalendarViewPages

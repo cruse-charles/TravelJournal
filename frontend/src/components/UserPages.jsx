@@ -21,6 +21,7 @@ const UserPages = () => {
     }, [])
 
 
+    console.log(pages)
     return (
         <>
             <div>UserPages</div>
@@ -29,6 +30,7 @@ const UserPages = () => {
                     <div>{page.title}</div>
                     <div>{page.text}</div>
                     <div>{page._id}</div>
+                    <div>{page.date}</div>
                     {page.attachments?.map((imageURL, index) => {
                         return <img key={index} src={imageURL} />
                     })}
