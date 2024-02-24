@@ -5,12 +5,14 @@ import { useSelector } from 'react-redux';
 const CreatePage = () => {
     const { currentUser } = useSelector(state => state.user);
 
+    const [error, setError] = useState(null);
+
     const [formValues, setFormValues] = useState({
         title: '',
         text: '',
         date: '',
         attachments: [],
-        user: currentUser._id,
+        user: currentUser ? currentUser._id : null,
     });
 
     const createFormData = () => {
@@ -41,7 +43,8 @@ const CreatePage = () => {
 
             const res = await axios.post('api/page', data, { headers: { 'Content-Type': 'multipart/form-data' } });
         } catch (error) {
-            alert(error.message)
+            setError(error.response.data.message)
+            // alert(error.message)
         }
     }
 
@@ -67,6 +70,7 @@ const CreatePage = () => {
                 <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
                 <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
                 <button>Save</button>
+                {error && <div>{error}</div>}
             </form>
         </>
     )

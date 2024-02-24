@@ -1,4 +1,5 @@
 import { getImageURLsFromS3, saveImagesToS3 } from "../utils/s3Service.js";
+import { errorHandler } from "../utils/error.js";
 
 import Page from "../models/page.model.js";
 
@@ -25,8 +26,13 @@ export const pageIndex = async (req, res) => {
     res.send({message: 'Index page'});
 }
 
-export const pageSave = async (req, res) => {
+export const pageSave = async (req, res, next) => {
     const {title, text, date, user} = req.body;
+
+    // check if user exists
+    if (user == "null") {
+        return next(errorHandler(404, 'Must be logged in to create a page'));
+    }
 
     // save images to S3 and get image names
     const attachments = await saveImagesToS3(req.files);
