@@ -13,7 +13,7 @@ import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
-
+import { updateFormData } from '../../utils/updateFormData';
 
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
@@ -122,28 +122,12 @@ const SingleEntry = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-
         previews.map(async (item) => {
             console.log('PREVIEW ITEM', item)
         })
 
         const updatedFiles = await getUpdatedFiles(previews)
-
-        updatedFiles.forEach((file, index) => {
-            formData.append(`attachments`, file);
-        })
-
-        Object.keys(entry).forEach(key => {
-            if (key !== 'attachments') {
-                formData.append(key, entry[key]);
-            }
-        });
-
-        // for (let [key, value] of formData.entries()) {
-        //     console.log(key, value);
-        // }
-
+        const formData = updateFormData(entry, updatedFiles)
         updateEntry(formData);
     };
 
