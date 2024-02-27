@@ -13,15 +13,14 @@ import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 
 const CreateEntry = () => {
-    // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
-    const [opened, { open, close }] = useDisclosure(false);
-    const navigate = useNavigate();
-
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
     // Retrieve current user from redux store, setting errors, setting formValues
     const { currentUser } = useSelector(state => state.user);
+
+    // State vars for files, error, formValues
+    const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
     const [formValues, setFormValues] = useState({
         title: '',
@@ -31,19 +30,41 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     });
 
-    const [files, setFiles] = useState([]);
+    // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
+    const [opened, { open, close }] = useDisclosure(false);
+    const navigate = useNavigate();
 
-    const previews = files.map((file, index) => {
+
+
+    // Create previews of images from files array using URLs
+    // const previews = files.map((file, index) => {
+    //     const imageUrl = URL.createObjectURL(file);
+    //     return (
+    //         <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
+    //             <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
+    //         </Indicator>
+    //     );
+    // });
+
+    const previews = files.map((file) => {
         const imageUrl = URL.createObjectURL(file);
-        return (
-            <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
-                <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
-            </Indicator>
-        );
-    });
+        return { imageUrl, fileName: file.name }
+    })
 
-    const deleteSelectedImage = (index) => {
-        const updatedFiles = files.filter((file, fileIndex) => fileIndex !== index);
+    // const deleteSelectedImage = (index) => {
+    //     // Remove file from files array and update formValues
+    //     const updatedFiles = files.filter((file, fileIndex) => fileIndex !== index);
+    //     setFiles(updatedFiles);
+
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: updatedFiles
+    //     })
+    // }
+
+    const deleteSelectedImage = (fileName) => {
+        // Remove file from files array and update formValues
+        const updatedFiles = files.filter((file) => file.name !== fileName);
         setFiles(updatedFiles);
 
         setFormValues({
@@ -52,7 +73,7 @@ const CreateEntry = () => {
         })
     }
 
-    // Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
+    // TODO: Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
         //create FormData object to submit object with files
         const data = new FormData();
@@ -87,9 +108,6 @@ const CreateEntry = () => {
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
             const data = createFormData();
-            for (let [key, value] of data.entries()) {
-                console.log(key, value);
-            }
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (error) {
@@ -104,6 +122,7 @@ const CreateEntry = () => {
         });
     };
 
+    // add new images to entry and files
     const handleImageChange = (newFiles) => {
         const updatedFiles = [...files, ...newFiles];
         setFiles(updatedFiles)
@@ -121,12 +140,19 @@ const CreateEntry = () => {
                         <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
                             <Text ta="center">Drop images here</Text>
                         </Dropzone>
-
                         <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                            {previews}
+                            {/* {previews} */}
+                            {previews.map((preview, index) => {
+                                // const imageUrl = URL.createObjectURL(preview);
+                                return (
+                                    // <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
+                                    <Indicator key={preview.imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(preview.fileName)}>
+                                        <Image key={preview.imageUrl} src={preview.imageUrl} onLoad={() => URL.revokeObjectURL(preview.imageUrl)} />
+                                    </Indicator>
+                                )
+                            })}
                         </SimpleGrid>
                     </div>
-
                     <Stack style={{ width: '40%' }} gap='xs'>
                         <Group>
                             <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} />

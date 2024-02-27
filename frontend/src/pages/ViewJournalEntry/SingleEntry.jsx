@@ -18,12 +18,11 @@ import { updateFormData } from '../../utils/updateFormData';
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 
-// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - NEED UNIQUE KEYS, IF I DELETE OUT OF ORDER, PICS GET FUCKED UP
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - DELETE IMAGES FROM S3
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - fix calendar in edit mode
 
 const SingleEntry = () => {
-    // state vars for entry and loading
+    // state vars for entry, loading, and previews
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
@@ -37,9 +36,8 @@ const SingleEntry = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    // useEffect(() => {
     useEffect(() => {
-        // fetch entry data and abort request
+        // fetch entry data and set entry and previews state vars
         const controller = new AbortController();
 
         getUserEntry(id, controller.id)
@@ -70,7 +68,6 @@ const SingleEntry = () => {
         }
     }
 
-
     const startEdit = () => {
         setIsEditing(true)
     }
@@ -80,6 +77,7 @@ const SingleEntry = () => {
         setEntry({ ...entry, [name]: value })
     }
 
+    // add new images to entry and previews
     const handleImageChange = (newFiles) => {
         const updatedFiles = [...entry.attachments, ...newFiles];
         setPreviews((prevState) => [...prevState, ...newFiles])
@@ -89,8 +87,8 @@ const SingleEntry = () => {
         });
     };
 
+    // delete preview image from preview and entry
     const deleteSelectedImage = (key) => {
-        const [type, id] = key.split('-')
         const updatedFiles = deleteSelectedFiles(previews, key)
 
         setPreviews(updatedFiles)
@@ -104,6 +102,7 @@ const SingleEntry = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        // evaluate if the file is a URL or a file object, then add to formData
         const updatedFiles = await getUpdatedFiles(previews)
         const formData = updateFormData(entry, updatedFiles)
         updateEntry(formData);
@@ -124,7 +123,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Flex align="flex-start">
-                        <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
+                        <Carousel style={{ width: '75%', height: '500px' }} loop withIndicators>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
                                     <Carousel.Slide key={imageURL} style={{ width: '75%', height: '560px' }} >

@@ -18,7 +18,7 @@ export const getUpdatedFiles = async (previews) => {
     return await Promise.all(filePromises)
 }
 
-
+// filter out file that matches given key
 export const deleteSelectedFiles = (previews, key) => {
     const updatedFiles = previews.filter((item) => {
         if (isUrl(item)) {
