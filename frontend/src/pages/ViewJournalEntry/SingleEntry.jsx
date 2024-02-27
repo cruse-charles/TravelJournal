@@ -39,6 +39,7 @@ const SingleEntry = () => {
         return <div>Loading...</div>
     }
 
+    // delete entry and navigate to profile page
     const handleDelete = () => {
         axios.delete(`/api/entry/${id}`)
             .then(res => {
