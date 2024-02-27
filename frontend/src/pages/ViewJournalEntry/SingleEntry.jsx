@@ -11,7 +11,7 @@ import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
-import { getUpdatedFiles } from '../../utils/uploaderHelper';
+import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
 
@@ -99,15 +99,17 @@ const SingleEntry = () => {
         console.log(key)
         const [type, id] = key.split('-')
 
-        const updatedFiles = previews.filter((item) => {
-            if (type === 'url') {
-                console.log('S3', item)
-                return `url-${item}` !== key
-            } else {
-                console.log('FILE', item.name)
-                return `file-${item.name}` !== key
-            }
-        })
+        // const updatedFiles = previews.filter((item) => {
+        //     if (type === 'url') {
+        //         console.log('S3', item)
+        //         return `url-${item}` !== key
+        //     } else {
+        //         console.log('FILE', item.name)
+        //         return `file-${item.name}` !== key
+        //     }
+        // })
+
+        const updatedFiles = deleteSelectedFiles(previews, key)
 
         console.log('updatedFiles', updatedFiles)
 

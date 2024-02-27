@@ -17,3 +17,16 @@ export const getUpdatedFiles = async (previews) => {
 
     return await Promise.all(filePromises)
 }
+
+
+export const deleteSelectedFiles = (previews, key) => {
+    const updatedFiles = previews.filter((item) => {
+        if (isUrl(item)) {
+            return `url-${item}` !== key
+        } else {
+            return `file-${item.name}` !== key
+        }
+    })
+
+    return updatedFiles
+}
