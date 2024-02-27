@@ -9,9 +9,16 @@ import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
+import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
+import { getFormattedDate } from '../../utils/dateUtils';
+
+
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 
+// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - CLICKING CALENDAR IN EDIT MODE DOESN'T WORK ReferenceError: entryIdHash is not defined
+// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - NEED UNIQUE KEYS, IF I DELETE OUT OF ORDER, PICS GET FUCKED UP
+// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - DELETE IMAGES FROM S3
 
 
 const SingleEntry = () => {
@@ -22,6 +29,7 @@ const SingleEntry = () => {
     const [files, setFiles] = useState([])
     const [attchmentUrls, setAttachmentUrls] = useState([])
     const [previews, setPreviews] = useState([])
+    const { entryIdHash } = useUserEntryDateHash();
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -111,14 +119,6 @@ const SingleEntry = () => {
         });
     };
 
-    // Function to convert image URL to File object
-    // const urlToFile = async (imageUrl, filename) => {
-    //     const response = await fetch(imageUrl);
-    //     const blob = await response.blob();
-    //     return new File([blob], filename, { type: blob.type });
-    // };
-
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -180,22 +180,6 @@ const SingleEntry = () => {
         })
     };
 
-
-    // const deleteSelectedImage = (index, type) => {
-    //     if (type === 'file') {
-    //         const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
-    //         setFiles(updatedFiles);
-    //         // Update entry.attachments with the remaining files and S3 URLs
-    //         updateEntryAttachments(updatedFiles, attchmentUrls);
-    //     } else if (type === 's3') {
-    //         const updatedUrls = attchmentUrls.filter((_, urlIndex) => urlIndex !== index);
-    //         setAttachmentUrls(updatedUrls);
-    //         // Update entry.attachments with the remaining files and S3 URLs
-    //         updateEntryAttachments(files, updatedUrls);
-    //     }
-    // };
-
-
     return (
         <>
             {!isEditing ? (
@@ -239,7 +223,6 @@ const SingleEntry = () => {
                                 <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
                                     <Text ta="center">Drop images here</Text>
                                 </Dropzone>
-
                                 <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
                                     {previews.map((item, index) => {
                                         const isFile = item instanceof File;
