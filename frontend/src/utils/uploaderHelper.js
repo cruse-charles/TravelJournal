@@ -18,7 +18,7 @@ export const getUpdatedFiles = async (previews) => {
     return await Promise.all(filePromises)
 }
 
-// filter out file that matches given key
+// filter out file or URL that matches given key
 export const deleteSelectedFiles = (previews, key) => {
     const updatedFiles = previews.filter((item) => {
         if (isUrl(item)) {
@@ -29,4 +29,12 @@ export const deleteSelectedFiles = (previews, key) => {
     })
 
     return updatedFiles
+}
+
+// update previews with new files and return imageUrl
+export const updatePreviews = (files) => {
+    return files.map((file) => {
+        const imageUrl = URL.createObjectURL(file)
+        return {imageUrl, fileName: file.name}
+    })
 }

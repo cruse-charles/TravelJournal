@@ -11,6 +11,7 @@ import { FaCalendarDay } from "react-icons/fa6";
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
+import { updatePreviews } from '../../utils/uploaderHelper';
 
 const CreateEntry = () => {
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
@@ -34,35 +35,6 @@ const CreateEntry = () => {
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
     const [opened, { open, close }] = useDisclosure(false);
     const navigate = useNavigate();
-
-
-
-    // Create previews of images from files array using URLs
-    // const previews = files.map((file, index) => {
-    //     const imageUrl = URL.createObjectURL(file);
-    //     return (
-    //         <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
-    //             <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
-    //         </Indicator>
-    //     );
-    // });
-
-    // const previews = files.map((file) => {
-    //     const imageUrl = URL.createObjectURL(file);
-    //     return { imageUrl, fileName: file.name }
-    // })
-
-    // const deleteSelectedImage = (index) => {
-    //     // Remove file from files array and update formValues
-    //     const updatedFiles = files.filter((file, fileIndex) => fileIndex !== index);
-    //     setFiles(updatedFiles);
-
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles
-    //     })
-    // }
-
 
     // TODO: Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
@@ -113,7 +85,7 @@ const CreateEntry = () => {
         });
     };
 
-    // add new images to entry and files
+    // add new images to entry and previews
     const handleImageChange = (newFiles) => {
         const updatedFiles = [...files, ...newFiles];
         setPreviews(updatePreviews(updatedFiles));
@@ -125,7 +97,7 @@ const CreateEntry = () => {
     };
 
     const deleteSelectedImage = (fileName) => {
-        // Remove file from files array and update formValues
+        // Remove file from files array and update formValues and previews
         const updatedFiles = files.filter((file) => file.name !== fileName);
         setFiles(updatedFiles);
         setPreviews(updatePreviews(updatedFiles));
@@ -136,12 +108,13 @@ const CreateEntry = () => {
         })
     }
 
-    const updatePreviews = (files) => {
-        return files.map((file) => {
-            const imageUrl = URL.createObjectURL(file);
-            return { imageUrl, fileName: file.name }
-        })
-    }
+    // // Update previews with new files and return imageUrl
+    // const updatePreviews = (files) => {
+    //     return files.map((file) => {
+    //         const imageUrl = URL.createObjectURL(file);
+    //         return { imageUrl, fileName: file.name }
+    //     })
+    // }
 
     return (
         <>
@@ -152,11 +125,8 @@ const CreateEntry = () => {
                             <Text ta="center">Drop images here</Text>
                         </Dropzone>
                         <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                            {/* {previews} */}
                             {previews.map((preview, index) => {
-                                // const imageUrl = URL.createObjectURL(preview);
                                 return (
-                                    // <Indicator key={imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
                                     <Indicator key={preview.imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(preview.fileName)}>
                                         <Image key={preview.imageUrl} src={preview.imageUrl} onLoad={() => URL.revokeObjectURL(preview.imageUrl)} />
                                     </Indicator>
