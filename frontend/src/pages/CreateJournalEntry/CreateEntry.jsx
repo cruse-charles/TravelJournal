@@ -22,6 +22,7 @@ const CreateEntry = () => {
     // State vars for files, error, formValues
     const [files, setFiles] = useState([]);
     const [error, setError] = useState(null);
+    const [previews, setPreviews] = useState([])
     const [formValues, setFormValues] = useState({
         title: '',
         text: '',
@@ -46,10 +47,10 @@ const CreateEntry = () => {
     //     );
     // });
 
-    const previews = files.map((file) => {
-        const imageUrl = URL.createObjectURL(file);
-        return { imageUrl, fileName: file.name }
-    })
+    // const previews = files.map((file) => {
+    //     const imageUrl = URL.createObjectURL(file);
+    //     return { imageUrl, fileName: file.name }
+    // })
 
     // const deleteSelectedImage = (index) => {
     //     // Remove file from files array and update formValues
@@ -62,16 +63,6 @@ const CreateEntry = () => {
     //     })
     // }
 
-    const deleteSelectedImage = (fileName) => {
-        // Remove file from files array and update formValues
-        const updatedFiles = files.filter((file) => file.name !== fileName);
-        setFiles(updatedFiles);
-
-        setFormValues({
-            ...formValues,
-            attachments: updatedFiles
-        })
-    }
 
     // TODO: Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
@@ -125,12 +116,32 @@ const CreateEntry = () => {
     // add new images to entry and files
     const handleImageChange = (newFiles) => {
         const updatedFiles = [...files, ...newFiles];
+        setPreviews(updatePreviews(updatedFiles));
         setFiles(updatedFiles)
         setFormValues({
             ...formValues,
             attachments: updatedFiles,
         });
     };
+
+    const deleteSelectedImage = (fileName) => {
+        // Remove file from files array and update formValues
+        const updatedFiles = files.filter((file) => file.name !== fileName);
+        setFiles(updatedFiles);
+        setPreviews(updatePreviews(updatedFiles));
+
+        setFormValues({
+            ...formValues,
+            attachments: updatedFiles
+        })
+    }
+
+    const updatePreviews = (files) => {
+        return files.map((file) => {
+            const imageUrl = URL.createObjectURL(file);
+            return { imageUrl, fileName: file.name }
+        })
+    }
 
     return (
         <>
