@@ -55,11 +55,6 @@ const SingleEntry = () => {
         return () => controller.abort();
     }, [id, isEditing])
 
-    useEffect(() => {
-        console.log('ENTRY', entry)
-        console.log('PREVIEWS', previews ? previews : 'No previews')
-    }, [entry, previews])
-
     // show loading message while request is in progress
     if (isLoading) {
         return <div>Loading...</div>
@@ -86,7 +81,6 @@ const SingleEntry = () => {
     }
 
     const handleImageChange = (newFiles) => {
-        console.log('NEW FILES', newFiles)
         const updatedFiles = [...entry.attachments, ...newFiles];
         setPreviews((prevState) => [...prevState, ...newFiles])
         setEntry({
@@ -96,22 +90,8 @@ const SingleEntry = () => {
     };
 
     const deleteSelectedImage = (key) => {
-        console.log(key)
         const [type, id] = key.split('-')
-
-        // const updatedFiles = previews.filter((item) => {
-        //     if (type === 'url') {
-        //         console.log('S3', item)
-        //         return `url-${item}` !== key
-        //     } else {
-        //         console.log('FILE', item.name)
-        //         return `file-${item.name}` !== key
-        //     }
-        // })
-
         const updatedFiles = deleteSelectedFiles(previews, key)
-
-        console.log('updatedFiles', updatedFiles)
 
         setPreviews(updatedFiles)
         setEntry({
@@ -123,10 +103,6 @@ const SingleEntry = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        previews.map(async (item) => {
-            console.log('PREVIEW ITEM', item)
-        })
 
         const updatedFiles = await getUpdatedFiles(previews)
         const formData = updateFormData(entry, updatedFiles)
