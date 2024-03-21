@@ -2,14 +2,16 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 
-import PageRouter from './routes/page.js';
+import pageRouter from './routes/page.js';
+import authRouter from './routes/auth.js';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(express.json()); // for parsing application/json from req.body
+// for parsing application/json from req.body
+app.use(express.json()); 
 
 mongoose.connect(process.env.MONGODB_URI)
     .then(() => {
@@ -25,4 +27,5 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
 
-app.use('/api', PageRouter);
+app.use('/api/page', pageRouter);
+app.use('/api/auth', authRouter)

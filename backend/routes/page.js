@@ -6,8 +6,8 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
-router.get('/page/:id', pageView)
-router.get('/page', pageIndex)
-router.post('/page', upload.array('attachments', 3), pageSave)
+router.get('/:id', pageView)
+router.get('/', pageIndex)
+router.post('/', upload.array('attachments', 3), pageSave)
 
 export default router;
