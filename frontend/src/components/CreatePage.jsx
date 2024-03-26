@@ -66,11 +66,26 @@ const CreatePage = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <input type='file' name='' accept='image/*' onChange={handleImageChange} />
-                <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
-                <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
-                <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
-                <button>Save</button>
+                <div className='image-upload-container'>
+                    <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple />
+
+                </div>
+                <div className='title-container'>
+                    <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
+
+                </div>
+                <div className='text-container'>
+                    <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
+
+                </div>
+                <div className='date-container'>
+                    <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
+
+                </div>
+                <div className='save-button-container'>
+                    <button>Save</button>
+
+                </div>
                 {error && <div>{error}</div>}
             </form>
         </>

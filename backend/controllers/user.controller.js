@@ -47,8 +47,8 @@ export const deleteUser = async (req, res, next) => {
 
 export const getUserPages = async (req, res, next) => {
     // Check if user is viewing their own pages
+    console.log('Inside getUserPages')
     if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only view your own pages'));
-    
     try {
         // Find all pages created by the user
         const pages = await Page.find({user: req.params.id})
