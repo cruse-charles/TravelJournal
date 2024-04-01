@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 const CreatePage = () => {
-    const [formData, setFormData] = useState({
+    const [formValues, setFormValues] = useState({
         title: '',
         text: '',
         date: '',
@@ -11,37 +11,48 @@ const CreatePage = () => {
         link: 'a',
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
+    const createFormData = () => {
+        //create FormData object to submit object with files
         const data = new FormData();
         const date = new Date();
 
-        data.append('title', formData.title);
-        data.append('text', formData.text);
+        // append data and files to FormData object
+        data.append('title', formValues.title);
+        data.append('text', formValues.text);
         data.append('date', date);
-        data.append('link', formData.link);
+        data.append('link', formValues.link);
 
-        formData.attachments.forEach((file, index) => {
+        formValues.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
         });
 
-        const res = await axios.post('api/page', data,
-            {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+        return data;
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        // Post request with FormData object and content type for files
+        try {
+            const data = createFormData();
+
+            const res = await axios.post('api/page', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+        } catch (error) {
+            alert(error.message)
+        }
     }
 
     const handleChange = (e) => {
-        setFormData({
-            ...formData,
+        setFormValues({
+            ...formValues,
             [e.target.name]: e.target.value,
         });
     };
 
+    // Create an array of files from the input field and set it to formData
     const handleImageChange = (e) => {
-        setFormData({
-            ...formData,
+        setFormValues({
+            ...formValues,
             attachments: Array.from(e.target.files),
         });
     };
@@ -50,8 +61,8 @@ const CreatePage = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <input type='file' name='' accept='image/*' onChange={handleImageChange} />
-                <input type='text' name='title' onChange={handleChange} placeholder='Title of your day!'></input>
-                <input type='text' name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
+                <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
+                <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
                 <button>Save</button>
             </form>
         </>
