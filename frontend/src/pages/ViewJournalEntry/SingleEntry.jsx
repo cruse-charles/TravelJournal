@@ -124,7 +124,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Flex align="flex-start">
-                        <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
+                        <Carousel style={{ width: '70%', height: '50%' }} loop withIndicators>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
                                     <Carousel.Slide key={imageURL} style={{ width: '75%', height: '560px' }} >
@@ -133,17 +133,20 @@ const SingleEntry = () => {
                                 )
                             })}
                         </Carousel>
-                        <Stack style={{ width: '25%' }}>
-                            <Group>
-                                <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
+                        <Stack style={{ width: '30%', padding: '0px 10px' }}>
+                            <Group gap='xl' style={{ pading: '25px' }}>
+                                <Title order={2} style={{ width: '70%' }}>{entry?.title}</Title>
                                 <Group gap='xs'>
                                     <Button variant="outline" color="gray" size="xs" onClick={startEdit}><FaPencil /></Button>
                                     <Button onClick={handleDelete} variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
                                 </Group>
                             </Group>
-                            <ScrollArea h={500}>
+                            {/* <ScrollArea h={450}>
                                 <Text>{entry?.text}</Text>
-                            </ScrollArea>
+                            </ScrollArea> */}
+                            <ScrollArea.Autosize >
+                                <Text>{entry?.text}</Text>
+                            </ScrollArea.Autosize>
                         </Stack>
                     </Flex>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
@@ -151,7 +154,9 @@ const SingleEntry = () => {
                             getDayProps={(date) => getEntryDayProps(entry, date)}
                         />
                     </Modal>
-                    <Button onClick={open}><FaCalendarDay />View Calendar</Button>
+                    <Flex justify='flex-end' >
+                        <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                    </Flex>
                 </>
             ) : (
                 <>
@@ -176,7 +181,7 @@ const SingleEntry = () => {
                             </div>
                             <Stack style={{ width: '40%' }} gap='xs'>
                                 <Group>
-                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} />
+                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} maxLength={40} />
                                     <Button type='submit'>Save</Button>
                                 </Group>
                                 <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />

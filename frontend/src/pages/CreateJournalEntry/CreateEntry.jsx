@@ -128,7 +128,7 @@ const CreateEntry = () => {
                     </div>
                     <Stack style={{ width: '40%' }} gap='xs'>
                         <Group>
-                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} />
+                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} maxLength={40} />
                             <Button type='submit'>Save</Button>
                         </Group>
                         <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
