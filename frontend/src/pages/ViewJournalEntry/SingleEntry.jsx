@@ -159,7 +159,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Flex >
-                            <div style={{ width: '60%' }}>
+                            {/* <Stack style={{ width: '60%' }}>
                                 <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
                                     <Text ta="center">Drop images here</Text>
                                 </Dropzone>
@@ -175,11 +175,45 @@ const SingleEntry = () => {
                                         )
                                     })}
                                 </SimpleGrid>
-                            </div>
+                            </Stack> */}
+                            <Stack style={{ width: '60%' }}>
+                                <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                                    {previews.map((item, index) => {
+                                        const isFile = item instanceof File;
+                                        const src = isFile ? URL.createObjectURL(item) : item;
+                                        const key = isFile ? `file-${item.name}` : `url-${item}`;
+                                        return (
+                                            <Carousel.Slide key={key} >
+                                                <Indicator key={key} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(key)}>
+                                                    <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} />
+                                                </Indicator>
+                                            </Carousel.Slide>
+                                        )
+                                    })}
+                                    <Carousel.Slide>
+                                        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
+                                            <Text ta="center">Drop images here</Text>
+                                        </Dropzone>
+
+                                    </Carousel.Slide>
+                                </Carousel>
+                                {/* <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
+                                    {previews.map((item, index) => {
+                                        const isFile = item instanceof File;
+                                        const src = isFile ? URL.createObjectURL(item) : item;
+                                        const key = isFile ? `file-${item.name}` : `url-${item}`;
+                                        return (
+                                            <Indicator key={key} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(key)}>
+                                                <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} />
+                                            </Indicator>
+                                        )
+                                    })}
+                                </SimpleGrid> */}
+                            </Stack>
                             <Stack style={{ width: '40%' }} gap='xs'>
                                 <Group>
                                     <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} maxLength={40} />
-                                    <Button type='submit'>Save</Button>
+                                    <Button type='submit' color="black">Save</Button>
                                 </Group>
                                 <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
                             </Stack>
@@ -192,7 +226,9 @@ const SingleEntry = () => {
                             />
                         </Modal>
                     </form>
-                    <Button onClick={open}><FaCalendarDay />View Calendar</Button>
+                    <Flex justify='flex-end' >
+                        <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                    </Flex>
                 </>
             )}
         </>
