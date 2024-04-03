@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// get all entries for a user
 export const getUserEntries = async (userId, controllerSignal) => {
     try {
         const response = await axios.get(`/api/user/entries/${userId}`, {signal: controllerSignal})
@@ -11,6 +12,7 @@ export const getUserEntries = async (userId, controllerSignal) => {
     
 }
 
+// get a specific entry for a user
 export const getUserEntry = async (entryId, controllerSignal = null) => {
     try {
         const response = await axios.get(`/api/entry/${entryId}`, {signal: controllerSignal})
@@ -21,11 +23,13 @@ export const getUserEntry = async (entryId, controllerSignal = null) => {
     }
 }
 
+// update an entry
 export const getUpdatedEntry = async (id, formData) => {
     const response = await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
     return response
 }
 
+// delete an entry
 export const deleteEntry = async (id) => {
     try {
         await axios.delete(`/api/entry/${id}`)

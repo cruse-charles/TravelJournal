@@ -108,6 +108,7 @@ const SingleEntry = () => {
         updateEntry(formData);
     };
 
+    // update entry with new data and set isEditing to false
     const updateEntry = async (formData) => {
         try {
             const response = await getUpdatedEntry(id, formData)
@@ -123,7 +124,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Flex align="flex-start">
-                        <Carousel style={{ width: '75%', height: '500px' }} loop withIndicators>
+                        <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
                                     <Carousel.Slide key={imageURL} style={{ width: '75%', height: '560px' }} >

@@ -1,3 +1,4 @@
+// Update form data with new files and entry data
 export const updateFormData = (entry, updatedFiles) => {
     const formData = new FormData()
 

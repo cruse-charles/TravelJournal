@@ -108,14 +108,6 @@ const CreateEntry = () => {
         })
     }
 
-    // // Update previews with new files and return imageUrl
-    // const updatePreviews = (files) => {
-    //     return files.map((file) => {
-    //         const imageUrl = URL.createObjectURL(file);
-    //         return { imageUrl, fileName: file.name }
-    //     })
-    // }
-
     return (
         <>
             <form onSubmit={handleSubmit}>
