@@ -177,24 +177,23 @@ const SingleEntry = () => {
                                 </SimpleGrid>
                             </Stack> */}
                             <Stack style={{ width: '60%' }}>
-                                <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                                <Carousel style={{ width: '100%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                     {previews.map((item, index) => {
                                         const isFile = item instanceof File;
                                         const src = isFile ? URL.createObjectURL(item) : item;
                                         const key = isFile ? `file-${item.name}` : `url-${item}`;
                                         return (
                                             <Carousel.Slide key={key} >
-                                                <Indicator key={key} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(key)}>
+                                                <Indicator key={key} size={15} color="blue" offset={12} onClick={() => deleteSelectedImage(key)}>
                                                     <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} />
                                                 </Indicator>
                                             </Carousel.Slide>
                                         )
                                     })}
                                     <Carousel.Slide>
-                                        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
+                                        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%' }}>
                                             <Text ta="center">Drop images here</Text>
                                         </Dropzone>
-
                                     </Carousel.Slide>
                                 </Carousel>
                                 {/* <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
