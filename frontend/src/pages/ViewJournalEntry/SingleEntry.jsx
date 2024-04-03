@@ -123,28 +123,25 @@ const SingleEntry = () => {
         <>
             {!isEditing ? (
                 <>
-                    <Flex align="flex-start">
-                        <Carousel style={{ width: '70%', height: '50%' }} loop withIndicators>
+                    <Flex style={{ height: '80vh' }}>
+                        <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
-                                    <Carousel.Slide key={imageURL} style={{ width: '75%', height: '560px' }} >
+                                    <Carousel.Slide key={imageURL} >
                                         <Image key={imageURL} src={imageURL} />
                                     </Carousel.Slide>
                                 )
                             })}
                         </Carousel>
-                        <Stack style={{ width: '30%', padding: '0px 10px' }}>
-                            <Group gap='xl' style={{ pading: '25px' }}>
-                                <Title order={2} style={{ width: '70%' }}>{entry?.title}</Title>
-                                <Group gap='xs'>
+                        <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
+                            <Group gap='xl' style={{ pading: '25px', display: 'flex' }} justify='space-between'>
+                                <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
+                                <Group gap='xs' style={{ width: '25%' }}>
                                     <Button variant="outline" color="gray" size="xs" onClick={startEdit}><FaPencil /></Button>
                                     <Button onClick={handleDelete} variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
                                 </Group>
                             </Group>
-                            {/* <ScrollArea h={450}>
-                                <Text>{entry?.text}</Text>
-                            </ScrollArea> */}
-                            <ScrollArea.Autosize >
+                            <ScrollArea.Autosize>
                                 <Text>{entry?.text}</Text>
                             </ScrollArea.Autosize>
                         </Stack>
