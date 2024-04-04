@@ -1,6 +1,7 @@
 import Page from "../models/page.model.js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import crypto from 'crypto';
+import sharp from 'sharp';
 
 import dotenv from 'dotenv';
 
@@ -43,19 +44,14 @@ export const pageSave = async (req, res) => {
     console.log('req.files', req.files)
     console.log('req.body', req.body);
 
-    // const params = {
-    //     Bucket: s3BucketName,
-    //     Key: req.files.originalname,
-    //     Body: req.files.buffer,
-    //     contentType: req.files.mimetype
-    // }
-
-
+    
     const uploadPromises = req.files.map(async (file) => {
+        const buffer = await sharp(file.buffer).resize({height: 1920, width: 1080, fit: "contain"}).toBuffer()
+        
         const params = {
             Bucket: s3BucketName,
             Key: randomImageName(),
-            Body: file.buffer,
+            Body: buffer,
             ContentType: file.mimetype
         };
     
