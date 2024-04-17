@@ -24,7 +24,7 @@ const UserPages = () => {
 
     return (
         <>
-            <div>UserPages</div>
+            <div>Your trips</div>
             {pages.map((page) => (
                 <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder >
                     <Card.Section>
@@ -33,15 +33,6 @@ const UserPages = () => {
                     <Text fw={500}>{page.title}</Text>
                     <Text truncate='end'>{page.text}</Text>
                 </Card>
-                // <div key={page._id}>
-                // {/* <div>{page.title}</div> */ }
-                // {/* <div>{page.text}</div> */ }
-                // {/* <div>{page._id}</div> */ }
-                // {/* <div>{page.date}</div> */ }
-                // {/* {page.attachments?.map((imageURL, index) => {
-                //     return <img key={index} src={imageURL} />
-                // })} */}
-                // </div>
             ))}
         </>
     )
