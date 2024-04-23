@@ -1,4 +1,4 @@
-import { getImageURLsFromS3, saveImagesToS3 } from "../utils/s3Service.js";
+import { getImageURLsFromS3, saveImagesToS3, deleteImagesFromS3 } from "../utils/s3Service.js";
 import { errorHandler } from "../utils/error.js";
 
 import Entry from "../models/entry.model.js";
@@ -41,7 +41,7 @@ export const entrySave = async (req, res, next) => {
 
     // save images to S3 and get image names
     const attachments = await saveImagesToS3(req.files);
-    // console.log('attachment files', req.files)
+
     // save entry data to MongoDB with image names
     const newEntry = new Entry({title, text, attachments, date, user});
     await newEntry.save()
@@ -66,7 +66,7 @@ export const entryDelete = async (req, res, next) => {
         }
 
         // delete images from S3
-        // await deleteImagesFromS3(entry.attachments);
+        await deleteImagesFromS3(entry.attachments);
 
         // delete entry from MongoDB
         await Entry.findByIdAndDelete(req.params.id);

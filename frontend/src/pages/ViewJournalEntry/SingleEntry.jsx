@@ -137,8 +137,8 @@ const SingleEntry = () => {
                             <Group gap='xl' style={{ pading: '25px', display: 'flex' }} justify='space-between'>
                                 <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
                                 <Group gap='xs' style={{ width: '25%' }}>
-                                    <Button variant="outline" color="gray" size="xs" onClick={startEdit}><FaPencil /></Button>
-                                    <Button onClick={handleDelete} variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
+                                    <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
+                                    <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
                                 </Group>
                             </Group>
                             <ScrollArea.Autosize>

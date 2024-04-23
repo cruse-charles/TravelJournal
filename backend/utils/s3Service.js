@@ -1,7 +1,7 @@
 import { randomImageName } from "./s3ImageNameHelper.js";
 import { resizeImage } from "./s3ImageResizer.js";
 
-import { S3Client, PutObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 import dotenv from 'dotenv';
@@ -44,8 +44,6 @@ export const saveImagesToS3 = async (files) => {
 
     // Resize each image and give random name and upload to S3
     const uploadPromises = files.map(async (file) => {
-        console.log('---------------------------------')
-        console.log(file)
         const buffer = await resizeImage(file.buffer);
         const imageName = randomImageName();
         attachments.push(imageName);
@@ -66,4 +64,18 @@ export const saveImagesToS3 = async (files) => {
     // await all image upload promises and return array of image names
     await Promise.all(uploadPromises);
     return attachments;
+}
+
+export const deleteImagesFromS3 = async (attachments) => {
+    
+    const deletePromises = attachments.map(async (attachment) => {
+        const params = {
+            Bucket: s3BucketName,
+            Key: attachment
+        }
+        const command = new DeleteObjectCommand(params);
+        return s3.send(command);
+    });
+    
+    await Promise.all(deletePromises);
 }
