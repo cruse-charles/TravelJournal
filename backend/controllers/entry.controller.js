@@ -87,7 +87,8 @@ export const entryUpdate = async (req, res, next) => {
         if (req.user.id !== entry.user.toString()) {
             return next(errorHandler(403, 'You can only update your own entries'))
         }
-        console.log('attachment files', req.files)
+        
+        await deleteImagesFromS3(entry.attachments);
         const attachments = await saveImagesToS3(req.files);
 
         const updatedEntryData = {
