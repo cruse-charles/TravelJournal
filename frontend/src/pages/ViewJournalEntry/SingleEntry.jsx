@@ -142,7 +142,7 @@ const SingleEntry = () => {
                                 </Group>
                             </Group>
                             <ScrollArea.Autosize>
-                                <Text>{entry?.text}</Text>
+                                <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text>
                             </ScrollArea.Autosize>
                         </Stack>
                     </Flex>
@@ -159,7 +159,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Flex style={{ height: '80vh' }}>
-                            <Carousel style={{ width: '100%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                            <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {previews.map((item, index) => {
                                     const isFile = item instanceof File;
                                     const src = isFile ? URL.createObjectURL(item) : item;

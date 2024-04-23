@@ -88,6 +88,7 @@ export const entryUpdate = async (req, res, next) => {
             return next(errorHandler(403, 'You can only update your own entries'))
         }
         
+        // Delete current entry images from S3 and save new images
         await deleteImagesFromS3(entry.attachments);
         const attachments = await saveImagesToS3(req.files);
 
