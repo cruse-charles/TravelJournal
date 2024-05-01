@@ -21,15 +21,15 @@ function App() {
     data.append('text', formData.text);
     data.append('date', date);
     data.append('link', formData.link);
-    for (let pair of data.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+    // for (let pair of data.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
 
     formData.attachments.forEach((file, index) => {
-      data.append(`attachments[${index}]`, file);
+      data.append(`attachments`, file);
     })
 
-    const res = await axios.post('http://localhost:3000/api/page', data,
+    const res = await axios.post('api/page', data,
       { headers: { 'Content-Type': 'multipart/form-data' } });
 
     // console.log(formData)

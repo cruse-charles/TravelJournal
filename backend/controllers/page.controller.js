@@ -19,8 +19,8 @@ export const pageIndex = async (req, res) => {
 export const pageSave = async (req, res) => {
     const {title, text, attachments, date, link} = req.body;
     const newPage = new Page({title, text, attachments, date, link});
-    console.log(req.file)
-    console.log(newPage);
+    console.log('req.files', req.files)
+    console.log('req.body', req.body);
 
     await newPage.save()
         .then(() => {
