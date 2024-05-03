@@ -7,9 +7,7 @@ const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
-//new
 router.get('/:id', verifyToken, pageView)
-//new
 router.get('/', pageIndex)
 router.post('/', upload.array('attachments', 3), pageSave)
 

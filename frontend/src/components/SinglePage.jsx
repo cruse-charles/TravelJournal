@@ -14,8 +14,8 @@ const SinglePage = () => {
         // fetch page data and abort request
         const controller = new AbortController();
 
-        // Send cookie containing access_token with request to authenticate user
-        axios.get(`/api/page/${id}`, { withCredentials: true, signal: controller.signal })
+        // Send request to backend to get page data
+        axios.get(`/api/page/${id}`, { signal: controller.signal })
             .then(res => {
                 setPage(res.data);
                 setIsLoading(false);
