@@ -1,9 +1,12 @@
 import Page from "../models/page.model.js";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import crypto from 'crypto';
 
 import dotenv from 'dotenv';
 
 dotenv.config();
+
+const randomImageName = (bytes = 32) => crypto.randomBytes(bytes).toString('hex');
 
 const s3BucketName = process.env.S3_BUCKET_NAME
 const s3BucketRegion = process.env.S3_BUCKET_REGION
@@ -51,7 +54,7 @@ export const pageSave = async (req, res) => {
     const uploadPromises = req.files.map(async (file) => {
         const params = {
             Bucket: s3BucketName,
-            Key: file.originalname,
+            Key: randomImageName(),
             Body: file.buffer,
             ContentType: file.mimetype
         };
