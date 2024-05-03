@@ -10,22 +10,17 @@ const SinglePage = () => {
     // extract page id from url
     const { id } = useParams();
 
-    // new
-    const token = localStorage.getItem('acess_token')
-
-    // new
-
-
     useEffect(() => {
         // fetch page data and abort request
         const controller = new AbortController();
 
+        // Send cookie containing access_token with request to authenticate user
         axios.get(`/api/page/${id}`, { withCredentials: true, signal: controller.signal })
             .then(res => {
                 setPage(res.data);
                 setIsLoading(false);
             }).catch(error => {
-                alert(error.message)
+                console.log(error.response.data.message)
                 setIsLoading(false)
             })
 

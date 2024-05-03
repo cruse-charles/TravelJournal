@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import Page from "../models/page.model.js";
 
 
-export const pageView = async (req, res) => {
+export const pageView = async (req, res, next) => {
     try {
         // find page by ID or return 404
         const page = await Page.findById(req.params.id);
@@ -17,13 +17,17 @@ export const pageView = async (req, res) => {
 
         // new
         
-        const token = req.cookies.access_token;
-        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decodedToken.id;
+        // const token = req.cookies.access_token;
+        // const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        // const userId = decodedToken.id;
 
-        console.log(page.user)
-        if (userId !== page.user.toString()) {
-            return res.status(403).json('Unauthorized to view this page');
+        console.log(req)
+        if (req.user.id !== page.user.toString()) {
+            // return res.status(403).json('Unauthorized to view this page');
+
+            // new
+            return next(errorHandler(403, 'You can only view your own pages'))
+            // new
         }
 
 
