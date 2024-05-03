@@ -19,12 +19,14 @@ export const pageIndex = async (req, res) => {
 export const pageSave = async (req, res) => {
     const {title, text, attachments, date, link} = req.body;
     const newPage = new Page({title, text, attachments, date, link});
-    
+    console.log(req.file)
+    console.log(newPage);
+
     await newPage.save()
         .then(() => {
             res.status(201).json('Page created');
         })
         .catch((error) => {
-            res.status(409).json({message: error.message});
+            res.status(400).json({message: error.message});
         });
 }
