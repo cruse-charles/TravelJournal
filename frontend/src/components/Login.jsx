@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice';
+import { signInStart, signInSuccess, signInFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice';
 
 const Login = () => {
     const dispatch = useDispatch();
 
     const [loginCredentials, setLoginCredentials] = useState({})
-    const { loading, error } = useSelector(state => state.user);
+    const { currentUser, loading, error } = useSelector(state => state.user);
 
     const handleChange = (e) => {
         const { id, value } = e.target
@@ -30,6 +30,17 @@ const Login = () => {
             })
     }
 
+    const handleLogout = async () => {
+        dispatch(signOutStart());
+        await axios.get('api/auth/logout')
+            .then(() => {
+                dispatch(signOutSuccess());
+            })
+            .catch(err => {
+                dispatch(signOutFailure(err.response.data.message));
+            })
+    }
+
     return (
         <>
             <div>Login</div>
@@ -39,6 +50,7 @@ const Login = () => {
                 <button disabled={loading}>{loading ? 'Loading...' : 'Log in'}</button>
                 {error && <div>{error}</div>}
             </form>
+            <button onClick={handleLogout}>logout</button>
         </>
     )
 }
