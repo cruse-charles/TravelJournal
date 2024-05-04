@@ -16,11 +16,12 @@ export const pageView = async (req, res) => {
         }
 
         // new
-
-        const token = req.headers.authorization.split(' ')[1];
+        
+        const token = req.cookies.access_token;
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-        const userId = decodedToken.userId
+        const userId = decodedToken.id;
 
+        console.log(page.user)
         if (userId !== page.user.toString()) {
             return res.status(403).json('Unauthorized to view this page');
         }

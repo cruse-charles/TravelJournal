@@ -20,7 +20,7 @@ const SinglePage = () => {
         // fetch page data and abort request
         const controller = new AbortController();
 
-        axios.get(`/api/page/${id}`, { headers: { Authorization: `Bearer ${token}` }, signal: controller.signal })
+        axios.get(`/api/page/${id}`, { withCredentials: true, signal: controller.signal })
             .then(res => {
                 setPage(res.data);
                 setIsLoading(false);
