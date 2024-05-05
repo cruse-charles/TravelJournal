@@ -4,12 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Text } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
-import axios from 'axios';
 
 import { getFormattedDate } from '../utils/dateUtils.js';
 import { getUserEntries } from '../utils/apiService.js';
 
-// export const CalendarViewEntries = () => {
 const CalendarViewEntries = () => {
 
     const navigate = useNavigate();
