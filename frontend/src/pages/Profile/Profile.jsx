@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../../redux/user/userSlice'
 import CalendarViewEntries from '../../components/CalendarViewEntries'
-import UserEntries from '../../components/UserEntries'
+import UserEntries from './UserEntries'
 
 import { Button, Grid, Stack, Group, Text, rem } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
