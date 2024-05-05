@@ -1,5 +1,8 @@
 import { getImageURLsFromS3, saveImagesToS3 } from "../utils/s3Service.js";
 import { errorHandler } from "../utils/error.js";
+// new
+import jwt from 'jsonwebtoken';
+// new
 
 import Page from "../models/page.model.js";
 
@@ -11,6 +14,8 @@ export const pageView = async (req, res) => {
         if (!page) {
             return res.status(404).json('Page not found');
         }
+
+
 
         // get signed URLs for images
         const urls = await getImageURLsFromS3(page.attachments)
