@@ -1,5 +1,4 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import axios from 'axios';
 
 
@@ -10,7 +9,7 @@ const CreatePage = () => {
         date: '',
         attachments: [],
         link: 'a',
-    })
+    });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -22,46 +21,30 @@ const CreatePage = () => {
         data.append('text', formData.text);
         data.append('date', date);
         data.append('link', formData.link);
-        // for (let pair of data.entries()) {
-        //   console.log(pair[0] + ', ' + pair[1]);
-        // }
 
         formData.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
-        })
+        });
 
         const res = await axios.post('api/page', data,
-            { headers: { 'Content-Type': 'multipart/form-data' } });
-
-        // console.log(formData)
-        // console.log(res);
-
-        // const res = await fetch('/api/page', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(formData),
-        // })
-
-        // const data = await res.json()
-
-        // console.log(res.json())
+            {
+                headers: { 'Content-Type': 'multipart/form-data' }
+            });
     }
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
-        })
-    }
+        });
+    };
 
     const handleImageChange = (e) => {
         setFormData({
             ...formData,
             attachments: Array.from(e.target.files),
-        })
-    }
+        });
+    };
 
     return (
         <>
