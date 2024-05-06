@@ -15,7 +15,18 @@ export const pageView = async (req, res) => {
             return res.status(404).json('Page not found');
         }
 
+        // new
 
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+        const userId = decodedToken.userId
+
+        if (userId !== page.user.toString()) {
+            return res.status(403).json('Unauthorized to view this page');
+        }
+
+
+        // new
 
         // get signed URLs for images
         const urls = await getImageURLsFromS3(page.attachments)
