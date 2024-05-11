@@ -116,6 +116,15 @@ const CreateEntry = () => {
             <form onSubmit={handleSubmit}>
                 <Flex style={{ height: '80vh' }}>
                     <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                        {previews.map((item, index) => {
+                            return (
+                                <Carousel.Slide key={item.imageUrl} >
+                                    <Indicator key={item.imageUrl} size={15} color="blue" offset={12} onClick={() => deleteSelectedImage(item.imageUrl)}>
+                                        <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
+                                    </Indicator>
+                                </Carousel.Slide>
+                            )
+                        })}
                         <Carousel.Slide>
                             <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
                                 <Image src={placeholderImage} />
