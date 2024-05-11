@@ -10,7 +10,7 @@ import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
-import { getFormattedDate, getEntryDayProps } from '../../utils/dateUtils';
+import { getFormattedDate, getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
 import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
@@ -192,22 +192,7 @@ const SingleEntry = () => {
                             <DatePicker
                                 onChange={(date) => setEntry({ ...entry, date: date })}
                                 getDayProps={(date) => getEntryDayProps(entry, date)}
-                                // excludeDate={(date) => {
-                                //     console.log(getFormattedDate(date) === getFormattedDate(new Date(originalEntryDate)) || entryIdHash[getFormattedDate(date)])
-                                //     return getFormattedDate(date) === getFormattedDate(new Date(originalEntryDate)) || entryIdHash[getFormattedDate(date)]
-                                // }}
-                                excludeDate={(date) => {
-                                    const formattedDate = getFormattedDate(date);
-                                    const isOriginalEntryDate = formattedDate === getFormattedDate(new Date(originalEntryDate));
-                                    const isDateExcluded = entryIdHash[formattedDate] && formattedDate !== getFormattedDate(new Date(entry.date));
-
-                                    if (isOriginalEntryDate) {
-                                        return false; // Allows selection of the original entry's date
-                                    } else if (isDateExcluded) {
-                                        return true; // Excludes dates that are in entryIdHash but not the current entry's date
-                                    }
-                                    // Implicitly returns undefined, allowing selection of all other dates
-                                }}
+                                excludeDate={(date) => excludeDateFunction(date, originalEntryDate, entryIdHash)}
                             />
                         </Modal>
                     </form>
