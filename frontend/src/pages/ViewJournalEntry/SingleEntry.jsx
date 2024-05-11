@@ -17,8 +17,8 @@ import { updateFormData } from '../../utils/updateFormData';
 
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
+import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 
-// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - DELETE IMAGES FROM S3
 // TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - fix calendar in edit mode
 
 const SingleEntry = () => {
@@ -26,7 +26,8 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
-    const [previews, setPreviews] = useState([])
+    const [previews, setPreviews] = useState([]);
+    const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const { entryIdHash } = useUserEntryDateHash();
 
     // useDisclosure hook to open and close modal
@@ -43,6 +44,7 @@ const SingleEntry = () => {
         getUserEntry(id, controller.id)
             .then(entryResponse => {
                 setEntry(entryResponse);
+                setOriginalEntryDate(entryResponse.date);
                 setIsLoading(false);
                 setPreviews(entryResponse.attachments)
             }).catch(error => {
@@ -173,8 +175,8 @@ const SingleEntry = () => {
                                     )
                                 })}
                                 <Carousel.Slide>
-                                    <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%' }}>
-                                        <Text ta="center">Drop images here</Text>
+                                    <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+                                        <Image src={placeholderImage} />
                                     </Dropzone>
                                 </Carousel.Slide>
                             </Carousel>
@@ -190,7 +192,22 @@ const SingleEntry = () => {
                             <DatePicker
                                 onChange={(date) => setEntry({ ...entry, date: date })}
                                 getDayProps={(date) => getEntryDayProps(entry, date)}
-                                excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
+                                // excludeDate={(date) => {
+                                //     console.log(getFormattedDate(date) === getFormattedDate(new Date(originalEntryDate)) || entryIdHash[getFormattedDate(date)])
+                                //     return getFormattedDate(date) === getFormattedDate(new Date(originalEntryDate)) || entryIdHash[getFormattedDate(date)]
+                                // }}
+                                excludeDate={(date) => {
+                                    const formattedDate = getFormattedDate(date);
+                                    const isOriginalEntryDate = formattedDate === getFormattedDate(new Date(originalEntryDate));
+                                    const isDateExcluded = entryIdHash[formattedDate] && formattedDate !== getFormattedDate(new Date(entry.date));
+
+                                    if (isOriginalEntryDate) {
+                                        return false; // Allows selection of the original entry's date
+                                    } else if (isDateExcluded) {
+                                        return true; // Excludes dates that are in entryIdHash but not the current entry's date
+                                    }
+                                    // Implicitly returns undefined, allowing selection of all other dates
+                                }}
                             />
                         </Modal>
                     </form>

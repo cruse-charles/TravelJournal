@@ -117,8 +117,7 @@ const CreateEntry = () => {
                 <Flex style={{ height: '80vh' }}>
                     <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                         <Carousel.Slide>
-                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                                {/* <Text ta="center">Drop images here</Text> */}
+                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
                                 <Image src={placeholderImage} />
                             </Dropzone>
                         </Carousel.Slide>
