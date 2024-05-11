@@ -6,12 +6,15 @@ import axios from 'axios';
 import { TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
+import { Carousel } from '@mantine/carousel';
+
 import { useDisclosure } from '@mantine/hooks';
 import { FaCalendarDay } from "react-icons/fa6";
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 import { updatePreviews } from '../../utils/uploaderHelper';
+import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 
 const CreateEntry = () => {
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
@@ -111,25 +114,19 @@ const CreateEntry = () => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <Flex >
-                    <div style={{ width: '60%' }}>
-                        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
-                            <Text ta="center">Drop images here</Text>
-                        </Dropzone>
-                        <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                            {previews.map((preview, index) => {
-                                return (
-                                    <Indicator key={preview.imageUrl} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(preview.fileName)}>
-                                        <Image key={preview.imageUrl} src={preview.imageUrl} onLoad={() => URL.revokeObjectURL(preview.imageUrl)} />
-                                    </Indicator>
-                                )
-                            })}
-                        </SimpleGrid>
-                    </div>
-                    <Stack style={{ width: '40%' }} gap='xs'>
+                <Flex style={{ height: '80vh' }}>
+                    <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                        <Carousel.Slide>
+                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                {/* <Text ta="center">Drop images here</Text> */}
+                                <Image src={placeholderImage} />
+                            </Dropzone>
+                        </Carousel.Slide>
+                    </Carousel>
+                    <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
                         <Group>
-                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} maxLength={40} />
-                            <Button type='submit'>Save</Button>
+                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
+                            <Button type='submit' color='black'>Save</Button>
                         </Group>
                         <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Stack>
@@ -143,7 +140,9 @@ const CreateEntry = () => {
                     />
                 </Modal>
             </form>
-            <Button onClick={open}><FaCalendarDay />View Calendar</Button>
+            <Flex justify='flex-end' >
+                <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+            </Flex>
         </>
     )
 }

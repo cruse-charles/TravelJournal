@@ -180,7 +180,7 @@ const SingleEntry = () => {
                             </Carousel>
                             <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
                                 <Group>
-                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} maxLength={40} />
+                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
                                     <Button type='submit' color="black">Save</Button>
                                 </Group>
                                 <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
