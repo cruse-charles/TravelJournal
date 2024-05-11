@@ -8,6 +8,7 @@ import Login from './pages/Login/Login';
 import Header from './components/Header';
 import PrivateProfileRoute from './components/PrivateProfileRoute';
 import Profile from './pages/Profile/Profile';
+import About from './pages/About/About';
 
 import '@mantine/core/styles.css';
 import "@mantine/carousel/styles.css";
@@ -35,11 +36,12 @@ function App() {
               <Route element={<PrivateProfileRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
+              <Route path='/about' element={<About />} />
             </Routes>
           </AppShell.Main>
         </AppShell>
       </Router>
-    </MantineProvider>
+    </MantineProvider >
   );
 }
 

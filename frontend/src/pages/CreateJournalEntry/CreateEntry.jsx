@@ -119,7 +119,7 @@ const CreateEntry = () => {
                         {previews.map((item, index) => {
                             return (
                                 <Carousel.Slide key={item.imageUrl} >
-                                    <Indicator key={item.imageUrl} size={15} color="blue" offset={12} onClick={() => deleteSelectedImage(item.imageUrl)}>
+                                    <Indicator key={item.imageUrl} size={15} color="red" offset={12} onClick={() => deleteSelectedImage(item.imageUrl)} label="X">
                                         <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
                                     </Indicator>
                                 </Carousel.Slide>

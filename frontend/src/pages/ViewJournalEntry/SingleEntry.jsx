@@ -164,9 +164,9 @@ const SingleEntry = () => {
                                     const key = isFile ? `file-${item.name}` : `url-${item}`;
                                     return (
                                         <Carousel.Slide key={key} >
-                                            <Indicator key={key} size={15} color="blue" offset={12} onClick={() => deleteSelectedImage(key)}>
-                                                <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} style={{ fit: 'contain' }} />
+                                            <Indicator size={15} color="red" label='X' offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(key)}>
                                             </Indicator>
+                                            <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} style={{ fit: 'contain' }} />
                                         </Carousel.Slide>
                                     )
                                 })}
