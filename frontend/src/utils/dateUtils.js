@@ -20,17 +20,17 @@ export const getSelectedDayProps = (formValues, date) => {
     return {};
 }
 
+// Excludes dates that are in entryIdHash but not the current entry's date
 export const excludeDateFunction = (date, originalEntryDate, entryIdHash) => {
     const formattedDate = getFormattedDate(date);
     const isOriginalEntryDate = formattedDate === getFormattedDate(new Date(originalEntryDate));
     const isDateExcluded = entryIdHash[formattedDate];
 
     if (isOriginalEntryDate) {
-        return false; // Allows selection of the original entry's date
+        return false; 
     } else if (isDateExcluded) {
-        return true; // Excludes dates that are in entryIdHash but not the current entry's date
+        return true; 
     } else {
         return false
     }
-    // Implicitly returns undefined, allowing selection of all other dates
 }

@@ -1,16 +1,14 @@
-import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea, SimpleGrid, Indicator } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, TextInput, Textarea, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
-import { getFormattedDate, getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
+import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
 import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
@@ -18,8 +16,6 @@ import { updateFormData } from '../../utils/updateFormData';
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
-
-// TODOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO - fix calendar in edit mode
 
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
