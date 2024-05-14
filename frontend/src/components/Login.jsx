@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { set } from 'mongoose';
 
 const Login = () => {
     const [loginCredentials, setLoginCredentials] = useState({})
@@ -12,17 +11,17 @@ const Login = () => {
         setLoginCredentials({ ...loginCredentials, [id]: value })
     }
 
+    // POST request to login endpoint
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         await axios.post('api/auth/login', loginCredentials)
+            // set errors and loading state
             .then(res => {
-                console.log(res.data)
                 setError(null)
                 setLoading(false)
             })
             .catch(err => {
-                console.log(err.response.data)
                 setError(err.response.data.message)
                 setLoading(false)
             })
