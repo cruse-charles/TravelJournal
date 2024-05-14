@@ -87,6 +87,9 @@ const CreateEntry = () => {
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
             const data = createFormData();
+            for (let [key, value] of data.entries()) {
+                console.log(key, value);
+            }
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (error) {

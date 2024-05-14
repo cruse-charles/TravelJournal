@@ -21,6 +21,7 @@ const SingleEntry = () => {
     const [isEditing, setIsEditing] = useState(false)
     const [files, setFiles] = useState([])
     const [attchmentUrls, setAttachmentUrls] = useState([])
+    const [previews, setPreviews] = useState([])
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -38,6 +39,8 @@ const SingleEntry = () => {
             .then(res => {
                 setEntry(res.data);
                 setIsLoading(false);
+                setPreviews(res.data.attachments)
+                setFiles(res.data.attachments)
             }).catch(error => {
                 console.log(error.response.data.message)
                 setIsLoading(false)
@@ -47,8 +50,9 @@ const SingleEntry = () => {
     }, [id])
 
     useEffect(() => {
-        console.log(entry)
-    }, [entry])
+        console.log('ENTRY', entry)
+        console.log('PREVIEWS', previews ? previews : 'No previews')
+    }, [entry, previews])
 
     // show loading message while request is in progress
     if (isLoading) {
@@ -86,8 +90,10 @@ const SingleEntry = () => {
     }
 
     const handleImageChange = (newFiles) => {
+        console.log('NEW FILES', newFiles)
         const updatedFiles = [...files, ...newFiles];
-        setFiles(updatedFiles)
+        setFiles((prevFiles) => [...prevFiles, ...newFiles]);
+        setPreviews((prevState) => [...prevState, ...newFiles])
         setEntry({
             ...entry,
             // attachments: Array.from(files),
@@ -95,51 +101,99 @@ const SingleEntry = () => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.put(`/api/entry/${id}`, entry, { headers: { 'Content-Type': 'multipart/form-data' } })
-        setIsEditing(false)
-    }
+    const deleteSelectedImage = (index) => {
+        const updatedFiles = previews.filter((_, fileIndex) => fileIndex !== index);
+        setFiles(updatedFiles);
+        setEntry({
+            ...entry,
+            attachments: updatedFiles,
+        });
+    };
 
-    const previews = [
-        ...files.map((file, index) => {
-            const imageUrl = URL.createObjectURL(file);
-            return (
-                <Indicator key={`file-${index}`} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index, 'file')}>
-                    <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
-                </Indicator>
-            );
-        }),
-        ...attchmentUrls.map((url, index) => {
-            return (
-                <Indicator key={`s3-${index}`} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index, 's3')}>
-                    <Image key={url} src={url} />
-                </Indicator>
-            );
-        })]
+    // Function to convert image URL to File object
+    // const urlToFile = async (imageUrl, filename) => {
+    //     const response = await fetch(imageUrl);
+    //     const blob = await response.blob();
+    //     return new File([blob], filename, { type: blob.type });
+    // };
 
-    const deleteSelectedImage = (index, type) => {
-        if (type === 'file') {
-            const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
-            setFiles(updatedFiles);
-            // Update entry.attachments with the remaining files and S3 URLs
-            updateEntryAttachments(updatedFiles, attchmentUrls);
-        } else if (type === 's3') {
-            const updatedUrls = attchmentUrls.filter((_, urlIndex) => urlIndex !== index);
-            setAttachmentUrls(updatedUrls);
-            // Update entry.attachments with the remaining files and S3 URLs
-            updateEntryAttachments(files, updatedUrls);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+
+        previews.map(async (item) => {
+            console.log('PREVIEW ITEM', item)
+        })
+
+        const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') || file.startsWith('https://'));
+
+        const filePromises = previews.map(async (file) => {
+            if (isUrl(file)) {
+                // Item is a URL, fetch the image and append it as a Blob
+                try {
+                    const response = await fetch(file);
+                    const blob = await response.blob();
+                    const filename = file.split('/').pop();
+                    const newFile = new File([blob], filename, { type: blob.type });
+                    console.log('S3 new file', newFile)
+                    return newFile
+                    // formData.append('files', newFile);
+                } catch (error) {
+                    console.error('Error fetching image from URL:', error);
+                    return null
+                }
+
+            } else {
+                // Item is assumed to be a File object
+                console.log('FILE UPLOADED BY USER', file)
+                // formData.append('files', file);
+                return file
+                // return Promise.resolve(); // Return a resolved promise for non-URL items
+            }
+        });
+
+        const updatedFiles = await Promise.all(filePromises);
+
+        updatedFiles.forEach((file, index) => {
+            formData.append(`attachments`, file); //NOTE::: HERE THE CONSOLE.LOG IS WIERD WITH JUST OBJECT OBJECT, BUT INDIVIDUAL FILES IN CONSOLE SEEM OK
+        })
+
+        Object.keys(entry).forEach(key => {
+            if (key !== 'attachments') {
+                formData.append(key, entry[key]);
+            }
+        });
+
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
         }
+
+        await axios.put(`/api/entry/${id}`, formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+        setIsEditing(false)
+
+        await axios.get(`/api/entry/${id}`).then(res => {
+            setEntry(res.data); // Update entry with new data including S3 URLs
+            setIsLoading(false);
+        })
     };
 
-    const updateEntryAttachments = (updatedFiles, updatedUrls) => {
-        // For local files not yet uploaded, you might store just a reference or identifier
-        // This example assumes you have identifiers or a way to reference the files
-        const fileReferences = updatedFiles.map(file => file.name); // Using file names as a placeholder
 
-        const allAttachments = [...fileReferences, ...updatedUrls];
-        setEntry({ ...entry, attachments: allAttachments });
-    };
+    // const deleteSelectedImage = (index, type) => {
+    //     if (type === 'file') {
+    //         const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
+    //         setFiles(updatedFiles);
+    //         // Update entry.attachments with the remaining files and S3 URLs
+    //         updateEntryAttachments(updatedFiles, attchmentUrls);
+    //     } else if (type === 's3') {
+    //         const updatedUrls = attchmentUrls.filter((_, urlIndex) => urlIndex !== index);
+    //         setAttachmentUrls(updatedUrls);
+    //         // Update entry.attachments with the remaining files and S3 URLs
+    //         updateEntryAttachments(files, updatedUrls);
+    //     }
+    // };
+
 
     return (
         <>
@@ -186,7 +240,15 @@ const SingleEntry = () => {
                                 </Dropzone>
 
                                 <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
-                                    {previews}
+                                    {previews.map((item, index) => {
+                                        const isFile = item instanceof File;
+                                        const src = isFile ? URL.createObjectURL(item) : item;
+                                        return (
+                                            <Indicator key={index} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
+                                                <Image key={index} src={src} onLoad={() => URL.revokeObjectURL(src)} />
+                                            </Indicator>
+                                        )
+                                    })}
                                 </SimpleGrid>
                             </div>
                             <Stack style={{ width: '40%' }} gap='xs'>

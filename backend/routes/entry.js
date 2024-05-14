@@ -11,6 +11,6 @@ router.get('/:id', verifyToken, entryView)
 router.get('/', entryIndex)
 router.post('/', upload.array('attachments', 3), entrySave)
 router.delete('/:id', verifyToken, entryDelete)
-router.put(`/:id`, verifyToken, upload.array('attachments', 3), entryUpdate)
+router.put('/:id', verifyToken, upload.array('attachments', 3), entryUpdate)
 
 export default router;

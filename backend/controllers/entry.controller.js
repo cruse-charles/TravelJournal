@@ -41,7 +41,7 @@ export const entrySave = async (req, res, next) => {
 
     // save images to S3 and get image names
     const attachments = await saveImagesToS3(req.files);
-
+    // console.log('attachment files', req.files)
     // save entry data to MongoDB with image names
     const newEntry = new Entry({title, text, attachments, date, user});
     await newEntry.save()
@@ -87,8 +87,15 @@ export const entryUpdate = async (req, res, next) => {
         if (req.user.id !== entry.user.toString()) {
             return next(errorHandler(403, 'You can only update your own entries'))
         }
+        console.log('attachment files', req.files)
+        const attachments = await saveImagesToS3(req.files);
 
-        const updatedEntry = await Entry.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        const updatedEntryData = {
+            ...req.body,
+            attachments
+        }
+
+        const updatedEntry = await Entry.findByIdAndUpdate(req.params.id, updatedEntryData, {new: true});
         res.status(200).json(updatedEntry);
     } catch (error) {
 
