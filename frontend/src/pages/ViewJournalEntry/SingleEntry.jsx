@@ -104,6 +104,7 @@ const SingleEntry = () => {
     const deleteSelectedImage = (index) => {
         const updatedFiles = previews.filter((_, fileIndex) => fileIndex !== index);
         setFiles(updatedFiles);
+        setPreviews(updatedFiles)
         setEntry({
             ...entry,
             attachments: updatedFiles,
