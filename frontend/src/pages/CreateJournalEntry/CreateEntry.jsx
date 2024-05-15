@@ -87,11 +87,13 @@ const CreateEntry = () => {
         });
     };
 
-    const handleImageChange = (files) => {
-        setFiles(files)
+    const handleImageChange = (newFiles) => {
+        const updatedFiles = [...files, ...newFiles];
+        setFiles(updatedFiles)
         setFormValues({
             ...formValues,
-            attachments: Array.from(files),
+            // attachments: Array.from(files),
+            attachments: updatedFiles,
         });
     };
 
