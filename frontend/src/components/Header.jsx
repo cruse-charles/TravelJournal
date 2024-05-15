@@ -21,7 +21,7 @@ const Header = () => {
           <Link to='/about'>
             <li className='text-slate-700 hover:underline'>About</li>
           </Link>
-          <Link to='/login'>
+          <Link to='/profile'>
             {currentUser ? (<div>{currentUser.username}</div>) : (
               <li className='text-slate-700 hover:underline'>Sign in</li>
             )}
