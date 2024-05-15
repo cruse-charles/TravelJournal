@@ -64,7 +64,7 @@ const CalendarViewEntries = () => {
 
     return (
         <>
-            <div className='CalendarViewPages-container flex flex-col items-center'>
+            <div>
                 <Text size='xl' fw={700}>Your Calendar</Text>
                 <Calendar style={{ transform: 'scale(1.3)', transformOrigin: 'top left' }} getDayProps={(date) => ({
                     onClick: () => handleDateClick(date),

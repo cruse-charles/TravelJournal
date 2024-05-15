@@ -32,7 +32,6 @@ app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
 })
 
-// app.use('/api/page', pageRouter);
 app.use('/api/entry', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
