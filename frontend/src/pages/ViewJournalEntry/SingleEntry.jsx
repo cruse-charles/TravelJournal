@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea, SimpleGrid } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea, SimpleGrid, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 
 import { useDisclosure } from '@mantine/hooks';
@@ -20,6 +20,7 @@ const SingleEntry = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
     const [files, setFiles] = useState([])
+    const [attchmentUrls, setAttachmentUrls] = useState([])
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -76,6 +77,7 @@ const SingleEntry = () => {
 
     const startEdit = () => {
         setIsEditing(true)
+        setAttachmentUrls(entry.attachments || [])
     }
 
     const handleChange = (e) => {
@@ -83,10 +85,13 @@ const SingleEntry = () => {
         setEntry({ ...entry, [name]: value })
     }
 
-    const handleImageChange = (files) => {
+    const handleImageChange = (newFiles) => {
+        const updatedFiles = [...files, ...newFiles];
+        setFiles(updatedFiles)
         setEntry({
             ...entry,
-            attachments: Array.from(files),
+            // attachments: Array.from(files),
+            attachments: updatedFiles,
         });
     };
 
@@ -96,10 +101,45 @@ const SingleEntry = () => {
         setIsEditing(false)
     }
 
-    const previews = files.map((file, index) => {
-        const imageUrl = URL.createObjectURL(file);
-        return <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
-    });
+    const previews = [
+        ...files.map((file, index) => {
+            const imageUrl = URL.createObjectURL(file);
+            return (
+                <Indicator key={`file-${index}`} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index, 'file')}>
+                    <Image key={imageUrl} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
+                </Indicator>
+            );
+        }),
+        ...attchmentUrls.map((url, index) => {
+            return (
+                <Indicator key={`s3-${index}`} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index, 's3')}>
+                    <Image key={url} src={url} />
+                </Indicator>
+            );
+        })]
+
+    const deleteSelectedImage = (index, type) => {
+        if (type === 'file') {
+            const updatedFiles = files.filter((_, fileIndex) => fileIndex !== index);
+            setFiles(updatedFiles);
+            // Update entry.attachments with the remaining files and S3 URLs
+            updateEntryAttachments(updatedFiles, attchmentUrls);
+        } else if (type === 's3') {
+            const updatedUrls = attchmentUrls.filter((_, urlIndex) => urlIndex !== index);
+            setAttachmentUrls(updatedUrls);
+            // Update entry.attachments with the remaining files and S3 URLs
+            updateEntryAttachments(files, updatedUrls);
+        }
+    };
+
+    const updateEntryAttachments = (updatedFiles, updatedUrls) => {
+        // For local files not yet uploaded, you might store just a reference or identifier
+        // This example assumes you have identifiers or a way to reference the files
+        const fileReferences = updatedFiles.map(file => file.name); // Using file names as a placeholder
+
+        const allAttachments = [...fileReferences, ...updatedUrls];
+        setEntry({ ...entry, attachments: allAttachments });
+    };
 
     return (
         <>
@@ -109,8 +149,8 @@ const SingleEntry = () => {
                         <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
-                                    <Carousel.Slide key={index} style={{ width: '75%', height: '560px' }} >
-                                        <Image key={index} src={imageURL} />
+                                    <Carousel.Slide key={imageURL} style={{ width: '75%', height: '560px' }} >
+                                        <Image key={imageURL} src={imageURL} />
                                     </Carousel.Slide>
                                 )
                             })}
