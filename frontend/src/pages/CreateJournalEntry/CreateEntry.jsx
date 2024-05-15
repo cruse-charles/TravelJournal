@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text } from '@mantine/core';
+import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
@@ -35,8 +35,22 @@ const CreateEntry = () => {
 
     const previews = files.map((file, index) => {
         const imageUrl = URL.createObjectURL(file);
-        return <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+        return (
+            <Indicator key={index} size={15} color="blue" offset={-2} onClick={() => deleteSelectedImage(index)}>
+                <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />
+            </Indicator>
+        );
     });
+
+    const deleteSelectedImage = (index) => {
+        const updatedFiles = files.filter((file, fileIndex) => fileIndex !== index);
+        setFiles(updatedFiles);
+
+        setFormValues({
+            ...formValues,
+            attachments: updatedFiles
+        })
+    }
 
     // Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
