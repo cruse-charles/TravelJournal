@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal } from '@mantine/core';
+import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text } from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import { FaCalendarDay } from "react-icons/fa6";
@@ -28,6 +29,13 @@ const CreateEntry = () => {
         date: null,
         attachments: [],
         user: currentUser ? currentUser._id : null,
+    });
+
+    const [files, setFiles] = useState([]);
+
+    const previews = files.map((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+        return <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
     });
 
     // Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
@@ -80,6 +88,7 @@ const CreateEntry = () => {
     };
 
     const handleImageChange = (files) => {
+        setFiles(files)
         setFormValues({
             ...formValues,
             attachments: Array.from(files),
@@ -98,7 +107,17 @@ const CreateEntry = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Flex >
-                    <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} />
+                    {/* <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} /> */}
+                    <div style={{ width: '60%' }}>
+                        <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
+                            <Text ta="center">Drop images here</Text>
+                        </Dropzone>
+
+                        <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
+                            {previews}
+                        </SimpleGrid>
+                    </div>
+
                     <Stack style={{ width: '40%' }} gap='xs'>
                         <Group>
                             <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} />
