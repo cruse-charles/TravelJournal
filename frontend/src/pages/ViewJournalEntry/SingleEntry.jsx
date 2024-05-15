@@ -1,27 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import CalendarViewPages from '../../components/CalendarViewPages';
+import CalendarViewEntries from '../../components/CalendarViewEntries';
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 
-const SinglePage = () => {
-    // state vars for page and loading
-    const [page, setPage] = useState({});
+const SingleEntry = () => {
+    // state vars for entry and loading
+    const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    // extract page id from url
+    // extract entry id from url
     const { id } = useParams();
 
     useEffect(() => {
-        // fetch page data and abort request
+        // fetch entry data and abort request
         const controller = new AbortController();
 
-        // Send request to backend to get page data
-        axios.get(`/api/page/${id}`, { signal: controller.signal })
+        // Send request to backend to get entry data
+        axios.get(`/api/entry/${id}`, { signal: controller.signal })
             .then(res => {
-                setPage(res.data);
+                setEntry(res.data);
                 setIsLoading(false);
             }).catch(error => {
                 console.log(error.response.data.message)
@@ -40,7 +40,7 @@ const SinglePage = () => {
         <>
             <Flex align="flex-start">
                 <Carousel style={{ width: '75%', height: '560px' }} loop withIndicators>
-                    {page?.attachments?.map((imageURL, index) => {
+                    {entry?.attachments?.map((imageURL, index) => {
                         return (
                             <Carousel.Slide key={index} style={{ width: '75%', height: '560px' }} >
                                 <Image key={index} src={imageURL} />
@@ -49,15 +49,15 @@ const SinglePage = () => {
                     })}
                 </Carousel>
                 <Stack style={{ width: '25%' }}>
-                    <Title>{page?.title}</Title>
+                    <Title>{entry?.title}</Title>
                     <ScrollArea h={500}>
-                        <Text>{page?.text}</Text>
+                        <Text>{entry?.text}</Text>
                     </ScrollArea>
                 </Stack>
             </Flex>
-            {/* <CalendarViewPages /> */}
+            {/* <CalendarViewEntries /> */}
         </>
     )
 }
 
-export default SinglePage
+export default SingleEntry

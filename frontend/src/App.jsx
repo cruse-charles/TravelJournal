@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MantineProvider, AppShell } from '@mantine/core';
 
-import CreatePage from './pages/CreateJournalEntry/CreatePage';
-import SinglePage from './pages/ViewJournalEntry/SinglePage';
+import CreateEntry from './pages/CreateJournalEntry/CreateEntry';
+import SingleEntry from './pages/ViewJournalEntry/SingleEntry';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Header from './components/Header';
@@ -27,8 +27,8 @@ function App() {
           </AppShell.Header>
           <AppShell.Main>
             <Routes>
-              <Route path="/" element={<CreatePage />} />
-              <Route path="/page/:id" element={<SinglePage />} />
+              <Route path="/" element={<CreateEntry />} />
+              <Route path="/entry/:id" element={<SingleEntry />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route element={<PrivateProfileRoute />}>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import CalendarViewPages from '../../components/CalendarViewPages';
+import CalendarViewEntriess from '../../components/CalendarViewEntries';
 import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
 
-const CreatePage = () => {
+const CreateEntry = () => {
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate();
 
@@ -56,8 +56,8 @@ const CreatePage = () => {
         try {
             const data = createFormData();
 
-            const res = await axios.post('api/page', data, { headers: { 'Content-Type': 'multipart/form-data' } });
-            navigate(`/page/${res.data}`)
+            const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+            navigate(`/entry/${res.data}`)
         } catch (error) {
             setError(error.response.data.message)
         }
@@ -93,9 +93,9 @@ const CreatePage = () => {
                 </Flex>
                 <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
             </form>
-            {/* < CalendarViewPages /> */}
+            {/* < CalendarViewEntries /> */}
         </>
     )
 }
 
-export default CreatePage
+export default CreateEntry

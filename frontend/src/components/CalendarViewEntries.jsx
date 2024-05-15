@@ -6,16 +6,16 @@ import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 import axios from 'axios';
 
-const CalendarViewPages = () => {
+const CalendarViewEntries = () => {
 
     const navigate = useNavigate();
 
-    // Create hash to store pageID with date as key
-    const pageIdHash = useRef({});
+    // Create hash to store entryId with date as key
+    const entryIdHash = useRef({});
 
-    // Get current user from redux store and set pages state variable
+    // Get current user from redux store and set entries state variable
     const { currentUser } = useSelector(state => state.user)
-    const [pages, setPages] = useState([])
+    const [entries, setEntries] = useState([])
 
     useEffect(() => {
 
@@ -25,16 +25,16 @@ const CalendarViewPages = () => {
         // Even put our API calls in this service folder as well, then import this get user function and call it.
         // SUXIONG - Separate our components from pages, so a page folder will be like userPage, CreatePage, and our components will be the header, footer, navbar, etcc
         // 
-        axios.get(`/api/user/pages/${currentUser._id}`, { signal: controller.signal })
+        axios.get(`/api/user/entries/${currentUser._id}`, { signal: controller.signal })
             .then(res => {
-                setPages(res.data)
+                setEntries(res.data)
 
-                // Create hash with dates as keys and pageID as values
-                for (let page of res.data) {
-                    let date = new Date(page.date);
+                // Create hash with dates as keys and entryID as values
+                for (let entry of res.data) {
+                    let date = new Date(entry.date);
                     let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-                    pageIdHash.current[formattedDate] = page._id;
+                    entryIdHash.current[formattedDate] = entry._id;
                 }
             }).catch((error) => {
                 console.log(error.response.data.message)
@@ -44,9 +44,9 @@ const CalendarViewPages = () => {
     }, [])
 
     const handleRenderDate = (date) => {
-        // Check if date is in hash of page dates and add indicator if true
+        // Check if date is in hash of entry dates and add indicator if true
         let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-        if (pageIdHash.current[formattedDate]) {
+        if (entryIdHash.current[formattedDate]) {
             return false
         } else {
             return true
@@ -56,9 +56,9 @@ const CalendarViewPages = () => {
     const handleDateClick = (date) => {
         let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-        // When selecting calendar cell, navigate to page with matching date in hash
-        if (pageIdHash.current[formattedCalendarDate]) {
-            navigate(`/page/${pageIdHash.current[formattedCalendarDate]}`);
+        // When selecting calendar cell, navigate to entry with matching date in hash
+        if (entryIdHash.current[formattedCalendarDate]) {
+            navigate(`/entry/${entryIdHash.current[formattedCalendarDate]}`);
         }
     }
 
@@ -83,4 +83,4 @@ const CalendarViewPages = () => {
     )
 }
 
-export default CalendarViewPages
+export default CalendarViewEntries

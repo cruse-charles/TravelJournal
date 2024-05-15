@@ -6,18 +6,18 @@ import { Carousel } from '@mantine/carousel';
 import { useNavigate } from 'react-router-dom';
 
 
-const UserPages = () => {
+const UserEntries = () => {
     const { currentUser } = useSelector(state => state.user)
     const navigate = useNavigate();
-    const [pages, setPages] = useState([])
+    const [entries, setEntries] = useState([])
 
     useEffect(() => {
 
         const controller = new AbortController();
 
-        axios.get(`api/user/pages/${currentUser._id}`, { signal: controller.signal })
+        axios.get(`api/user/entries/${currentUser._id}`, { signal: controller.signal })
             .then(res => {
-                setPages(res.data)
+                setEntries(res.data)
             }).catch((error) => {
                 console.log(error.response.data.message)
             })
@@ -26,20 +26,20 @@ const UserPages = () => {
     }, [])
 
     const handleNavigate = (id) => {
-        navigate(`/page/${id}`)
+        navigate(`/entry/${id}`)
     }
 
 
     return (
         <>
-            {pages.map((page) => (
-                <Carousel.Slide key={page._id}>
-                    <Card onClick={() => handleNavigate(page._id)} key={page._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 650, height: 500 }}>
+            {entries.map((entry) => (
+                <Carousel.Slide key={entry._id}>
+                    <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 650, height: 500 }}>
                         <Card.Section>
-                            <Image h={300} src={page.attachments?.[0]} />
+                            <Image h={300} src={entry.attachments?.[0]} />
                         </Card.Section>
-                        <Text fw={500}>{page.title}</Text>
-                        <Text truncate='end'>{page.text}</Text>
+                        <Text fw={500}>{entry.title}</Text>
+                        <Text truncate='end'>{entry.text}</Text>
                     </Card>
                 </Carousel.Slide>
             ))}
@@ -47,4 +47,4 @@ const UserPages = () => {
     )
 }
 
-export default UserPages
+export default UserEntries

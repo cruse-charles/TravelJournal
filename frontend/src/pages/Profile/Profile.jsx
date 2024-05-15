@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../../redux/user/userSlice'
-import CalendarViewPages from '../../components/CalendarViewPages'
-import UserPages from '../../components/UserPages'
+import CalendarViewEntries from '../../components/CalendarViewEntries'
+import UserEntries from '../../components/UserEntries'
 
 import { Button, Grid, Stack, Group, Text, rem } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
@@ -69,11 +69,11 @@ const Profile = () => {
                 <Grid.Col span={7}>
                     <Text size="xl" fw={700}>Your Trips</Text>
                     <Carousel slideGap="md" loop dragFree withIndicators style={{ height: 500, width: 640 }}>
-                        <UserPages />
+                        <UserEntries />
                     </Carousel>
                 </Grid.Col>
                 <Grid.Col span={3} >
-                    <CalendarViewPages />
+                    <CalendarViewEntries />
                 </Grid.Col>
                 <Grid.Col span={5}>
                     <Stack gap='xs' style={{ justifyContent: 'center' }}>
