@@ -2,7 +2,9 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea, SimpleGrid } from '@mantine/core';
+import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
@@ -17,6 +19,7 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
+    const [files, setFiles] = useState([])
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -93,6 +96,11 @@ const SingleEntry = () => {
         setIsEditing(false)
     }
 
+    const previews = files.map((file, index) => {
+        const imageUrl = URL.createObjectURL(file);
+        return <Image key={index} src={imageUrl} onLoad={() => URL.revokeObjectURL(imageUrl)} />;
+    });
+
     return (
         <>
             {!isEditing ? (
@@ -131,7 +139,16 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Flex >
-                            <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} value={entry.attachments} />
+                            {/* <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} value={entry.attachments} /> */}
+                            <div style={{ width: '60%' }}>
+                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '50%' }}>
+                                    <Text ta="center">Drop images here</Text>
+                                </Dropzone>
+
+                                <SimpleGrid cols={{ base: 1, sm: 4 }} mt={previews.length > 0 ? 'xl' : 0}>
+                                    {previews}
+                                </SimpleGrid>
+                            </div>
                             <Stack style={{ width: '40%' }} gap='xs'>
                                 <Group>
                                     <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} />
