@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import pageRouter from './routes/page.js';
 import authRouter from './routes/auth.js';
+import userRouter from './routes/user.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.listen(PORT, () => {
 
 app.use('/api/page', pageRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/user', userRouter);
 
 app.use((error, req, res, next) => {
     const statusCode = error.statusCode || 500;
