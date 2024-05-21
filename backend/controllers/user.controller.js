@@ -1,5 +1,5 @@
 import bcryptjs from 'bcryptjs';
-import User from '../models/user.model';
+import User from '../models/user.model.js';
 
 export const updateUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only update your own user data'));
