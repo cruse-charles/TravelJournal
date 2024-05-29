@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import CalendarCreatePage from './CalendarCreatePage';
 
 const CreatePage = () => {
     const { currentUser } = useSelector(state => state.user);
