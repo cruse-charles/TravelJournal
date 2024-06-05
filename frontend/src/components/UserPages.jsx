@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { Card, Text } from '@mantine/core';
+import { Card, Image, Text } from '@mantine/core';
 
 const UserPages = () => {
     const { currentUser } = useSelector(state => state.user)
@@ -25,8 +25,11 @@ const UserPages = () => {
     return (
         <>
             <div>UserPages</div>
-            {pages.map(page => (
-                <Card shadow="sm" padding="lg" radius="md" withBorder >
+            {pages.map((page) => (
+                <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder >
+                    <Card.Section>
+                        <Image h={200} src={page.attachments?.[0]} />
+                    </Card.Section>
                     <Text fw={500}>{page.title}</Text>
                     <Text truncate='end'>{page.text}</Text>
                 </Card>
