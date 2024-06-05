@@ -36,14 +36,16 @@ const CalendarViewPages = () => {
 
             // Callback function to analyze each cell of calendar
             onRenderCell({ date, cellType }) {
-                for (let page of pages) {
-                    let pageDate = new Date(page.date);
-                    if (date.getDate() === pageDate.getDate() && date.getMonth() === pageDate.getMonth() && date.getFullYear() === pageDate.getFullYear()) {
-                        return {
-                            html: `${date.getDate()}<div class="dot"></div>`,
-                            classes: '-dot-cell-',
-                            attrs: {
-                                title: 'Special date'
+                if (cellType === 'day') {
+                    for (let page of pages) {
+                        let pageDate = new Date(page.date);
+                        if (date.getDate() === pageDate.getDate() && date.getMonth() === pageDate.getMonth() && date.getFullYear() === pageDate.getFullYear()) {
+                            return {
+                                html: `${date.getDate()}<div class="dot"></div>`,
+                                classes: '-dot-cell-',
+                                attrs: {
+                                    title: 'Special date'
+                                }
                             }
                         }
                     }
