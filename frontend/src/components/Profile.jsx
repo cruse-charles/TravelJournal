@@ -65,7 +65,7 @@ const Profile = () => {
                 <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
             </form>
             <button onClick={handleLogout}>logout</button>
-            <div onClick={handleDeleteUser}>Delete Account</div>
+            <button onClick={handleDeleteUser}>Delete Account</button>
             <p>{error ? error : ''}</p>
         </>
     )
