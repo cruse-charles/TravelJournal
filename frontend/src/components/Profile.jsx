@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice'
 
 const Profile = () => {
 
@@ -43,6 +43,17 @@ const Profile = () => {
             })
     }
 
+    const handleLogout = async () => {
+        dispatch(signOutStart());
+        await axios.get('api/auth/logout')
+            .then(() => {
+                dispatch(signOutSuccess());
+            })
+            .catch(err => {
+                dispatch(signOutFailure(err.response.data.message));
+            })
+    }
+
 
     return (
         <>
@@ -53,8 +64,9 @@ const Profile = () => {
                 <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
                 <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
             </form>
-            <p>{error ? error : ''}</p>
+            <button onClick={handleLogout}>logout</button>
             <div onClick={handleDeleteUser}>Delete Account</div>
+            <p>{error ? error : ''}</p>
         </>
     )
 }
