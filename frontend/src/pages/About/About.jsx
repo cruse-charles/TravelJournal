@@ -1,6 +1,14 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
+
 import { Title, Flex, Text, Stack, Group, Paper, Button, Space, Container } from '@mantine/core';
 const About = () => {
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        navigate(`/signup`)
+    }
+
     return (
         <Stack justify="center" gap='xl' style={{ paddingTop: '100px' }}>
             <Group style={{ width: '100%', paddingLeft: '10%' }}>
@@ -34,7 +42,7 @@ const About = () => {
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>
                             <Title align='center'>Start Journaling Your Adventures</Title>
                             <Text align='center'>Sign up today and begin capturing your travel memories through journal entries, photos, and more. Travel Journal is the perfect companion for your adventures, helping you preserve and share your unique experiences with the world.</Text>
-                            <Button color='black'>Sign Up</Button>
+                            <Button color='black' onClick={handleButtonClick}>Sign Up</Button>
                         </Stack>
                     </Group>
                 </Stack>
