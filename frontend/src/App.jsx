@@ -29,14 +29,14 @@ function App() {
           </AppShell.Header>
           <AppShell.Main>
             <Routes>
-              <Route path="/" element={<CreateEntry />} />
+              <Route path="/create" element={<CreateEntry />} />
               <Route path="/entry/:id" element={<SingleEntry />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route element={<PrivateProfileRoute />}>
                 <Route path="/profile" element={<Profile />} />
               </Route>
-              <Route path='/about' element={<About />} />
+              <Route path='/' element={<About />} />
             </Routes>
           </AppShell.Main>
         </AppShell>

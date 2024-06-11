@@ -5,8 +5,12 @@ import { Title, Flex, Text, Stack, Group, Paper, Button, Space, Container } from
 const About = () => {
     const navigate = useNavigate();
 
-    const handleButtonClick = () => {
+    const handleSignupButtonClick = () => {
         navigate(`/signup`)
+    }
+
+    const handleCreateJournalButtonClick = () => {
+        navigate(`/create`)
     }
 
     return (
@@ -16,7 +20,7 @@ const About = () => {
                     <Title order={1}>Capture Your Travel Adventure</Title>
                     <Text size='xl'>Travel Journal is a platform that helps you document your journeys and share your experiences with the world.</Text>
                     <Space h='md' />
-                    <Button color='black' style={{ width: '30%' }}>Start Journaling</Button>
+                    <Button color='black' onClick={handleCreateJournalButtonClick} style={{ width: '30%' }}>Start Journaling</Button>
                 </Stack>
                 <Container>
                     <Text>Video Here</Text>
@@ -42,7 +46,7 @@ const About = () => {
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>
                             <Title align='center'>Start Journaling Your Adventures</Title>
                             <Text align='center'>Sign up today and begin capturing your travel memories through journal entries, photos, and more. Travel Journal is the perfect companion for your adventures, helping you preserve and share your unique experiences with the world.</Text>
-                            <Button color='black' onClick={handleButtonClick}>Sign Up</Button>
+                            <Button color='black' onClick={handleSignupButtonClick}>Sign Up</Button>
                         </Stack>
                     </Group>
                 </Stack>
