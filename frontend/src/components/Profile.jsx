@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../redux/user/userSlice'
+import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure } from '../redux/user/userSlice'
 
 const Profile = () => {
 
@@ -30,6 +30,10 @@ const Profile = () => {
             })
     }
 
+    const handleDeleteUser = async () => {
+
+    }
+
 
     return (
         <>
@@ -41,6 +45,7 @@ const Profile = () => {
                 <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
             </form>
             <p>{error ? error : ''}</p>
+            <div onClick={handleDeleteUser}>Delete Account</div>
         </>
     )
 }
