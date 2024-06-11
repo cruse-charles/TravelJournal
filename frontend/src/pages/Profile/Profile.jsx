@@ -79,6 +79,7 @@ const Profile = () => {
                     <Stack gap='xs' style={{ justifyContent: 'center' }}>
                         <Text size="xl" fw={700}>Personal Information</Text>
                         <form onSubmit={handleSubmit}>
+                            {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
                             <Stack>
                                 <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
                                 <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>

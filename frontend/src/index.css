@@ -1,3 +1,7 @@
 .mantine-FileInput-input {
     height: 500px;
 }
+
+.Carousel-slide {
+    cursor: pointer;
+}

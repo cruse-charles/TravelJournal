@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CalendarViewEntries from '../../components/CalendarViewEntries';
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+// https://react-icons.github.io/react-icons/icons/fa6/
+import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
 
 
 const SingleEntry = () => {
@@ -49,7 +51,13 @@ const SingleEntry = () => {
                     })}
                 </Carousel>
                 <Stack style={{ width: '25%' }}>
-                    <Title>{entry?.title}</Title>
+                    <Group>
+                        <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
+                        <Group gap='xs'>
+                            <Button variant="outline" color="gray" size="xs"><FaPencil /></Button>
+                            <Button variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
+                        </Group>
+                    </Group>
                     <ScrollArea h={500}>
                         <Text>{entry?.text}</Text>
                     </ScrollArea>

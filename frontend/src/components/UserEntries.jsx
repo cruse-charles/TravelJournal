@@ -33,7 +33,7 @@ const UserEntries = () => {
     return (
         <>
             {entries.map((entry) => (
-                <Carousel.Slide key={entry._id}>
+                <Carousel.Slide key={entry._id} className='Carousel-slide'>
                     <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 650, height: 500 }}>
                         <Card.Section>
                             <Image h={300} src={entry.attachments?.[0]} />
