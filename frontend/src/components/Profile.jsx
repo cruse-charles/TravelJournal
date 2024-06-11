@@ -31,7 +31,16 @@ const Profile = () => {
     }
 
     const handleDeleteUser = async () => {
+        // Dispatch deleteUserStart action of userSlice to indicate that the delete process has started
+        dispatch(deleteUserStart())
 
+        // DELETE request to delete user endpoint
+        await axios.delete(`api/user/delete/${currentUser._id}`)
+            .then(res => {
+                dispatch(deleteUserSuccess())
+            }).catch(err => {
+                dispatch(deleteUserFailure(err.response.data.message))
+            })
     }
 
 
