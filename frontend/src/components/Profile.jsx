@@ -37,7 +37,7 @@ const Profile = () => {
         // DELETE request to delete user endpoint
         await axios.delete(`api/user/delete/${currentUser._id}`)
             .then(res => {
-                dispatch(deleteUserSuccess())
+                dispatch(deleteUserSuccess(res.data))
             }).catch(err => {
                 dispatch(deleteUserFailure(err.response.data.message))
             })
