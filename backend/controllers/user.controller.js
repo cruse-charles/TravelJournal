@@ -46,16 +46,20 @@ export const deleteUser = async (req, res, next) => {
 }
 
 export const getUserPages = async (req, res, next) => {
+    // Check if user is viewing their own pages
     if (req.user.id !== req.params.id) return next(errorHandler(403, 'You can only view your own pages'));
     
     try {
+        // Find all pages created by the user
         const pages = await Page.find({user: req.params.id})
         
+        // Get signed URLs for images from S3 and replace the attachment names with URLs
         for (const page of pages) {
             const urls = await getImageURLsFromS3(page.attachments);
             page.attachments = urls;
         }
 
+        // Send the pages data with signed URLs
         res.status(200).json(pages);
     } catch (error) {
         next(error)
