@@ -28,6 +28,7 @@ const CalendarViewPages = () => {
             .then(res => {
                 setPages(res.data)
 
+                // Create hash with dates as keys and pageID as values
                 for (let page of res.data) {
                     let date = new Date(page.date);
                     let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
@@ -65,10 +66,10 @@ const CalendarViewPages = () => {
                     }
                 }
             },
+            // When selecting calendar cell, navigate to page with matching date in hash
             onSelect({ date, }) {
                 let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
                 if (pageIdHash.current[formattedCalendarDate]) {
-                    console.log('SELECTED DATE')
                     navigate(`/page/${pageIdHash.current[formattedCalendarDate]}`);
                 }
             }
