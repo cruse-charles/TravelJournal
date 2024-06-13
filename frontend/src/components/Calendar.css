@@ -7,4 +7,5 @@
     bottom: 1px;
     left: 50%;
     transform: translateX(-50%);
+    background-color: rgba(80, 252, 255, 0.746);
 }
