@@ -21,7 +21,6 @@ const UserPages = () => {
     }, [])
 
 
-    console.log(pages)
     return (
         <>
             <div>UserPages</div>

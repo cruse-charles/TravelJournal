@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import AirDatepicker from 'air-datepicker';
 import en from 'air-datepicker/locale/en.js';
@@ -8,8 +9,11 @@ import './Calendar.css';
 
 const CalendarViewPages = () => {
 
+    const navigate = useNavigate();
+
     // Create ref for date-picker calendar
     const datepickerRef = useRef(null);
+    const pageIdHash = useRef({});
 
     // Get current user from redux store and set pages state variable
     const { currentUser } = useSelector(state => state.user)
@@ -23,6 +27,13 @@ const CalendarViewPages = () => {
         axios.get(`api/user/pages/${currentUser._id}`, { signal: controller.signal })
             .then(res => {
                 setPages(res.data)
+
+                for (let page of res.data) {
+                    let date = new Date(page.date);
+                    let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+
+                    pageIdHash.current[formattedDate] = page._id;
+                }
             }).catch((error) => {
                 console.log(error.response.data.message)
             })
@@ -53,6 +64,13 @@ const CalendarViewPages = () => {
                         }
                     }
                 }
+            },
+            onSelect({ date, }) {
+                let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+                if (pageIdHash.current[formattedCalendarDate]) {
+                    console.log('SELECTED DATE')
+                    navigate(`/page/${pageIdHash.current[formattedCalendarDate]}`);
+                }
             }
         })
 
@@ -61,7 +79,6 @@ const CalendarViewPages = () => {
             datePicker.destroy();
         }
     }, [pages])
-
 
     return (
         <>
