@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import CalendarViewPages from './CalendarViewPages';
 
 const SinglePage = () => {
     // state vars for page and loading
@@ -34,11 +35,24 @@ const SinglePage = () => {
 
     return (
         <>
-            <div>{page?.title}</div>
-            <div>{page?.text}</div>
-            {page?.attachments?.map((imageURL, index) => {
-                return <img key={index} src={imageURL} />
-            })}
+            <div className='singlepage-container flex'>
+                <div className='calendar-container flex-1'>
+                    <CalendarViewPages />
+                </div>
+                <div className='page-container'>
+                    <div className='title-container'>
+                        <div className='font-bold'>{page?.title}</div>
+                    </div>
+                    <div className='text-container'>
+                        <div>{page?.text}</div>
+                    </div>
+                    <div className='attachments-container'>
+                        {page?.attachments?.map((imageURL, index) => {
+                            return <img key={index} src={imageURL} />
+                        })}
+                    </div>
+                </div>
+            </div>
         </>
     )
 }
