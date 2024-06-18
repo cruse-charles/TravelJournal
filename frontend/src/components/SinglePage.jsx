@@ -36,17 +36,17 @@ const SinglePage = () => {
     return (
         <>
             <div className='singlepage-container flex'>
-                <div className='calendar-container flex-1'>
+                <div className='calendar-container border-2 border-blue-500 w-1/4 flex justify-center'>
                     <CalendarViewPages />
                 </div>
-                <div className='page-container'>
-                    <div className='title-container'>
+                <div className='page-container flex-1'>
+                    <div className='title-container border-2 border-green-500'>
                         <div className='font-bold'>{page?.title}</div>
                     </div>
-                    <div className='text-container'>
+                    <div className='text-container border-2 border-red-500'>
                         <div>{page?.text}</div>
                     </div>
-                    <div className='attachments-container'>
+                    <div className='attachments-container border-2 border-yellow-500'>
                         {page?.attachments?.map((imageURL, index) => {
                             return <img key={index} src={imageURL} />
                         })}

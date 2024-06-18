@@ -83,8 +83,10 @@ const CalendarViewPages = () => {
 
     return (
         <>
-            <div>CalendarViewPages</div>
-            <div ref={datepickerRef}></div>
+            <div className='CalendarViewPages-container flex flex-col items-center'>
+                <div>Select a date of your adventure!</div>
+                <div ref={datepickerRef}></div>
+            </div>
         </>
     )
 }
