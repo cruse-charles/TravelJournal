@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import CalendarViewPages from './CalendarViewPages';
+import { FileInput, TextInput, Textarea, Button } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
 
 const CreatePage = () => {
     const { currentUser } = useSelector(state => state.user);
@@ -57,10 +59,17 @@ const CreatePage = () => {
     };
 
     // Create an array of files from the input field and set it to formData
-    const handleImageChange = (e) => {
+    // const handleImageChange = (e) => {
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: Array.from(e.target.files),
+    //     });
+    // };
+
+    const handleImageChange = (files) => {
         setFormValues({
             ...formValues,
-            attachments: Array.from(e.target.files),
+            attachments: Array.from(files),
         });
     };
 
@@ -69,24 +78,25 @@ const CreatePage = () => {
             <div className=''>
                 <form onSubmit={handleSubmit} className=''>
                     <div className=''>
-                        <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
+                        {/* <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} /> */}
+                        <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
                     </div>
                     <div className=''>
                         <div className=''>
-                            <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple />
-
+                            <FileInput label="Upload photos" placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} />
+                            {/* <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple /> */}
                         </div>
                         <div className=''>
-                            <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
-
+                            {/* <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input> */}
+                            <TextInput onChange={handleChange} label='Title' placeholder='Title of your day!' name='title' />
                         </div>
                         <div className=''>
-                            <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
-
+                            {/* <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input> */}
+                            <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={10} maxRows={10} style={{ height: '400' }} />
                         </div>
                         <div className=''>
-                            <button>Save</button>
-
+                            {/* <button>Save</button> */}
+                            <Button type='submit'>Save</Button>
                         </div>
 
                     </div>
