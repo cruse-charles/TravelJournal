@@ -43,7 +43,11 @@ const SinglePage = () => {
                     <div className='title-container border-2 border-green-500 flex justify-center'>
                         <div className='font-bold'>{page?.title}</div>
                     </div>
-                    <div className='text-container border-2 border-red-500 flex justify-center'>
+                    {/* <div className='text-container border-2 border-red-500 flex justify-center p-10'> */}
+                    <div className='text-container border-2 border-red-500 flex justify-center relative p-10'>
+                        {page?.attachments?.length > 0 && (
+                            <img src={page.attachments[0]} className='absolute top-0 left-0 w-[300px] h-[150px]' style={{ transform: 'rotate(-45deg)' }} />
+                        )}
                         <div>{page?.text}</div>
                     </div>
                     <div className='attachments-container border-2 border-yellow-500'>
