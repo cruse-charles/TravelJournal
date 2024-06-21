@@ -48,7 +48,7 @@ const SinglePage = () => {
                             return <img key={index} src={imageURL} className='w-[300px] h-[150px]' />
                         })}
                     </div>
-                    <div className='text-container border-2 border-red-500 flex justify-center relative p-10'>
+                    <div className='text-container border-2 border-red-500 flex justify-center p-10 max-h-[calc(100vh-350px)] overflow-y-auto'>
                         <div>{page?.text}</div>
                     </div>
                 </div>
