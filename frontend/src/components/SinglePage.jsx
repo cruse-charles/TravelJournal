@@ -36,11 +36,11 @@ const SinglePage = () => {
     return (
         <>
             <div className='singlepage-container flex'>
-                <div className='calendar-container border-2 border-blue-500 w-1/4 flex justify-center'>
+                <div className='calendar-container border-2 border-blue-500 w-1/4 flex justify-center pt-10'>
                     <CalendarViewPages />
                 </div>
                 <div className='page-container flex-1'>
-                    <div className='title-container border-2 border-green-500 flex justify-center p-8'>
+                    <div className='title-container border-2 border-green-500 flex justify-center p-2'>
                         <div className='font-bold text-4xl'>{page?.title}</div>
                     </div>
                     <div className='attachments-container border-2 border-yellow-500 flex justify-center flex-wrap gap-4'>
