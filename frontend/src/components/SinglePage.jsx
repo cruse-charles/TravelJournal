@@ -35,7 +35,7 @@ const SinglePage = () => {
 
     return (
         <>
-            <div className='singlepage-container flex'>
+            <div className='singlepage-container flex bg-gray-100'>
                 <div className='calendar-container border-2 border-blue-500 w-1/4 flex justify-center pt-10'>
                     <CalendarViewPages />
                 </div>
