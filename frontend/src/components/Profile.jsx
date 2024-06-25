@@ -66,11 +66,13 @@ const Profile = () => {
                 <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
                 <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
                 <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
+                {/* <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button> */}
+                <Button disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
             </form>
             {/* <button onClick={handleLogout}>logout</button> */}
             <Button variant="filled" onClick={handleLogout}>logout</Button>
-            <button onClick={handleDeleteUser}>Delete Account</button>
+            <Button variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+            {/* <button onClick={handleDeleteUser}>Delete Account</button> */}
             <p>{error ? error : ''}</p>
             <CalendarViewPages />
             <UserPages />

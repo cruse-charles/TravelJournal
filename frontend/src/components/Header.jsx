@@ -7,23 +7,23 @@ const Header = () => {
   const { currentUser } = useSelector(state => state.user);
 
   return (
-    <header className='bg-slate-300 shadow-md'>
-      <div className='flex justify-between items-center mas-w-6xl mx-auto p-3'>
+    <header className=''>
+      <div className=''>
         <Link to='/'>
-          <h1 className='font-bold text-sm sm:text-xl flex flex-wrap'>
-            <span className="text-slate-500">Travel Journal</span>
+          <h1 className=''>
+            <span className="">Travel Journal</span>
           </h1>
         </Link>
-        <ul className='flex gap-4'>
+        <ul className=''>
           <Link to='/'>
-            <li className='text-slate-700 hover:underline' >Home</li>
+            <li className='' >Home</li>
           </Link>
           <Link to='/about'>
-            <li className='text-slate-700 hover:underline'>About</li>
+            <li className=''>About</li>
           </Link>
           <Link to='/profile'>
             {currentUser ? (<div>{currentUser.username}</div>) : (
-              <li className='text-slate-700 hover:underline'>Sign in</li>
+              <li className=''>Sign in</li>
             )}
           </Link>
         </ul>

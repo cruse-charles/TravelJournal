@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { MantineProvider } from '@mantine/core';
+import { MantineProvider, AppShell } from '@mantine/core';
 
 import CreatePage from './components/CreatePage';
 import SinglePage from './components/SinglePage';
@@ -16,24 +16,30 @@ import "@mantine/dropzone/styles.css";
 import "@mantine/notifications/styles.css";
 import "@mantine/nprogress/styles.css";
 
-function App() {
 
+function App() {
   return (
     <MantineProvider>
       <Router>
-        <Header />
-        <Routes>
-          <Route path="/" element={<CreatePage />} />
-          <Route path="/page/:id" element={<SinglePage />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/login" element={<Login />} />
-          <Route element={<PrivateProfileRoute />} >
-            <Route path="/profile" element={<Profile />} />
-          </Route>
-        </Routes>
+        <AppShell header={{ height: 60 }}>
+          <AppShell.Header>
+            <Header />
+          </AppShell.Header>
+          <AppShell.Main>
+            <Routes>
+              <Route path="/" element={<CreatePage />} />
+              <Route path="/page/:id" element={<SinglePage />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/login" element={<Login />} />
+              <Route element={<PrivateProfileRoute />}>
+                <Route path="/profile" element={<Profile />} />
+              </Route>
+            </Routes>
+          </AppShell.Main>
+        </AppShell>
       </Router>
     </MantineProvider>
-  )
+  );
 }
 
 export default App
