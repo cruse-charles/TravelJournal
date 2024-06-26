@@ -5,6 +5,8 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewPages from './CalendarViewPages'
 import UserPages from './UserPages'
 
+import { Button } from '@mantine/core';
+
 const Profile = () => {
 
     const dispatch = useDispatch();
@@ -66,7 +68,8 @@ const Profile = () => {
                 <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
                 <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button>
             </form>
-            <button onClick={handleLogout}>logout</button>
+            {/* <button onClick={handleLogout}>logout</button> */}
+            <Button variant="filled" onClick={handleLogout}>logout</Button>
             <button onClick={handleDeleteUser}>Delete Account</button>
             <p>{error ? error : ''}</p>
             <CalendarViewPages />
