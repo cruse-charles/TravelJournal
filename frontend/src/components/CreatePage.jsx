@@ -66,25 +66,25 @@ const CreatePage = () => {
 
     return (
         <>
-            <div className='createpage-container flex'>
-                <form onSubmit={handleSubmit} className='flex w-full'>
-                    <div className='date-container w-1/4'>
+            <div className=''>
+                <form onSubmit={handleSubmit} className=''>
+                    <div className=''>
                         <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
                     </div>
-                    <div className='inputs-container w-3/4 flex flex-col border-2 border-red-500'>
-                        <div className='image-upload-container'>
+                    <div className=''>
+                        <div className=''>
                             <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple />
 
                         </div>
-                        <div className='title-container flex border-2 border-green-500 justify-center p-2'>
+                        <div className=''>
                             <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
 
                         </div>
-                        <div className='text-container'>
+                        <div className=''>
                             <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
 
                         </div>
-                        <div className='save-button-container'>
+                        <div className=''>
                             <button>Save</button>
 
                         </div>

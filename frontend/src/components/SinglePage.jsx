@@ -35,20 +35,20 @@ const SinglePage = () => {
 
     return (
         <>
-            <div className='singlepage-container flex bg-gray-100'>
-                <div className='calendar-container border-2 border-blue-500 w-1/4 flex justify-center pt-10'>
+            <div className=''>
+                <div className=''>
                     <CalendarViewPages />
                 </div>
-                <div className='page-container flex-1'>
-                    <div className='title-container border-2 border-green-500 flex justify-center p-2'>
-                        <div className='font-bold text-4xl'>{page?.title}</div>
+                <div className=''>
+                    <div className=''>
+                        <div className=''>{page?.title}</div>
                     </div>
-                    <div className='attachments-container border-2 border-yellow-500 flex justify-center flex-wrap gap-4'>
+                    <div className=''>
                         {page?.attachments?.map((imageURL, index) => {
-                            return <img key={index} src={imageURL} className='w-[300px] h-[150px]' />
+                            return <img key={index} src={imageURL} className='' />
                         })}
                     </div>
-                    <div className='text-container border-2 border-red-500 flex justify-center p-10 max-h-[calc(100vh-350px)] overflow-y-auto'>
+                    <div className=''>
                         <div>{page?.text}</div>
                     </div>
                 </div>
