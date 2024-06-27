@@ -27,9 +27,9 @@ const UserPages = () => {
             {pages.map(page => (
                 <div key={page._id}>
                     <div>{page.title}</div>
-                    <div>{page.text}</div>
+                    {/* <div>{page.text}</div> */}
                     <div>{page._id}</div>
-                    <div>{page.date}</div>
+                    {/* <div>{page.date}</div> */}
                     {/* {page.attachments?.map((imageURL, index) => {
                         return <img key={index} src={imageURL} />
                     })} */}

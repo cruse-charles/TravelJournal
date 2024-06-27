@@ -5,7 +5,7 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewPages from './CalendarViewPages'
 import UserPages from './UserPages'
 
-import { Button } from '@mantine/core';
+import { Button, Grid } from '@mantine/core';
 
 const Profile = () => {
 
@@ -62,20 +62,27 @@ const Profile = () => {
     return (
         <>
             <div>PROFILE PAGE OF : {currentUser.username}</div>
-            <form onSubmit={handleSubmit}>
-                <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                {/* <button disabled={loading}>{loading ? 'Updating...' : 'Update'}</button> */}
-                <Button disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
-            </form>
-            {/* <button onClick={handleLogout}>logout</button> */}
-            <Button variant="filled" onClick={handleLogout}>logout</Button>
-            <Button variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
-            {/* <button onClick={handleDeleteUser}>Delete Account</button> */}
-            <p>{error ? error : ''}</p>
-            <CalendarViewPages />
-            <UserPages />
+            <Grid justify='center' align='flex-start'>
+                <Grid.Col span={4}>
+                    <CalendarViewPages />
+                </Grid.Col>
+                <Grid.Col span={6}>
+                    <UserPages />
+                </Grid.Col>
+                <Grid.Col span={12}>
+                    <form onSubmit={handleSubmit}>
+                        <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
+                        <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
+                        <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
+                        <Button disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
+                    </form>
+                </Grid.Col>
+                <Grid.Col>
+                    <Button variant="filled" onClick={handleLogout}>logout</Button>
+                    <Button variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                    <p>{error ? error : ''}</p>
+                </Grid.Col>
+            </Grid>
         </>
     )
 }
