@@ -17,7 +17,6 @@ const CalendarViewPages = () => {
 
     // Get current user from redux store and set pages state variable
     const { currentUser } = useSelector(state => state.user)
-    // console.log(currentUser)
     const [pages, setPages] = useState([])
 
     // Fetch a user's page data
@@ -25,12 +24,8 @@ const CalendarViewPages = () => {
 
         const controller = new AbortController();
 
-        axios.get(`api/user/pages/${currentUser._id}`, { signal: controller.signal })
+        axios.get(`/api/user/pages/${currentUser._id}`, { signal: controller.signal })
             .then(res => {
-                // console.log(currentUser)
-                // console.log(pageIdHash.current)
-                console.log(res)
-
                 setPages(res.data)
 
                 // Create hash with dates as keys and pageID as values
@@ -40,7 +35,6 @@ const CalendarViewPages = () => {
 
                     pageIdHash.current[formattedDate] = page._id;
                 }
-                console.log(pageIdHash)
             }).catch((error) => {
                 console.log(error.response.data.message)
             })
@@ -50,7 +44,7 @@ const CalendarViewPages = () => {
 
     // Create date-picker calendar instance
     useEffect(() => {
-        // console.log('create calendar')
+        // Create calendar
         const datePicker = new AirDatepicker(datepickerRef.current, {
             // Set language to English
             locale: en,

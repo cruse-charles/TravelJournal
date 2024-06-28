@@ -32,7 +32,6 @@ const CreatePage = () => {
             data.append(`attachments`, file);
         });
 
-        console.log(formValues)
         return data;
     }
 

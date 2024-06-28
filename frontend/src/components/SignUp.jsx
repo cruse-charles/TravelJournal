@@ -17,7 +17,6 @@ const SignUp = () => {
         setLoading(true);
         await axios.post('api/auth/signup', formValues)
             .then(res => {
-                console.log(res.data);
                 setLoading(false);
                 setError(null);
             })
