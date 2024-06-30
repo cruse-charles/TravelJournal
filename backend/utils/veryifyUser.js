@@ -21,7 +21,11 @@ export const verifyToken = (req, res, next) => {
         req.user = user;
         console.log('inside verifyToken jwtfVerify')
         console.log(req.user)
-        next();
+        try {
+            next();
+        } catch (error) {
+            console.log('error', error)
+        }
     });
     console.log('End of verifyToken')
 }

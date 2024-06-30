@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import CalendarViewPages from './CalendarViewPages';
 
 const CreatePage = () => {
     const { currentUser } = useSelector(state => state.user);
@@ -15,6 +16,7 @@ const CreatePage = () => {
         user: currentUser ? currentUser._id : null,
     });
 
+    // Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
         //create FormData object to submit object with files
         const data = new FormData();
@@ -65,29 +67,35 @@ const CreatePage = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <div className='image-upload-container'>
-                    <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple />
+            <div className='createpage-container flex'>
+                <form onSubmit={handleSubmit} className='flex w-full'>
+                    <div className='date-container w-1/4'>
+                        <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
+                    </div>
+                    <div className='inputs-container w-3/4 flex flex-col border-2 border-red-500'>
+                        <div className='image-upload-container'>
+                            <input type='file' name='' accept='image/*' onChange={handleImageChange} multiple />
 
-                </div>
-                <div className='title-container'>
-                    <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
+                        </div>
+                        <div className='title-container flex border-2 border-green-500 justify-center p-2'>
+                            <input type='text' value={formValues.title} name='title' onChange={handleChange} placeholder='Title of your day!'></input>
 
-                </div>
-                <div className='text-container'>
-                    <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
+                        </div>
+                        <div className='text-container'>
+                            <input type='text' value={formValues.text} name='text' onChange={handleChange} placeholder='Write what happened today!'></input>
 
-                </div>
-                <div className='date-container'>
-                    <input type='date' onChange={(e) => setFormValues({ ...formValues, date: e.target.value })} />
+                        </div>
+                        <div className='save-button-container'>
+                            <button>Save</button>
 
-                </div>
-                <div className='save-button-container'>
-                    <button>Save</button>
+                        </div>
 
-                </div>
-                {error && <div>{error}</div>}
-            </form>
+                    </div>
+                    {error && <div>{error}</div>}
+                </form>
+
+                {/* < CalendarViewPages /> */}
+            </div>
         </>
     )
 }
