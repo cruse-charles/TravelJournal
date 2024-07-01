@@ -5,7 +5,8 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewPages from './CalendarViewPages'
 import UserPages from './UserPages'
 
-import { Button, Grid, Stack, Group, rem } from '@mantine/core';
+import { Button, Grid, Stack, Group, Text, rem } from '@mantine/core';
+import { Carousel } from '@mantine/carousel';
 
 const Profile = () => {
 
@@ -69,7 +70,10 @@ const Profile = () => {
                     <CalendarViewPages />
                 </Grid.Col>
                 <Grid.Col span={6}>
-                    <UserPages />
+                    <Text>Your Trips</Text>
+                    <Carousel slideGap="md" loop dragFree withIndicators slideSize="70%">
+                        <UserPages />
+                    </Carousel>
                 </Grid.Col>
                 <Grid.Col>
                     <Group gap='xs' style={{ justifyContent: 'center' }}>
@@ -86,7 +90,6 @@ const Profile = () => {
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
                         <p>{error ? error : ''}</p>
-
                     </Stack>
                 </Grid.Col>
             </Grid >

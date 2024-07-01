@@ -29,9 +29,20 @@ const CreatePage = () => {
         data.append('date', formValues.date);
         data.append('user', formValues.user)
 
+        //TODO: THIS HERE IS ACTUALLY DOING 3 ATTACHMENT KEYS WITH EACH FILE IN ONE, CHANGE TO MAKE IT AN ARRAY UNDER ONE KEY
         formValues.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
         });
+
+
+        // BETTER THAN THE ABOVE APPENDS
+        // const data = {
+        //     title: formValues.title,
+        //     text: formValues.text,
+        //     date: formValues.date,
+        //     user: formValues.user,
+        //     attachments: formValues.attachments
+        // }
 
         return data;
     }
