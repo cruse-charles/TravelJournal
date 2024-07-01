@@ -27,8 +27,8 @@ const UserPages = () => {
     return (
         <>
             {pages.map((page) => (
-                <Carousel.Slide>
-                    <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 500 }}>
+                <Carousel.Slide key={page._id}>
+                    <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 550 }}>
                         <Card.Section>
                             <Image h={200} src={page.attachments?.[0]} />
                         </Card.Section>

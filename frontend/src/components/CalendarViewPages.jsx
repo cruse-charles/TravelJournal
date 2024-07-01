@@ -24,6 +24,11 @@ const CalendarViewPages = () => {
 
         const controller = new AbortController();
 
+        // SUXIONG - url here might change at some point in the future, and maybe different components use the same file, and so we have to change all these different places. So it is best to create a frontend utils folder with a URLs service
+        // Even put our API calls in this service folder as well, then import this get user function and call it.
+        // SUXIONG - Separate our components from pages, so a page folder will be like userPage, CreatePage, and our components will be the header, footer, navbar, etcc
+        // 
+
         axios.get(`/api/user/pages/${currentUser._id}`, { signal: controller.signal })
             .then(res => {
                 setPages(res.data)

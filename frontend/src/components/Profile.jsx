@@ -65,15 +65,15 @@ const Profile = () => {
     return (
         <>
             <div>PROFILE PAGE OF : {currentUser.username}</div>
-            <Grid justify='center' align='flex-start'>
-                <Grid.Col span={4}>
-                    <CalendarViewPages />
-                </Grid.Col>
+            <Grid justify='center' gutter="lg">
                 <Grid.Col span={6}>
                     <Text>Your Trips</Text>
-                    <Carousel slideGap="md" loop dragFree withIndicators slideSize="70%">
+                    <Carousel slideGap="md" loop dragFree withIndicators>
                         <UserPages />
                     </Carousel>
+                </Grid.Col>
+                <Grid.Col span={4}>
+                    <CalendarViewPages />
                 </Grid.Col>
                 <Grid.Col>
                     <Group gap='xs' style={{ justifyContent: 'center' }}>
