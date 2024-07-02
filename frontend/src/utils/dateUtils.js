@@ -5,6 +5,8 @@ export const getFormattedDate = (date) => {
 
 // highlight the date of the entry in the calendar
 export const getEntryDayProps = (entry, date) => {
+    if (entry === null) return {}
+
     const entryDateObject = new Date(entry.date)
     if (entryDateObject.getTime() === date.getTime()) {
         return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }

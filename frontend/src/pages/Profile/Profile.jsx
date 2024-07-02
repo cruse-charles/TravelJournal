@@ -84,7 +84,7 @@ const Profile = () => {
                     </Group>
                     <UserEntries />
                 </Stack>
-                <CalendarViewEntries style={{ width: '30%' }} />
+                <CalendarViewEntries scale={1.6} style={{ width: '30%' }} entry={null} />
             </Group>
             <Group style={{ width: '100%' }} justify='space-between'>
                 <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>

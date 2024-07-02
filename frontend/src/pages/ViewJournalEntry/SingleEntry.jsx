@@ -18,7 +18,7 @@ import { updateFormData } from '../../utils/updateFormData';
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
-import { set } from 'mongoose';
+import CalendarViewEntries from '../../components/CalendarViewEntries';
 
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
@@ -29,7 +29,11 @@ const SingleEntry = () => {
     const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const [errors, setErrors] = useState({})
     const [isSaving, setIsSaving] = useState(false)
+
+    // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
+
+    // ref for autoplay plugin
     const autoplay = useRef(Autoplay({ delay: 3000 }))
 
     // useDisclosure hook to open and close modal
@@ -169,10 +173,13 @@ const SingleEntry = () => {
                             </ScrollArea>
                         </Flex>
                     </Stack>
-                    <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                    {/* <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <DatePicker
                             getDayProps={(date) => getEntryDayProps(entry, date)}
                         />
+                    </Modal> */}
+                    <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                        <CalendarViewEntries scale={1} entry={entry} />
                     </Modal>
                 </>
             ) : (
@@ -191,7 +198,7 @@ const SingleEntry = () => {
                             </Center>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                                    {previews.map((item, index) => {
+                                    {previews.map((item) => {
                                         const isFile = item instanceof File;
                                         const src = isFile ? URL.createObjectURL(item) : item;
                                         const key = isFile ? `file-${item.name}` : `url-${item}`;
@@ -227,60 +234,3 @@ const SingleEntry = () => {
 }
 
 export default SingleEntry
-
-
-
-
-
-
-
-
-// old
-
-{/* <>
-                    <form onSubmit={handleSubmit}>
-                        <Flex style={{ height: '80vh' }}>
-                            <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                                {previews.map((item, index) => {
-                                    const isFile = item instanceof File;
-                                    const src = isFile ? URL.createObjectURL(item) : item;
-                                    const key = isFile ? `file-${item.name}` : `url-${item}`;
-                                    return (
-                                        <Carousel.Slide key={key} >
-                                            <Indicator size={15} color="red" label='X' offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(key)}>
-                                            </Indicator>
-                                            <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} style={{ fit: 'contain' }} />
-                                        </Carousel.Slide>
-                                    )
-                                })}
-                                <Carousel.Slide>
-                                    <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
-                                        <Image src={placeholderImage} />
-                                    </Dropzone>
-                                </Carousel.Slide>
-                            </Carousel>
-                            <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
-                                <Group>
-                                    <TextInput error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
-                                    <Button type='submit' color="black">Save</Button>
-                                </Group>
-                                <Textarea error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
-                            </Stack>
-                        </Flex>
-                        <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
-                            <DatePicker
-                                onChange={(date) => setEntry({ ...entry, date: date })}
-                                getDayProps={(date) => getEntryDayProps(entry, date)}
-                                excludeDate={(date) => excludeDateFunction(date, originalEntryDate, entryIdHash)}
-                            />
-                        </Modal>
-                    </form>
-                    <Flex justify='flex-end' >
-                        <Stack>
-                            <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-                            <Text color='red' error={errors.message}></Text>
-                        </Stack>
-                    </Flex>
-                </> */}
-
-// old

@@ -4,10 +4,10 @@ import { Text, Stack } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 
-import { getFormattedDate } from '../utils/dateUtils.js';
+import { getEntryDayProps, getFormattedDate } from '../utils/dateUtils.js';
 import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
 
-const CalendarViewEntries = () => {
+const CalendarViewEntries = ({ scale, entry }) => {
 
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
@@ -33,9 +33,10 @@ const CalendarViewEntries = () => {
         <Stack >
             <Text size='xl' fw={700}>Your Calendar</Text>
             <Calendar
-                style={{ transform: 'scale(1.6)', transformOrigin: 'top right' }}
+                style={{ transform: `scale(${scale})`, transformOrigin: 'top right' }}
                 getDayProps={(date) => ({
                     onClick: () => handleDateClick(date),
+                    ...getEntryDayProps(entry, date)
                 })}
                 renderDay={(date) =>
                 (<Indicator size={6} color="blue" offset={-2} disabled={handleRenderDate(date)}>
