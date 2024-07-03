@@ -28,9 +28,9 @@ const UserPages = () => {
         <>
             {pages.map((page) => (
                 <Carousel.Slide key={page._id}>
-                    <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 550 }}>
+                    <Card key={page._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 650, height: 500 }}>
                         <Card.Section>
-                            <Image h={200} src={page.attachments?.[0]} />
+                            <Image h={300} src={page.attachments?.[0]} />
                         </Card.Section>
                         <Text fw={500}>{page.title}</Text>
                         <Text truncate='end'>{page.text}</Text>

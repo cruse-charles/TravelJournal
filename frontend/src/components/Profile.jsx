@@ -65,14 +65,16 @@ const Profile = () => {
     return (
         <>
             <div>PROFILE PAGE OF : {currentUser.username}</div>
-            <Grid justify='center' gutter="lg">
-                <Grid.Col span={6}>
+            <Grid justify='center' gutter="xl">
+                <Grid.Col span={7}>
                     <Text>Your Trips</Text>
-                    <Carousel slideGap="md" loop dragFree withIndicators>
+                    <Carousel slideGap="md" loop dragFree withIndicators style={{ height: 500, width: 640 }}>
                         <UserPages />
                     </Carousel>
                 </Grid.Col>
-                <Grid.Col span={4}>
+                <Grid.Col span={1}>
+                </Grid.Col>
+                <Grid.Col span={3} >
                     <CalendarViewPages />
                 </Grid.Col>
                 <Grid.Col>
@@ -85,7 +87,7 @@ const Profile = () => {
                         </form>
                     </Group>
                 </Grid.Col>
-                <Grid.Col>
+                <Grid.Col >
                     <Stack style={{ alignItems: 'center' }}>
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
