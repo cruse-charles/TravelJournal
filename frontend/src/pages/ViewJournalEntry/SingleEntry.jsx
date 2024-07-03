@@ -28,7 +28,7 @@ const SingleEntry = () => {
     const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const [errors, setErrors] = useState({})
     const { entryIdHash } = useUserEntryDateHash();
-    const autoplay = useRef(Autoplay({ delay: 4000 }))
+    const autoplay = useRef(Autoplay({ delay: 3000 }))
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -136,33 +136,22 @@ const SingleEntry = () => {
         <>
             {!isEditing ? (
                 <>
-                    <Stack style={{ height: '80vh' }} p='lg'>
-                        <Stack gap='xs'>
-                            <Group justify='space-between'>
-                                <Title order={2}>{entry?.title}</Title>
-                                <Group>
-                                    <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
-                                    <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
-                                </Group>
-                            </Group>
+                    <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
+                        <Group justify='space-between'>
                             <Group>
                                 <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
                                 <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
                             </Group>
-                        </Stack>
-                        {/* <Flex>
-                            <Title order={2}>{entry?.title}</Title>
-                            <Group gap='xs' >
+                            <Group>
                                 <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
                                 <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
                             </Group>
-                        </Flex>
-                        <Flex>
-                            <Text p={0}>{entry?.date}</Text>
-                            <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
-                        </Flex> */}
-                        <Flex>
-                            <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                        </Group>
+                        <Group justify='center'>
+                            <Title order={1}>{entry?.title}</Title>
+                        </Group>
+                        <Flex style={{ height: '100%' }} gap='xl'>
+                            <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {entry?.attachments?.map((imageURL, index) => {
                                     return (
                                         <Carousel.Slide key={imageURL} >
@@ -171,7 +160,7 @@ const SingleEntry = () => {
                                     )
                                 })}
                             </Carousel>
-                            <ScrollArea style={{ width: '50%' }} mah={500}>
+                            <ScrollArea style={{ width: '50%', height: '100%' }}>
                                 <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text>
                             </ScrollArea>
                         </Flex>
@@ -181,40 +170,6 @@ const SingleEntry = () => {
                             getDayProps={(date) => getEntryDayProps(entry, date)}
                         />
                     </Modal>
-
-
-                    {/* OLD */}
-                    {/* <Flex style={{ height: '80vh' }}>
-                        <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                            {entry?.attachments?.map((imageURL, index) => {
-                                return (
-                                    <Carousel.Slide key={imageURL} >
-                                        <Image key={imageURL} src={imageURL} />
-                                    </Carousel.Slide>
-                                )
-                            })}
-                        </Carousel>
-                        <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
-                            <Group gap='xl' style={{ pading: '25px', display: 'flex' }} justify='space-between'>
-                                <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
-                                <Group gap='xs' style={{ width: '25%' }}>
-                                    <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
-                                    <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
-                                </Group>
-                            </Group>
-                            <ScrollArea.Autosize>
-                                <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text>
-                            </ScrollArea.Autosize>
-                        </Stack>
-                    </Flex>
-                    <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
-                        <DatePicker
-                            getDayProps={(date) => getEntryDayProps(entry, date)}
-                        />
-                    </Modal>
-                    <Flex justify='flex-end' >
-                        <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-                    </Flex> */}
                 </>
             ) : (
                 <>

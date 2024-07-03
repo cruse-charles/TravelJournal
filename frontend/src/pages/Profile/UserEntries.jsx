@@ -11,7 +11,7 @@ const UserEntries = () => {
     const navigate = useNavigate();
     const [entries, setEntries] = useState([])
     const [errors, setErrors] = useState(null)
-    const autoplay = useRef(Autoplay({ delay: 4000 }))
+    const autoplay = useRef(Autoplay({ delay: 3000 }))
 
     useEffect(() => {
 
