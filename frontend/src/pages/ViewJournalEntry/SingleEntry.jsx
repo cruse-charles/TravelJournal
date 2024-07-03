@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button } from '@mantine/core';
@@ -13,8 +13,9 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
-    // extract entry id from url
+    // extract entry id from url, and navigate function
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         // fetch entry data and abort request
@@ -38,6 +39,16 @@ const SingleEntry = () => {
         return <div>Loading...</div>
     }
 
+    const handleDelete = () => {
+        axios.delete(`/api/entry/${id}`)
+            .then(res => {
+                console.log('Entry deleted')
+                navigate('/profile')
+            }).catch(error => {
+                console.log(error.response.data.message)
+            })
+    }
+
     return (
         <>
             <Flex align="flex-start">
@@ -55,7 +66,7 @@ const SingleEntry = () => {
                         <Title order={2} style={{ width: '60%' }}>{entry?.title}</Title>
                         <Group gap='xs'>
                             <Button variant="outline" color="gray" size="xs"><FaPencil /></Button>
-                            <Button variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
+                            <Button onClick={handleDelete} variant="outline" color="gray" size="xs"><FaRegTrashCan /></Button>
                         </Group>
                     </Group>
                     <ScrollArea h={500}>
