@@ -86,7 +86,7 @@ const Profile = () => {
                 </Stack>
                 <CalendarViewEntries scale={1.6} style={{ width: '30%' }} entry={null} />
             </Group>
-            <Group style={{ width: '100%' }} justify='space-between'>
+            <Group style={{ width: '100%' }} justify='center'>
                 <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>
                     <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
@@ -97,10 +97,10 @@ const Profile = () => {
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
-                </Stack>
-                <Stack style={{ alignItems: 'center' }} p='xl'>
-                    <Button color='black' style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>Logout</Button>
-                    <Button color='black' style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                    <Group style={{ alignItems: 'center' }} grow>
+                        <Button color='black' variant="filled" onClick={handleLogout}>Logout</Button>
+                        <Button color='black' variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                    </Group>
                     <p>{error ? error : ''}</p>
                 </Stack>
             </Group>
