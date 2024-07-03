@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
+import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -34,15 +35,18 @@ const Login = () => {
     }
 
     return (
-        <>
-            <div>Login</div>
-            <form onSubmit={handleSubmit}>
-                <input type="email" id="email" placeholder="Email" onChange={handleChange} />
-                <input type="password" id="password" placeholder="Password" onChange={handleChange} />
-                <button disabled={loading}>{loading ? 'Loading...' : 'Log in'}</button>
-                {error && <div>{error}</div>}
-            </form>
-        </>
+        <Center>
+            <Paper style={{ width: '50%' }}>
+                <Text size='xl' fw={700}>Login</Text>
+                <form onSubmit={handleSubmit}>
+                    <TextInput type="email" id="email" label="Email" onChange={handleChange} />
+                    <TextInput type="password" id="password" label="Password" onChange={handleChange} />
+                    <Space h='md' />
+                    <Button color='black' disabled={loading}>{loading ? 'Loading...' : 'Log in'}</Button>
+                    {error && <div>{error}</div>}
+                </form>
+            </Paper>
+        </Center>
     )
 }
 
