@@ -52,3 +52,26 @@ export const entrySave = async (req, res, next) => {
             res.status(400).json({message: error.message});
         });
 }
+
+export const entryDelete = async (req, res, next) => {
+    try {
+        const entry = await Entry.findById(req.params.id);
+
+        if (!entry) {
+            return res.status(404).json('Entry not found');
+        }
+
+        if (req.user.id !== entry.user.toString()) {
+            return next(errorHandler(403, 'You can only delete your own entries'))
+        }
+
+        // delete images from S3
+        // await deleteImagesFromS3(entry.attachments);
+
+        // delete entry from MongoDB
+        await Entry.findByIdAndDelete(req.params.id);
+        res.status(200).json('Entry deleted');
+    } catch (error) {
+
+    }
+}
