@@ -7,6 +7,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
+import { format } from 'date-fns'
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
@@ -136,9 +137,22 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Stack style={{ height: '80vh' }} p='lg'>
-                        <Flex>
-                            <Title order={2} p={0}>{entry?.title}</Title>
-                            <Group gap='xs' style={{ width: '25%' }}>
+                        <Stack gap='xs'>
+                            <Group justify='space-between'>
+                                <Title order={2}>{entry?.title}</Title>
+                                <Group>
+                                    <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
+                                    <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
+                                </Group>
+                            </Group>
+                            <Group>
+                                <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
+                                <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
+                            </Group>
+                        </Stack>
+                        {/* <Flex>
+                            <Title order={2}>{entry?.title}</Title>
+                            <Group gap='xs' >
                                 <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
                                 <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
                             </Group>
@@ -146,7 +160,7 @@ const SingleEntry = () => {
                         <Flex>
                             <Text p={0}>{entry?.date}</Text>
                             <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
-                        </Flex>
+                        </Flex> */}
                         <Flex>
                             <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {entry?.attachments?.map((imageURL, index) => {

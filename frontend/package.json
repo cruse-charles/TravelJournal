@@ -20,6 +20,7 @@
     "@mantine/notifications": "^7.11.0",
     "@mantine/nprogress": "^7.11.0",
     "@reduxjs/toolkit": "^2.2.5",
+    "date-fns": "^3.6.0",
     "dayjs": "^1.11.11",
     "embla-carousel-autoplay": "^7.1.0",
     "embla-carousel-react": "^8.1.5",
