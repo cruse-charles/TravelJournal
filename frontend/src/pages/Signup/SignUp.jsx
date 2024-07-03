@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
-import { Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
+import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
 
 
 const SignUp = () => {
@@ -42,6 +42,7 @@ const SignUp = () => {
                     <Button color='black' disabled={loading}>
                         {loading ? 'Loading...' : 'Sign Up'}
                     </Button>
+                    <NavLink w={'35%'} p={0} href='/login' label='Already have an account? Click here.'></NavLink>
                     {error && <div>{error}</div>}
                 </form>
             </Paper>
