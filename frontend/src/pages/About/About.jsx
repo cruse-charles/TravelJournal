@@ -1,16 +1,23 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Title, Flex, Text, Stack, Group, Paper, Button, Space, Container } from '@mantine/core';
 const About = () => {
     const navigate = useNavigate();
+    const { currentUser } = useSelector(state => state.user);
 
     const handleSignupButtonClick = () => {
         navigate(`/signup`)
     }
 
     const handleCreateJournalButtonClick = () => {
-        navigate(`/create`)
+        if (!currentUser) {
+            navigate(`/signup`)
+            return
+        } else {
+            navigate(`/create`)
+        }
     }
 
     return (
