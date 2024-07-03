@@ -37,10 +37,10 @@ const About = () => {
                     <Group align='flex-start'>
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>
                             <Title align='center'>About the Developer</Title>
-                            <Text align='center'>Travel Journal was created by Charles, a passionate adventurer and software engineer. With a deep love for exploring new places and capturing their essence, Charles built this platform to help others document their own travel experiences.</Text>
+                            <Text align='center'>Travel Journal was created by Charles Cruse, a passionate adventurer and software engineer. With a deep love for exploring new places and capturing their essence, Charles built this platform to help others document their own travel experiences.</Text>
                         </Stack>
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>
-                            <Title align='center'>Built with Latest Technologies</Title>
+                            <Title align='center'>Built with Leading Technologies</Title>
                             <Text align='center'>Travel Journal is powered by React and Express, popular for building fast and scalable web applications. We use MongoDB for our database and AWS for secure image uploads, ensuring a seamless and reliable experience for our users.</Text>
                         </Stack>
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>

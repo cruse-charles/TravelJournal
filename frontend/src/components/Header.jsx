@@ -23,9 +23,6 @@ const Header = () => {
         <Button component={Link} to="" color="black">
           <div >Home</div>
         </Button>
-        <Button component={Link} to="/about" color="black">
-          <div>About</div>
-        </Button>
         <Button component={Link} to="/profile" color="black">
           {currentUser ? (<div>{currentUser.username}</div>) : (
             <div>Sign in</div>
