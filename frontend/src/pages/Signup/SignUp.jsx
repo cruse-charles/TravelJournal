@@ -2,6 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, TextInput, Textarea, Indicator, Paper, PasswordInput } from '@mantine/core';
+
+
 const SignUp = () => {
     const [formValues, setFormValues] = useState({})
     const [error, setError] = useState(null)
@@ -28,18 +31,18 @@ const SignUp = () => {
     }
 
     return (
-        <>
-            <div>SignUp</div>
-            <form onSubmit={handleSubmit}>
-                <input type="text" id="username" placeholder="Username" onChange={handleChange} />
-                <input type="email" id="email" placeholder="Email" onChange={handleChange} />
-                <input type="password" id="password" placeholder="Password" onChange={handleChange} />
-                <button disabled={loading}>
+        <Paper>
+            <Text size="xl" fw={700}>SignUp</Text>
+            <form onSubmit={handleSubmit} onChange={handleChange}>
+                <TextInput type="text" id="username" label="Username"></TextInput>
+                <TextInput type="email" id="email" label="Email"></TextInput>
+                <PasswordInput type="text" id="password" label="Password"></PasswordInput>
+                <Button disabled={loading}>
                     {loading ? 'Loading...' : 'Sign Up'}
-                </button>
+                </Button>
                 {error && <div>{error}</div>}
             </form>
-        </>
+        </Paper>
     )
 }
 
