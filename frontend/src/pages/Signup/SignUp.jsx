@@ -39,7 +39,7 @@ const SignUp = () => {
                     <TextInput type="email" id="email" label="Email"></TextInput>
                     <PasswordInput type="text" id="password" label="Password"></PasswordInput>
                     <Space h='md' />
-                    <Button color='black' disabled={loading}>
+                    <Button type='submit' color='black' disabled={loading}>
                         {loading ? 'Loading...' : 'Sign Up'}
                     </Button>
                     <NavLink w={'35%'} p={0} href='/login' label='Already have an account? Click here.'></NavLink>

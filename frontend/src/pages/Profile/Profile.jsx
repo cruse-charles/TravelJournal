@@ -65,20 +65,19 @@ const Profile = () => {
     return (
         <Stack >
             <Group justify='space-between' p='xl' align='flex-start' style={{ width: '100%', height: '40%' }}>
-                <Stack style={{ width: '70%' }}>
+                <Stack style={{ width: '65%' }}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
                         <Button color='black'>+ New Trip</Button>
                     </Group>
                     <UserEntries />
                 </Stack>
-                <CalendarViewEntries />
+                <CalendarViewEntries style={{ width: '30%' }} />
             </Group>
             <Group style={{ width: '100%' }} justify='space-between'>
                 <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>
                     <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
-                        {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
                         <Stack>
                             <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
                             <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>

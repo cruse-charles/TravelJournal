@@ -42,7 +42,8 @@ const Login = () => {
                     <TextInput type="email" id="email" label="Email" onChange={handleChange} />
                     <TextInput type="password" id="password" label="Password" onChange={handleChange} />
                     <Space h='md' />
-                    <Button color='black' disabled={loading}>{loading ? 'Loading...' : 'Log in'}</Button>
+                    <Button type='submit' color='black' disabled={loading}>{loading ? 'Loading...' : 'Log in'}</Button>
+                    <NavLink w={'35%'} p={0} href='/signup' label="Don't have an account? Click here."></NavLink>
                     {error && <div>{error}</div>}
                 </form>
             </Paper>

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux';
-import { Flex, Button, Container } from '@mantine/core';
+import { Flex, Button, Container, Text } from '@mantine/core';
 
 const Header = () => {
 
@@ -16,16 +16,16 @@ const Header = () => {
     >
       <Container style={{ width: '55%' }} align='left' >
         <Button component={Link} to="/" color="black">
-          <div>Travel Journal</div>
+          <Text>Travel Journal</Text>
         </Button>
       </Container>
       <Container style={{ width: '35%' }} align='right'>
         <Button component={Link} to="" color="black">
-          <div >Home</div>
+          <Text >Home</Text>
         </Button>
         <Button component={Link} to="/profile" color="black">
-          {currentUser ? (<div>{currentUser.username}</div>) : (
-            <div>Sign in</div>
+          {currentUser ? (<Text>{currentUser.username}</Text>) : (
+            <Text>Login</Text>
           )}
         </Button>
       </Container>
