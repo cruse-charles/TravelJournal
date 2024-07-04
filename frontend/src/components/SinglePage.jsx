@@ -40,7 +40,7 @@ const SinglePage = () => {
             <Flex align="flex-start">
                 <Group style={{ width: '70%' }}>
                     {page?.attachments?.map((imageURL, index) => {
-                        return <Image key={index} src={imageURL} h={1000} w={600} />
+                        return <Image key={index} src={imageURL} h={600} w={1000} />
                     })}
                 </Group>
                 <Stack style={{ width: '30%' }}>
