@@ -72,22 +72,23 @@ const Profile = () => {
                         <UserPages />
                     </Carousel>
                 </Grid.Col>
-                <Grid.Col span={1}>
-                </Grid.Col>
                 <Grid.Col span={3} >
                     <CalendarViewPages />
                 </Grid.Col>
-                <Grid.Col>
-                    <Group gap='xs' style={{ justifyContent: 'center' }}>
+                <Grid.Col span={5}>
+                    <Stack gap='xs' style={{ justifyContent: 'center' }}>
+                        <Text>Personal Information</Text>
                         <form onSubmit={handleSubmit}>
-                            <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                            <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                            <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                            <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Update'}</Button>
+                            <Stack>
+                                <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
+                                <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
+                                <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
+                                <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
+                            </Stack>
                         </form>
-                    </Group>
+                    </Stack>
                 </Grid.Col>
-                <Grid.Col >
+                <Grid.Col span={5}>
                     <Stack style={{ alignItems: 'center' }}>
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
                         <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
