@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { Text } from '@mantine/core';
 import axios from 'axios';
 import AirDatepicker from 'air-datepicker';
 import en from 'air-datepicker/locale/en.js';
@@ -91,7 +92,7 @@ const CalendarViewPages = () => {
     return (
         <>
             <div className='CalendarViewPages-container flex flex-col items-center'>
-                <div>Select a date of your adventure!</div>
+                <Text size='xl' fw={700}>Your Calendar</Text>
                 <div ref={datepickerRef}></div>
             </div>
         </>

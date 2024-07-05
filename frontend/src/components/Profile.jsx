@@ -64,10 +64,10 @@ const Profile = () => {
 
     return (
         <>
-            <div>PROFILE PAGE OF : {currentUser.username}</div>
+            {/* <div>PROFILE PAGE OF : {currentUser.username}</div> */}
             <Grid justify='center' gutter="xl">
                 <Grid.Col span={7}>
-                    <Text>Your Trips</Text>
+                    <Text size="xl" fw={700}>Your Trips</Text>
                     <Carousel slideGap="md" loop dragFree withIndicators style={{ height: 500, width: 640 }}>
                         <UserPages />
                     </Carousel>
@@ -77,7 +77,7 @@ const Profile = () => {
                 </Grid.Col>
                 <Grid.Col span={5}>
                     <Stack gap='xs' style={{ justifyContent: 'center' }}>
-                        <Text>Personal Information</Text>
+                        <Text size="xl" fw={700}>Personal Information</Text>
                         <form onSubmit={handleSubmit}>
                             <Stack>
                                 <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
