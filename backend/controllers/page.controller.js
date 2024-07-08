@@ -45,8 +45,8 @@ export const pageSave = async (req, res, next) => {
     // save page data to MongoDB with image names
     const newPage = new Page({title, text, attachments, date, user});
     await newPage.save()
-        .then(() => {
-            res.status(201).json('Page created');
+        .then((savedPage) => {
+            res.status(201).json(savedPage._id);
         })
         .catch((error) => {
             res.status(400).json({message: error.message});

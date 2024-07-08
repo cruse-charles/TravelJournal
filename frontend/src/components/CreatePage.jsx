@@ -4,9 +4,11 @@ import { useSelector } from 'react-redux';
 import CalendarViewPages from './CalendarViewPages';
 import { FileInput, TextInput, Textarea, Button, Grid, rem, Flex, Stack, Group } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePage = () => {
     const { currentUser } = useSelector(state => state.user);
+    const navigate = useNavigate();
 
     const [error, setError] = useState(null);
 
@@ -55,6 +57,7 @@ const CreatePage = () => {
             const data = createFormData();
 
             const res = await axios.post('api/page', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+            navigate(`/page/${res.data}`)
         } catch (error) {
             setError(error.response.data.message)
         }
@@ -78,10 +81,10 @@ const CreatePage = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Flex >
-                    <FileInput label="Upload photos" placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} />
+                    <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} />
                     <Stack style={{ width: '40%' }} gap='xs'>
                         <Group>
-                            <TextInput onChange={handleChange} label='Write your Title' placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} />
+                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} />
                             <Button type='submit'>Save</Button>
                         </Group>
                         <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
@@ -90,27 +93,6 @@ const CreatePage = () => {
                 </Flex>
                 <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
             </form>
-
-
-
-
-            {/* <form onSubmit={handleSubmit}>
-                <Grid justify='center'>
-                    <Grid.Col span={7} >
-                        <FileInput label="Upload photos" placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" />
-                    </Grid.Col>
-                    <Grid.Col span={5}>
-                        <TextInput onChange={handleChange} label='Write your Title' placeholder='Title of your day!' name='title' radius="xs" size='lg' />
-                        <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={10} maxRows={10} size='lg' radius="xs" />
-                        <Button type='submit'>Save</Button>
-                    </Grid.Col>
-                    <Grid.Col span={3}>
-                        <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
-                    </Grid.Col>
-                    {error && <div>{error}</div>}
-                </Grid>
-            </form> */}
-
             {/* < CalendarViewPages /> */}
         </>
     )
