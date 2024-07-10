@@ -9,6 +9,7 @@ import 'air-datepicker/air-datepicker.css';
 import './Calendar.css';
 
 import { Calendar } from '@mantine/dates';
+import { Indicator } from '@mantine/core';
 
 const CalendarViewPages = () => {
 
@@ -133,7 +134,16 @@ const CalendarViewPages = () => {
                 {/* <div ref={datepickerRef}></div> */}
                 <Calendar getDayProps={(date) => ({
                     onClick: () => handleDateClick(date),
-                })} />
+                })}
+                    renderDay={(date) => {
+                        const day = date.getDate();
+                        return (
+                            <Indicator size={6} color="blue" offset={-2} disabled={day !== 1}>
+                                <div>{day}</div>
+                            </Indicator>
+                        );
+                    }}
+                />
             </div>
         </>
     )
