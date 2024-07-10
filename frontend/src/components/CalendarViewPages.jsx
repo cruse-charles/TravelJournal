@@ -101,26 +101,42 @@ const CalendarViewPages = () => {
         // Even put our API calls in this service folder as well, then import this get user function and call it.
         // SUXIONG - Separate our components from pages, so a page folder will be like userPage, CreatePage, and our components will be the header, footer, navbar, etcc
         // 
+        axios.get(`/api/user/pages/${currentUser._id}`, { signal: controller.signal })
+            .then(res => {
+                setPages(res.data)
 
+                // Create hash with dates as keys and pageID as values
+                for (let page of res.data) {
+                    let date = new Date(page.date);
+                    let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
-        const handleDateClick = (date) => {
-            let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-            if (pageIdHash.current[formattedCalendarDate]) {
-                navigate(`/page/${pageIdHash.current[formattedCalendarDate]}`);
-            }
+                    pageIdHash.current[formattedDate] = page._id;
+                }
+            }).catch((error) => {
+                console.log(error.response.data.message)
+            })
+
+        return () => controller.abort();
+    }, [])
+
+    const handleDateClick = (date) => {
+        let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        if (pageIdHash.current[formattedCalendarDate]) {
+            navigate(`/page/${pageIdHash.current[formattedCalendarDate]}`);
         }
-
-        return (
-            <>
-                <div className='CalendarViewPages-container flex flex-col items-center'>
-                    <Text size='xl' fw={700}>Your Calendar</Text>
-                    {/* <div ref={datepickerRef}></div> */}
-                    <Calendar getDayProps={(date) => ({
-                        onClick: () => handleDateClick(date),
-                    })} />
-                </div>
-            </>
-        )
     }
+
+    return (
+        <>
+            <div className='CalendarViewPages-container flex flex-col items-center'>
+                <Text size='xl' fw={700}>Your Calendar</Text>
+                {/* <div ref={datepickerRef}></div> */}
+                <Calendar getDayProps={(date) => ({
+                    onClick: () => handleDateClick(date),
+                })} />
+            </div>
+        </>
+    )
+}
 
 export default CalendarViewPages
