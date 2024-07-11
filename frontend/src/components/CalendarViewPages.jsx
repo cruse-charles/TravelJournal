@@ -120,6 +120,15 @@ const CalendarViewPages = () => {
         return () => controller.abort();
     }, [])
 
+    const handleRenderDate = (date) => {
+        let formattedDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
+        if (pageIdHash.current[formattedDate]) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     const handleDateClick = (date) => {
         let formattedCalendarDate = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
         if (pageIdHash.current[formattedCalendarDate]) {
@@ -138,7 +147,7 @@ const CalendarViewPages = () => {
                     renderDay={(date) => {
                         const day = date.getDate();
                         return (
-                            <Indicator size={6} color="blue" offset={-2} disabled={day !== 1}>
+                            <Indicator size={6} color="blue" offset={-2} disabled={handleRenderDate(date)}>
                                 <div>{day}</div>
                             </Indicator>
                         );
