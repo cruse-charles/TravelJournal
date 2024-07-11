@@ -20,7 +20,6 @@
     "@mantine/notifications": "^7.11.0",
     "@mantine/nprogress": "^7.11.0",
     "@reduxjs/toolkit": "^2.2.5",
-    "air-datepicker": "^3.5.3",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.1.5",
     "react": "^18.2.0",
