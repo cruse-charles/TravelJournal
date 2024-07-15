@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
-import axios from 'axios';
 import { useSelector } from 'react-redux';
-import CalendarViewEntriess from '../../components/CalendarViewEntries';
-import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group } from '@mantine/core';
-import { DatePicker } from '@mantine/dates';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal } from '@mantine/core';
+import { DatePicker } from '@mantine/dates';
+import { useDisclosure } from '@mantine/hooks';
+import CalendarViewEntries from '../../components/CalendarViewEntries';
+
 
 const CreateEntry = () => {
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate();
+    const [opened, { open, close }] = useDisclosure(false);
 
     const [error, setError] = useState(null);
 
@@ -93,7 +96,10 @@ const CreateEntry = () => {
                 </Flex>
                 <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
             </form>
-            {/* < CalendarViewEntries /> */}
+            <Modal opened={opened} onClose={close} title="Select a Date">
+                < CalendarViewEntries />
+            </Modal>
+            <Button onClick={open}>Open modal</Button>
         </>
     )
 }
