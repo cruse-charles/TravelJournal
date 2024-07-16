@@ -6,6 +6,7 @@ import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal } fro
 import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import CalendarViewEntries from '../../components/CalendarViewEntries';
+import { FaCalendarDay } from "react-icons/fa6";
 
 
 const CreateEntry = () => {
@@ -80,6 +81,13 @@ const CreateEntry = () => {
         });
     };
 
+    const getDayProps = (date) => {
+        if (formValues.date.getTime() === date.getTime()) {
+            return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
+        }
+        return {};
+    }
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -94,12 +102,15 @@ const CreateEntry = () => {
                     </Stack>
                     {error && <div>{error}</div>}
                 </Flex>
-                <DatePicker onChange={(date) => setFormValues({ ...formValues, date: date })} />
+                <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                    <DatePicker
+                        onChange={(date) => setFormValues({ ...formValues, date: date })}
+                        getDayProps={getDayProps}
+                    />
+                </Modal>
             </form>
-            <Modal opened={opened} onClose={close} title="Select a Date">
-                < CalendarViewEntries />
-            </Modal>
-            <Button onClick={open}>Open modal</Button>
+            {/* < CalendarViewEntries /> */}
+            <Button onClick={open}><FaCalendarDay />View Calendar</Button>
         </>
     )
 }
