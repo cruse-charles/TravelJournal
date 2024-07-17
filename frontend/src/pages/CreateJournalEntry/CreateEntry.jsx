@@ -16,7 +16,7 @@ const CreateEntry = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const navigate = useNavigate();
 
-    // Retrieve entryIdHash containing date:id from custom hook
+    // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
     // Retrieve current user from redux store, setting errors, setting formValues

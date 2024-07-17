@@ -9,7 +9,7 @@ import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
 
 const CalendarViewEntries = () => {
 
-    // Retrieve entryIdHash containing date:id from custom hook
+    // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
     const navigate = useNavigate();

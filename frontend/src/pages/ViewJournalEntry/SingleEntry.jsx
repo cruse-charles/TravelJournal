@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import CalendarViewEntries from '../../components/CalendarViewEntries';
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 // https://react-icons.github.io/react-icons/icons/fa6/
-import { FaPencil, FaRegTrashCan } from "react-icons/fa6";
+import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
+import { getFormattedDate } from '../../utils/dateUtils.js';
+
 
 
 const SingleEntry = () => {
     // state vars for entry and loading
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
+
+    const [opened, { open, close }] = useDisclosure(false);
 
     // extract entry id from url, and navigate function
     const { id } = useParams();
@@ -34,6 +39,10 @@ const SingleEntry = () => {
         return () => controller.abort();
     }, [id])
 
+    useEffect(() => {
+        console.log(entry)
+    }, [entry])
+
     // show loading message while request is in progress
     if (isLoading) {
         return <div>Loading...</div>
@@ -48,6 +57,14 @@ const SingleEntry = () => {
             }).catch(error => {
                 console.log(error.response.data.message)
             })
+    }
+
+    const getDayProps = (date) => {
+        const entryDateObject = new Date(entry.date)
+        if (entryDateObject.getTime() === date.getTime()) {
+            return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
+        }
+        return {};
     }
 
     return (
@@ -75,7 +92,12 @@ const SingleEntry = () => {
                     </ScrollArea>
                 </Stack>
             </Flex>
-            {/* <CalendarViewEntries /> */}
+            <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                <DatePicker
+                    getDayProps={getDayProps}
+                />
+            </Modal>
+            <Button onClick={open}><FaCalendarDay />View Calendar</Button>
         </>
     )
 }
