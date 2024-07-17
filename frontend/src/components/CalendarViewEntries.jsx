@@ -7,55 +7,83 @@ import { Indicator } from '@mantine/core';
 
 import { getFormattedDate } from '../utils/dateUtils.js';
 import { getUserEntries } from '../utils/apiService.js';
+import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
 
 const CalendarViewEntries = () => {
 
     const navigate = useNavigate();
 
     // Create hash to store entryId with date as key
-    const entryIdHash = useRef({});
+    // const entryIdHash = useRef({});
 
     // Get current user from redux store and set entries state variable
     const { currentUser } = useSelector(state => state.user)
     const [entries, setEntries] = useState([])
 
-    useEffect(() => {
-        const controller = new AbortController();
+    const { entryIdHash, error } = useUserEntryDateHash();
 
-        getUserEntries(currentUser._id, controller.signal)
-            .then(userEntryData => {
-                setEntries(userEntryData)
 
-                // Create hash with dates as keys and entryID as values
-                for (let entry of userEntryData) {
-                    let date = new Date(entry.date);
-                    let formattedDate = getFormattedDate(date);
 
-                    entryIdHash.current[formattedDate] = entry._id;
-                }
-            }).catch(error => {
-                console.error(error.response ? error.response.data.message : error.message);
-            });
+    // OLD CODE
+    // useEffect(() => {
+    //     const controller = new AbortController();
 
-        return () => controller.abort();
-    }, [])
+    //     getUserEntries(currentUser._id, controller.signal)
+    //         .then(userEntryData => {
+    //             setEntries(userEntryData)
 
+    //             // Create hash with dates as keys and entryID as values
+    //             for (let entry of userEntryData) {
+    //                 let date = new Date(entry.date);
+    //                 let formattedDate = getFormattedDate(date);
+
+    //                 entryIdHash.current[formattedDate] = entry._id;
+    //             }
+    //         }).catch(error => {
+    //             console.error(error.response ? error.response.data.message : error.message);
+    //         });
+
+    //     return () => controller.abort();
+    // }, [])
+    // OLD CODE
+
+    // OLD CODE
+    // const handleRenderDate = (date) => {
+    //     // Check if date is in hash of entry dates and add indicator if true
+    //     let formattedDate = getFormattedDate(date)
+    //     return !entryIdHash.current[formattedDate]
+    // }
+    // OLD CODE
+
+    // NEW CODE
     const handleRenderDate = (date) => {
         // Check if date is in hash of entry dates and add indicator if true
         let formattedDate = getFormattedDate(date)
-        return !entryIdHash.current[formattedDate]
+        return !entryIdHash[formattedDate]
     }
+    // NEW CODE
 
+    // OLD CODE
+    // const handleDateClick = (date) => {
+    //     let formattedCalendarDate = getFormattedDate(date);
 
+    //     // When selecting calendar cell, navigate to entry with matching date in hash
+    //     if (entryIdHash?.current[formattedCalendarDate]) {
+    //         navigate(`/entry/${entryIdHash.current[formattedCalendarDate]}`);
+    //     }
+    // }
+    // OLD CODE
 
+    // NEW CODE
     const handleDateClick = (date) => {
         let formattedCalendarDate = getFormattedDate(date);
 
         // When selecting calendar cell, navigate to entry with matching date in hash
-        if (entryIdHash?.current[formattedCalendarDate]) {
-            navigate(`/entry/${entryIdHash.current[formattedCalendarDate]}`);
+        if (entryIdHash[formattedCalendarDate]) {
+            navigate(`/entry/${entryIdHash[formattedCalendarDate]}`);
         }
     }
+    // NEW CODE
 
     return (
 
