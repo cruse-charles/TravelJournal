@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 import { getFormattedDate } from '../utils/dateUtils.js';
@@ -9,7 +9,6 @@ const useUserEntryDateHash = () => {
     // Get current user from redux store and set entries state variable
     const { currentUser } = useSelector(state => state.user)
     const [entryIdHash, setEntryIdHash] = useState({});
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -27,13 +26,13 @@ const useUserEntryDateHash = () => {
                 }
                 setEntryIdHash(hash);
             }).catch(error => {
-                setError(error.response ? error.response.data.message : error.message);
+                console.log(error.response ? error.response.data.message : error.message);
             });
 
         return () => controller.abort();
     }, [])
 
-    return { entryIdHash, error }
+    return { entryIdHash }
 }
 
 export default useUserEntryDateHash;
