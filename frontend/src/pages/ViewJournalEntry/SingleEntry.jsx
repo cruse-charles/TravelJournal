@@ -85,6 +85,7 @@ const SingleEntry = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        axios.put(`/api/entry/${id}`, entry, { headers: { 'Content-Type': 'multipart/form-data' } })
         setIsEditing(false)
     }
 
@@ -126,7 +127,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Flex >
-                            <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} />
+                            <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} value={entry.attachments} />
                             <Stack style={{ width: '40%' }} gap='xs'>
                                 <Group>
                                     <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} />

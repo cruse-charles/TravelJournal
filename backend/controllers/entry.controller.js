@@ -72,6 +72,25 @@ export const entryDelete = async (req, res, next) => {
         await Entry.findByIdAndDelete(req.params.id);
         res.status(200).json('Entry deleted');
     } catch (error) {
+        console.log(error)
+    }
+}
+
+export const entryUpdate = async (req, res, next) => {
+    try {
+        const entry = await Entry.findById(req.params.id);
+
+        if (!entry) {
+            return res.status(404).json('Entry not found')
+        }
+
+        if (req.user.id !== entry.user.toString()) {
+            return next(errorHandler(403, 'You can only update your own entries'))
+        }
+
+        const updatedEntry = await Entry.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.status(200).json(updatedEntry);
+    } catch (error) {
 
     }
 }
