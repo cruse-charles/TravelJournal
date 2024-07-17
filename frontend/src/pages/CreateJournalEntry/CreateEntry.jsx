@@ -7,12 +7,16 @@ import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 import { FaCalendarDay } from "react-icons/fa6";
-
+import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
+import { getFormattedDate } from '../../utils/dateUtils';
 
 const CreateEntry = () => {
     const { currentUser } = useSelector(state => state.user);
     const navigate = useNavigate();
     const [opened, { open, close }] = useDisclosure(false);
+
+    const { entryIdHash } = useUserEntryDateHash();
+
 
     const [error, setError] = useState(null);
 
@@ -106,6 +110,7 @@ const CreateEntry = () => {
                     <DatePicker
                         onChange={(date) => setFormValues({ ...formValues, date: date })}
                         getDayProps={getDayProps}
+                        excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
                     />
                 </Modal>
             </form>
