@@ -2,24 +2,26 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
 import { FileInput, TextInput, Textarea, Button, Flex, Stack, Group, Modal } from '@mantine/core';
 import { DatePicker } from '@mantine/dates';
 import { useDisclosure } from '@mantine/hooks';
-import CalendarViewEntries from '../../components/CalendarViewEntries';
 import { FaCalendarDay } from "react-icons/fa6";
+
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate } from '../../utils/dateUtils';
 
 const CreateEntry = () => {
-    const { currentUser } = useSelector(state => state.user);
-    const navigate = useNavigate();
+    // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
     const [opened, { open, close }] = useDisclosure(false);
+    const navigate = useNavigate();
 
+    // Retrieve entryIdHash containing date:id from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
-
+    // Retrieve current user from redux store, setting errors, setting formValues
+    const { currentUser } = useSelector(state => state.user);
     const [error, setError] = useState(null);
-
     const [formValues, setFormValues] = useState({
         title: '',
         text: '',
@@ -60,10 +62,9 @@ const CreateEntry = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Post request with FormData object and content type for files
+        // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
             const data = createFormData();
-
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (error) {
@@ -85,6 +86,7 @@ const CreateEntry = () => {
         });
     };
 
+    // Setting background color of selected date in calendar after closing modal
     const getDayProps = (date) => {
         if (formValues.date !== null && (formValues.date.getTime() === date.getTime())) {
             return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
@@ -114,7 +116,6 @@ const CreateEntry = () => {
                     />
                 </Modal>
             </form>
-            {/* < CalendarViewEntries /> */}
             <Button onClick={open}><FaCalendarDay />View Calendar</Button>
         </>
     )
