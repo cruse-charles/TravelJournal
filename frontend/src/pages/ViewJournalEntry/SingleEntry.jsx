@@ -1,13 +1,14 @@
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
+
 // https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
-import { getFormattedDate } from '../../utils/dateUtils.js';
 
 
 
@@ -16,6 +17,7 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState({});
     const [isLoading, setIsLoading] = useState(true);
 
+    // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
 
     // extract entry id from url, and navigate function
@@ -39,10 +41,6 @@ const SingleEntry = () => {
         return () => controller.abort();
     }, [id])
 
-    useEffect(() => {
-        console.log(entry)
-    }, [entry])
-
     // show loading message while request is in progress
     if (isLoading) {
         return <div>Loading...</div>
@@ -59,6 +57,7 @@ const SingleEntry = () => {
             })
     }
 
+    // highlight the date of the entry in the calendar
     const getDayProps = (date) => {
         const entryDateObject = new Date(entry.date)
         if (entryDateObject.getTime() === date.getTime()) {
