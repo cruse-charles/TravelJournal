@@ -19,7 +19,7 @@ const CreateEntry = () => {
     const [formValues, setFormValues] = useState({
         title: '',
         text: '',
-        date: '',
+        date: null,
         attachments: [],
         user: currentUser ? currentUser._id : null,
     });
@@ -82,7 +82,7 @@ const CreateEntry = () => {
     };
 
     const getDayProps = (date) => {
-        if (formValues.date.getTime() === date.getTime()) {
+        if (formValues.date !== null && (formValues.date.getTime() === date.getTime())) {
             return { style: { backgroundColor: 'var(--mantine-color-blue-filled)', color: 'var(--mantine-color-white)' } }
         }
         return {};
