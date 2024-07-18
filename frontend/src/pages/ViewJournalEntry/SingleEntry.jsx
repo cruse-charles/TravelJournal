@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal } from '@mantine/core';
+import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, FileInput, TextInput, Textarea } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
@@ -71,6 +71,23 @@ const SingleEntry = () => {
         setIsEditing(true)
     }
 
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setEntry({ ...entry, [name]: value })
+    }
+
+    const handleImageChange = (files) => {
+        setEntry({
+            ...entry,
+            attachments: Array.from(files),
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        setIsEditing(false)
+    }
+
     return (
         <>
             {!isEditing ? (
@@ -106,7 +123,28 @@ const SingleEntry = () => {
                     <Button onClick={open}><FaCalendarDay />View Calendar</Button>
                 </>
             ) : (
-                <div>Hello</div>
+                <>
+                    <form onSubmit={handleSubmit}>
+                        <Flex >
+                            <FileInput placeholder="Upload photos" multiple accept='image/*' clearable onChange={handleImageChange} size="lg" style={{ width: '60%' }} />
+                            <Stack style={{ width: '40%' }} gap='xs'>
+                                <Group>
+                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '80%' }} value={entry.title} />
+                                    <Button type='submit'>Save</Button>
+                                </Group>
+                                <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
+                            </Stack>
+                        </Flex>
+                        <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                            <DatePicker
+                                onChange={(date) => setFormValues({ ...formValues, date: date })}
+                                getDayProps={getDayProps}
+                                excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
+                            />
+                        </Modal>
+                    </form>
+                    <Button onClick={open}><FaCalendarDay />View Calendar</Button>
+                </>
             )}
         </>
     )
