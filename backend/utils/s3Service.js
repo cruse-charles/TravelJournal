@@ -44,13 +44,16 @@ export const saveImagesToS3 = async (files) => {
 
     // Resize each image and give random name and upload to S3
     const uploadPromises = files.map(async (file) => {
+        console.log(file)
         const buffer = await resizeImage(file.buffer);
         const imageName = randomImageName();
         attachments.push(imageName);
+        // attachments.push(file.originalname)
 
         const params = {
             Bucket: s3BucketName,
             Key: imageName,
+            // Key: file.originalname,
             Body: buffer,
             ContentType: file.mimetype
         };

@@ -42,6 +42,10 @@ const SingleEntry = () => {
         return () => controller.abort();
     }, [id])
 
+    useEffect(() => {
+        console.log(entry)
+    }, [entry])
+
     // show loading message while request is in progress
     if (isLoading) {
         return <div>Loading...</div>
