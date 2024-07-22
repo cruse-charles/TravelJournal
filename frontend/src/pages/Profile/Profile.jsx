@@ -5,7 +5,7 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewEntries from '../../components/CalendarViewEntries'
 import UserEntries from './UserEntries'
 
-import { Button, Grid, Stack, Group, Text, rem } from '@mantine/core';
+import { Button, Grid, Stack, Group, Text, rem, Flex } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 const Profile = () => {
@@ -64,39 +64,33 @@ const Profile = () => {
 
     return (
         <>
-            {/* <div>PROFILE PAGE OF : {currentUser.username}</div> */}
-            <Grid justify='center' gutter="xl">
-                <Grid.Col span={7}>
+            <Flex>
+                <Group>
                     <Text size="xl" fw={700}>Your Trips</Text>
                     <Carousel slideGap="md" loop dragFree withIndicators style={{ height: 500, width: 640 }}>
                         <UserEntries />
                     </Carousel>
-                </Grid.Col>
-                <Grid.Col span={3} >
                     <CalendarViewEntries />
-                </Grid.Col>
-                <Grid.Col span={5}>
-                    <Stack gap='xs' style={{ justifyContent: 'center' }}>
-                        <Text size="xl" fw={700}>Personal Information</Text>
-                        <form onSubmit={handleSubmit}>
-                            {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
-                            <Stack>
-                                <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                                <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                                <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                                <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
-                            </Stack>
-                        </form>
-                    </Stack>
-                </Grid.Col>
-                <Grid.Col span={5}>
-                    <Stack style={{ alignItems: 'center' }}>
-                        <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
-                        <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
-                        <p>{error ? error : ''}</p>
-                    </Stack>
-                </Grid.Col>
-            </Grid >
+
+                </Group>
+                <Stack gap='xs' style={{ justifyContent: 'center' }}>
+                    <Text size="xl" fw={700}>Personal Information</Text>
+                    <form onSubmit={handleSubmit}>
+                        {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
+                        <Stack>
+                            <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
+                            <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
+                            <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
+                            <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
+                        </Stack>
+                    </form>
+                </Stack>
+                <Stack style={{ alignItems: 'center' }}>
+                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
+                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                    <p>{error ? error : ''}</p>
+                </Stack>
+            </Flex>
         </>
     )
 }
