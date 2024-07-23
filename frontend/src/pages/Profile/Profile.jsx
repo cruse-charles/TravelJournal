@@ -63,9 +63,9 @@ const Profile = () => {
 
 
     return (
-        <Stack>
-            <Group p='xl' style={{ width: '100%', height: '40%' }}>
-                <Stack style={{ width: '70%' }}>
+        <Stack p='xl'>
+            <Group justify='space-around' align='flex-start' style={{ width: '100%', height: '40%' }}>
+                <Stack style={{ width: '60%' }}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
                         <Button color='black'>+ New Trip</Button>
