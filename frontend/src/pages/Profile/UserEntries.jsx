@@ -33,10 +33,10 @@ const UserEntries = () => {
     return (
         <>
             {entries.map((entry) => (
-                <Carousel.Slide key={entry._id} className='Carousel-slide'>
-                    <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: 650, height: 500 }}>
+                <Carousel.Slide key={entry._id} className='Carousel-slide' style={{ width: '100%', height: '100%' }}>
+                    <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: '100%', height: '100%' }}>
                         <Card.Section>
-                            <Image h={300} src={entry.attachments?.[0]} />
+                            <Image style={{ fit: 'contain' }} src={entry.attachments?.[0]} />
                         </Card.Section>
                         <Text fw={500}>{entry.title}</Text>
                         <Text truncate='end'>{entry.text}</Text>

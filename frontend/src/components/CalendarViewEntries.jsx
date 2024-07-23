@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import { Text } from '@mantine/core';
+import { Text, Paper } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 
@@ -30,8 +30,7 @@ const CalendarViewEntries = () => {
     }
 
     return (
-
-        <div>
+        <Paper style={{ widht: '30%' }}>
             <Text size='xl' fw={700}>Your Calendar</Text>
             <Calendar
                 style={{ transform: 'scale(1.3)', transformOrigin: 'top left' }}
@@ -44,8 +43,7 @@ const CalendarViewEntries = () => {
                 </Indicator>)
                 }
             />
-        </div>
-
+        </Paper>
     )
 }
 
