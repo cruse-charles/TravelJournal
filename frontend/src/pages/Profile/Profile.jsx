@@ -5,7 +5,7 @@ import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart,
 import CalendarViewEntries from '../../components/CalendarViewEntries'
 import UserEntries from './UserEntries'
 
-import { Button, Grid, Stack, Group, Text, rem, Flex } from '@mantine/core';
+import { Button, TextInput, Stack, Group, Text, rem, Flex, PasswordInput } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 const Profile = () => {
@@ -63,9 +63,9 @@ const Profile = () => {
 
 
     return (
-        <Stack p='xl'>
-            <Group justify='space-around' align='flex-start' style={{ width: '100%', height: '40%' }}>
-                <Stack style={{ width: '60%' }}>
+        <Stack >
+            <Group justify='space-between' p='xl' align='flex-start' style={{ width: '100%', height: '40%' }}>
+                <Stack style={{ width: '70%' }}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
                         <Button color='black'>+ New Trip</Button>
@@ -74,22 +74,22 @@ const Profile = () => {
                 </Stack>
                 <CalendarViewEntries />
             </Group>
-            <Group style={{ width: '100%' }}>
-                <Stack gap='xs' style={{ justifyContent: 'center' }}>
-                    <Text size="xl" fw={700}>Personal Information</Text>
+            <Group style={{ width: '100%' }} justify='space-between'>
+                <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>
+                    <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit}>
                         {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
                         <Stack>
-                            <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                            <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                            <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                            <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
+                            <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></TextInput>
+                            <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></TextInput>
+                            <PasswordInput label='Password' type='password' id='password' onChange={handleChange}></PasswordInput>
+                            <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
                 </Stack>
-                <Stack style={{ alignItems: 'center' }}>
-                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
-                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                <Stack style={{ alignItems: 'center' }} p='xl'>
+                    <Button color='black' style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>Logout</Button>
+                    <Button color='black' style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
                     <p>{error ? error : ''}</p>
                 </Stack>
             </Group>

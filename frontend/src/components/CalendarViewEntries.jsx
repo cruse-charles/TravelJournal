@@ -30,7 +30,7 @@ const CalendarViewEntries = () => {
     }
 
     return (
-        <Stack style={{ width: '15%' }} justify='flex-start'>
+        <Stack >
             <Text size='xl' fw={700}>Your Calendar</Text>
             <Calendar
                 style={{ transform: 'scale(1.6)', transformOrigin: 'top right' }}
