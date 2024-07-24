@@ -31,19 +31,19 @@ const UserEntries = () => {
 
 
     return (
-        <>
+        <Carousel slideGap="md" loop dragFree  >
             {entries.map((entry) => (
-                <Carousel.Slide key={entry._id} className='Carousel-slide' style={{ width: '100%', height: '100%' }}>
-                    <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder style={{ width: '100%', height: '100%' }}>
+                <Carousel.Slide key={entry._id} className='Carousel-slide' style={{ height: '100%', width: '100%' }}>
+                    <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder >
                         <Card.Section>
-                            <Image style={{ fit: 'contain' }} src={entry.attachments?.[0]} />
+                            <Image style={{ width: '100%', height: '50%' }} h={350} src={entry.attachments?.[0]} />
                         </Card.Section>
-                        <Text fw={500}>{entry.title}</Text>
+                        <Text fw={500} >{entry.title}</Text>
                         <Text truncate='end'>{entry.text}</Text>
                     </Card>
                 </Carousel.Slide>
             ))}
-        </>
+        </Carousel>
     )
 }
 

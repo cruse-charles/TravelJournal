@@ -63,34 +63,37 @@ const Profile = () => {
 
 
     return (
-        <Flex>
-            <Group p='xl' style={{ width: '100%' }}>
-                <Stack style={{ width: '100%' }}>
-                    <Text size="xl" fw={700} style={{ widht: '60%' }}>Your Trips</Text>
-                    <Carousel slideGap="md" loop dragFree withIndicators style={{ width: '60%', height: '50%' }}>
-                        <UserEntries />
-                    </Carousel>
+        <Stack>
+            <Group p='xl' style={{ width: '100%', height: '40%' }}>
+                <Stack style={{ width: '70%' }}>
+                    <Group>
+                        <Text size="xl" fw={700} >Your Trips</Text>
+                        <Button color='black'>+ New Trip</Button>
+                    </Group>
+                    <UserEntries />
                 </Stack>
                 <CalendarViewEntries />
             </Group>
-            <Stack gap='xs' style={{ justifyContent: 'center' }}>
-                <Text size="xl" fw={700}>Personal Information</Text>
-                <form onSubmit={handleSubmit}>
-                    {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
-                    <Stack>
-                        <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
-                        <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
-                        <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
-                        <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
-                    </Stack>
-                </form>
-            </Stack>
-            <Stack style={{ alignItems: 'center' }}>
-                <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
-                <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
-                <p>{error ? error : ''}</p>
-            </Stack>
-        </Flex>
+            <Group style={{ width: '100%' }}>
+                <Stack gap='xs' style={{ justifyContent: 'center' }}>
+                    <Text size="xl" fw={700}>Personal Information</Text>
+                    <form onSubmit={handleSubmit}>
+                        {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
+                        <Stack>
+                            <input type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></input>
+                            <input type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></input>
+                            <input type='password' placeholder='password' id='password  ' onChange={handleChange}></input>
+                            <Button type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
+                        </Stack>
+                    </form>
+                </Stack>
+                <Stack style={{ alignItems: 'center' }}>
+                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleLogout}>logout</Button>
+                    <Button style={{ width: rem(500) }} variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
+                    <p>{error ? error : ''}</p>
+                </Stack>
+            </Group>
+        </Stack>
     )
 }
 
