@@ -77,12 +77,12 @@ const Profile = () => {
             <Group style={{ width: '100%' }} justify='space-between'>
                 <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>
                     <Text size="xl" fw={700}>Account Information</Text>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} onChange={handleChange}>
                         {/* SUXIONG - Can put the onchange on the form tag itself rather than on each input, figure out how to do that */}
                         <Stack>
-                            <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' onChange={handleChange}></TextInput>
-                            <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' onChange={handleChange}></TextInput>
-                            <PasswordInput label='Password' type='password' id='password' onChange={handleChange}></PasswordInput>
+                            <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
+                            <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
+                            <PasswordInput label='Password' type='password' id='password' ></PasswordInput>
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
