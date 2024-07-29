@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
 
 import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
@@ -15,8 +15,6 @@ const SignUp = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-
 
     const handleChange = (e) => {
         const { id, value } = e.target
@@ -41,30 +39,6 @@ const SignUp = () => {
         } finally {
             setLoading(false);
         }
-
-
-        // await axios.post('api/auth/signup', formValues)
-        //     .then(res => {
-        //         setLoading(false);
-        //         setError(null);
-        //         const loginResponse = await axios.post('api/auth/login', formValues)
-        //         dispatch(signInSuccess(loginResponse.data));
-        //     })
-        //     .catch(err => {
-        //         console.log(err.response.data);
-        //         setError(err.response.data.message);
-        //         setLoading(false);
-        //     })
-
-        // await axios.post('api/auth/login', formValues)
-        //     // set errors and loading state
-        //     .then(res => {
-        //         dispatch(signInSuccess(res.data));
-        //         navigate('/profile')
-        //     })
-        //     .catch(err => {
-        //         dispatch(signInFailure(err.response.data.message));
-        //     })
     }
 
     return (
