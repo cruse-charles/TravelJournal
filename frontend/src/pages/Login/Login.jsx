@@ -44,7 +44,7 @@ const Login = () => {
                     <Space h='md' />
                     <Button type='submit' color='black' disabled={loading}>{loading ? 'Loading...' : 'Log in'}</Button>
                     <NavLink w={'35%'} p={0} href='/signup' label="Don't have an account? Click here."></NavLink>
-                    {error && <div>{error}</div>}
+                    {error && <Text color='red'>{error}</Text>}
                 </form>
             </Paper>
         </Center>
