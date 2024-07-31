@@ -7,8 +7,7 @@ import storage from 'redux-persist/lib/storage'
 const errorTransform = createTransform(
     // Transform state before being persisted
     (inboundState, key) => {
-        const {error, ...rest} = inboundState
-        return rest
+        return {...inboundState, error: false}
     },
     // Transform state after being rehydrated
     (outboundState, key) => {
