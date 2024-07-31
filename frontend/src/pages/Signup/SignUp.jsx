@@ -54,7 +54,7 @@ const SignUp = () => {
                         {loading ? 'Loading...' : 'Sign Up'}
                     </Button>
                     <NavLink w={'35%'} p={0} href='/login' label='Already have an account? Click here.'></NavLink>
-                    {error && <div>{error}</div>}
+                    {error && <Text color='red'>{error}</Text>}
                 </form>
             </Paper>
         </Center>
