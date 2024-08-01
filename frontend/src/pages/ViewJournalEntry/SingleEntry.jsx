@@ -45,7 +45,7 @@ const SingleEntry = () => {
                 setIsLoading(false);
                 setPreviews(entryResponse.attachments)
             }).catch(error => {
-                console.log(error.response.data.message)
+                setErrors({ message: error.response.data.message })
                 setIsLoading(false)
             })
 
@@ -63,7 +63,7 @@ const SingleEntry = () => {
             await deleteEntry(id)
             navigate('/profile')
         } catch (error) {
-            console.log(error.response.data.message)
+            setErrors({ message: error.response.data.message })
         }
     }
 
@@ -125,7 +125,7 @@ const SingleEntry = () => {
             setEntry(response.data)
             setIsEditing(false)
         } catch (error) {
-            console.log(error.message)
+            setErrors({ message: error.response.data.message })
         }
     }
 
@@ -205,7 +205,10 @@ const SingleEntry = () => {
                         </Modal>
                     </form>
                     <Flex justify='flex-end' >
-                        <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                        <Stack>
+                            <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                            <Text color='red' error={errors.message}></Text>
+                        </Stack>
                     </Flex>
                 </>
             )}

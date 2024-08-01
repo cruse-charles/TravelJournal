@@ -34,7 +34,6 @@ const SignUp = () => {
             dispatch(signInSuccess(loginResponse.data));
             navigate('/profile');
         } catch (err) {
-            console.log(err.response?.data);
             setError(err.response?.data?.message);
         } finally {
             setLoading(false);

@@ -38,7 +38,6 @@ const Profile = () => {
         // POST request to update user endpoint
         await axios.post(`api/user/update/${currentUser._id}`, formData)
             .then(res => {
-                console.log(res.data)
                 dispatch(updateUserSuccess(res.data))
             })
             .catch(err => {

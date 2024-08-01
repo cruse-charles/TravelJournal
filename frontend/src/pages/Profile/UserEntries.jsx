@@ -10,6 +10,7 @@ const UserEntries = () => {
     const { currentUser } = useSelector(state => state.user)
     const navigate = useNavigate();
     const [entries, setEntries] = useState([])
+    const [errors, setErrors] = useState(null)
 
     useEffect(() => {
 
@@ -19,11 +20,15 @@ const UserEntries = () => {
             .then(res => {
                 setEntries(res.data)
             }).catch((error) => {
-                console.log(error.response.data.message)
+                setErrors(error.response.data.message)
             })
 
         return () => controller.abort();
     }, [])
+
+    if (errors) {
+        return <Text>{errors}</Text>
+    }
 
     const handleNavigate = (id) => {
         navigate(`/entry/${id}`)

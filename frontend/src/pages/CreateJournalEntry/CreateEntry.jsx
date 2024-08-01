@@ -83,7 +83,6 @@ const CreateEntry = () => {
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (error) {
-            console.log(error)
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
