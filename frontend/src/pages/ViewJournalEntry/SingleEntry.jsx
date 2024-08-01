@@ -24,6 +24,7 @@ const SingleEntry = () => {
     const [isEditing, setIsEditing] = useState(false)
     const [previews, setPreviews] = useState([]);
     const [originalEntryDate, setOriginalEntryDate] = useState(null);
+    const [errors, setErrors] = useState({})
     const { entryIdHash } = useUserEntryDateHash();
 
     // useDisclosure hook to open and close modal
@@ -73,6 +74,7 @@ const SingleEntry = () => {
     const handleChange = (e) => {
         const { name, value } = e.target
         setEntry({ ...entry, [name]: value })
+        setErrors({})
     }
 
     // add new images to entry and previews
@@ -99,6 +101,16 @@ const SingleEntry = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (entry.title === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, title: 'Title is required' }));
+            return
+        }
+
+        if (entry.text === '') {
+            setErrors((prevErrors) => ({ ...prevErrors, text: 'Text is required' }));
+            return
+        }
 
         // evaluate if the file is a URL or a file object, then add to formData
         const updatedFiles = await getUpdatedFiles(previews)
@@ -178,10 +190,10 @@ const SingleEntry = () => {
                             </Carousel>
                             <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
                                 <Group>
-                                    <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
+                                    <TextInput error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
                                     <Button type='submit' color="black">Save</Button>
                                 </Group>
-                                <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
+                                <Textarea error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" value={entry.text} />
                             </Stack>
                         </Flex>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>

@@ -41,6 +41,7 @@ const CreateEntry = () => {
 
     // TODO: Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
     const createFormData = () => {
+
         //create FormData object to submit object with files
         const data = new FormData();
 
@@ -54,16 +55,6 @@ const CreateEntry = () => {
         formValues.attachments.forEach((file, index) => {
             data.append(`attachments`, file);
         });
-
-
-        // BETTER THAN THE ABOVE APPENDS
-        // const data = {
-        //     title: formValues.title,
-        //     text: formValues.text,
-        //     date: formValues.date,
-        //     user: formValues.user,
-        //     attachments: formValues.attachments
-        // }
 
         return data;
     }
@@ -156,7 +147,6 @@ const CreateEntry = () => {
                         </Group>
                         <Textarea name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Stack>
-                    {/* {error && <div>{error}</div>} */}
                 </Flex>
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                     <DatePicker
@@ -169,7 +159,8 @@ const CreateEntry = () => {
             <Flex justify='flex-end' >
                 <Stack>
                     <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-                    {error.date && <Text color='red'>Please select a date</Text>}
+                    {error.date && <Text color='red'>{error.date}</Text>}
+                    {error.message && <Text color='red'>{error.message}</Text>}
                 </Stack>
             </Flex>
         </>
