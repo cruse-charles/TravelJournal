@@ -25,7 +25,7 @@ const CreateEntry = () => {
 
     // State vars for files, error, formValues
     const [files, setFiles] = useState([]);
-    const [error, setError] = useState(null);
+    const [error, setError] = useState({ title: false, text: false });
     const [previews, setPreviews] = useState([])
     const [formValues, setFormValues] = useState({
         title: '',
@@ -71,6 +71,21 @@ const CreateEntry = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (!formValues.title) {
+            setError({ ...error, title: 'Title is required' });
+            return
+        }
+
+        if (!formValues.title) {
+            setError({ ...error, text: 'Text is required' });
+            return
+        }
+
+        if (!formValues.date) {
+            setError({ ...error, date: 'Date is required' });
+            return
+        }
+
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
             const data = createFormData();
@@ -78,7 +93,7 @@ const CreateEntry = () => {
             navigate(`/entry/${res.data}`)
         } catch (error) {
             console.log(error)
-            setError(error.response.data.message)
+            setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
 
@@ -87,6 +102,8 @@ const CreateEntry = () => {
             ...formValues,
             [e.target.name]: e.target.value,
         });
+
+        setError({})
     };
 
     // add new images to entry and previews
@@ -134,12 +151,12 @@ const CreateEntry = () => {
                     </Carousel>
                     <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
                         <Group>
-                            <TextInput onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
+                            <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
                             <Button type='submit' color='black'>Save</Button>
                         </Group>
-                        <Textarea name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
+                        <Textarea name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Stack>
-                    {error && <div>{error}</div>}
+                    {/* {error && <div>{error}</div>} */}
                 </Flex>
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                     <DatePicker
@@ -150,7 +167,10 @@ const CreateEntry = () => {
                 </Modal>
             </form>
             <Flex justify='flex-end' >
-                <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                <Stack>
+                    <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+                    {error.date && <Text color='red'>Please select a date</Text>}
+                </Stack>
             </Flex>
         </>
     )
