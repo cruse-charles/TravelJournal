@@ -17,6 +17,7 @@ const Profile = () => {
 
     const { currentUser, loading, error } = useSelector(state => state.user)
     const [formData, setFormData] = useState({})
+    const [errors, setErrors] = useState({})
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.id]: e.target.value })
@@ -24,7 +25,11 @@ const Profile = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('update button clicked')
+
+        if (!formData.password || formData.password.length < 8) {
+            setErrors((prevErrors) => ({ ...prevErrors, password: 'Password must be at least 8 characters long' }))
+            return;
+        }
 
         // Dispatch updateUserStart action of userSlice to indicate that the update process has started
         dispatch(updateUserStart())
@@ -88,7 +93,7 @@ const Profile = () => {
                         <Stack>
                             <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
                             <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
-                            <PasswordInput label='Password' type='password' id='password' ></PasswordInput>
+                            <PasswordInput error={errors.password} label='Password' type='password' id='password' ></PasswordInput>
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
