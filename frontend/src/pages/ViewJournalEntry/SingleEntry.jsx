@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, TextInput, Textarea, Indicator } from '@mantine/core';
@@ -6,6 +6,7 @@ import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
@@ -26,6 +27,7 @@ const SingleEntry = () => {
     const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const [errors, setErrors] = useState({})
     const { entryIdHash } = useUserEntryDateHash();
+    const autoplay = useRef(Autoplay({ delay: 4000 }))
 
     // useDisclosure hook to open and close modal
     const [opened, { open, close }] = useDisclosure(false);
@@ -134,7 +136,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Flex style={{ height: '80vh' }}>
-                        <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                        <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
                                     <Carousel.Slide key={imageURL} >

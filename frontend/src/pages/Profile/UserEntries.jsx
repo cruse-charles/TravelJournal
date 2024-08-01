@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { Card, Image, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 import { useNavigate } from 'react-router-dom';
-
+import Autoplay from 'embla-carousel-autoplay';
 
 const UserEntries = () => {
     const { currentUser } = useSelector(state => state.user)
     const navigate = useNavigate();
     const [entries, setEntries] = useState([])
     const [errors, setErrors] = useState(null)
+    const autoplay = useRef(Autoplay({ delay: 4000 }))
 
     useEffect(() => {
 
@@ -36,7 +37,7 @@ const UserEntries = () => {
 
 
     return (
-        <Carousel slideGap="md" loop dragFree  >
+        <Carousel slideGap="md" loop dragFree plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset}>
             {entries.map((entry) => (
                 <Carousel.Slide key={entry._id} className='Carousel-slide' style={{ height: '100%', width: '100%' }}>
                     <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder >
