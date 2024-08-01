@@ -49,7 +49,11 @@ export const entrySave = async (req, res, next) => {
             res.status(201).json(savedEntry._id);
         })
         .catch((error) => {
-            res.status(400).json({message: error.message});
+            const errors = {};
+            for (let field in error.errors) {
+                errors[field] = error.errors[field].message;
+            }
+            res.status(400).json({message: 'A date, title, and body are required.', errors});
         });
 }
 
