@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import path from 'path';
 
 // import pageRouter from './routes/page.js';
 import entryRouter from './routes/entry.js';
@@ -26,6 +27,8 @@ mongoose.connect(process.env.MONGODB_URI)
         console.log(error);
 });
 
+const __dirname = path.resolve()
+
 
 app.listen(PORT, () => {
     // connectToMongoDB();
@@ -35,6 +38,12 @@ app.listen(PORT, () => {
 app.use('/api/entry', entryRouter);
 app.use('/api/auth', authRouter);
 app.use('/api/user', userRouter);
+
+app.use(express.static(path.join(__dirname, '/frontend/dist')));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'));
+})
 
 app.use((error, req, res, next) => {
     const statusCode = error.statusCode || 500;
