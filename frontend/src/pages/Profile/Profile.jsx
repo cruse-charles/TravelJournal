@@ -4,6 +4,8 @@ import axios from 'axios'
 import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../../redux/user/userSlice'
 import CalendarViewEntries from '../../components/CalendarViewEntries'
 import UserEntries from './UserEntries'
+import { useNavigate } from 'react-router-dom';
+
 
 import { Button, TextInput, Stack, Group, Text, rem, Flex, PasswordInput } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
@@ -11,6 +13,7 @@ import { Carousel } from '@mantine/carousel';
 const Profile = () => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const { currentUser, loading, error } = useSelector(state => state.user)
     const [formData, setFormData] = useState({})
@@ -61,6 +64,10 @@ const Profile = () => {
             })
     }
 
+    const handleNewTripClick = () => {
+        navigate('/create')
+    }
+
 
     return (
         <Stack >
@@ -68,7 +75,7 @@ const Profile = () => {
                 <Stack style={{ width: '65%' }}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
-                        <Button color='black'>+ New Trip</Button>
+                        <Button color='black' onClick={handleNewTripClick}>+ New Trip</Button>
                     </Group>
                     <UserEntries />
                 </Stack>
