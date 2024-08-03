@@ -27,7 +27,7 @@ const About = () => {
                     <Title order={1}>Capture Your Travel Adventure</Title>
                     <Text size='xl'>Travel Journal is a platform that helps you document your journeys and share your experiences with the world.</Text>
                     <Space h='md' />
-                    <Button color='black' onClick={handleCreateJournalButtonClick} style={{ width: '30%' }}>Start Journaling</Button>
+                    <Button color='black' onClick={handleCreateJournalButtonClick} style={{ width: '35%' }}>Start Journaling</Button>
                 </Stack>
                 <Container>
                     <Text>Video Here</Text>
@@ -41,6 +41,7 @@ const About = () => {
                 <Stack align='center' gap='xs' style={{ width: '66%' }}>
                     <Title order={1}>About TravelJournal</Title>
                     <Text align='center' size='xl'>Travel Journal is a platform designed to help you capture and share your travel experiences. Whether you're an avid explorer or a casual traveler, our app provides a beautiful and personal way to document your journeys, preserve your memories, and inspire others.</Text>
+                    <Space h='xl' />
                     <Group align='flex-start'>
                         <Stack justify='flex-start' align='center' style={{ width: '30%' }}>
                             <Title align='center'>About the Developer</Title>
