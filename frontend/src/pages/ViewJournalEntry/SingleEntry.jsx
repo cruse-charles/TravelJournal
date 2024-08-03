@@ -135,7 +135,42 @@ const SingleEntry = () => {
         <>
             {!isEditing ? (
                 <>
-                    <Flex style={{ height: '80vh' }}>
+                    <Stack style={{ height: '80vh' }} p='lg'>
+                        <Flex>
+                            <Title order={2} p={0}>{entry?.title}</Title>
+                            <Group gap='xs' style={{ width: '25%' }}>
+                                <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
+                                <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
+                            </Group>
+                        </Flex>
+                        <Flex>
+                            <Text p={0}>{entry?.date}</Text>
+                            <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
+                        </Flex>
+                        <Flex>
+                            <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                                {entry?.attachments?.map((imageURL, index) => {
+                                    return (
+                                        <Carousel.Slide key={imageURL} >
+                                            <Image key={imageURL} src={imageURL} />
+                                        </Carousel.Slide>
+                                    )
+                                })}
+                            </Carousel>
+                            <ScrollArea style={{ width: '50%' }} mah={500}>
+                                <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text>
+                            </ScrollArea>
+                        </Flex>
+                    </Stack>
+                    <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+                        <DatePicker
+                            getDayProps={(date) => getEntryDayProps(entry, date)}
+                        />
+                    </Modal>
+
+
+                    {/* OLD */}
+                    {/* <Flex style={{ height: '80vh' }}>
                         <Carousel plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {entry?.attachments?.map((imageURL, index) => {
                                 return (
@@ -165,7 +200,7 @@ const SingleEntry = () => {
                     </Modal>
                     <Flex justify='flex-end' >
                         <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-                    </Flex>
+                    </Flex> */}
                 </>
             ) : (
                 <>
