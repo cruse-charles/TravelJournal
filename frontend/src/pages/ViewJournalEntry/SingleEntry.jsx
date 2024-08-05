@@ -173,11 +173,6 @@ const SingleEntry = () => {
                             </ScrollArea>
                         </Flex>
                     </Stack>
-                    {/* <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
-                        <DatePicker
-                            getDayProps={(date) => getEntryDayProps(entry, date)}
-                        />
-                    </Modal> */}
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <CalendarViewEntries scale={1} entry={entry} />
                     </Modal>

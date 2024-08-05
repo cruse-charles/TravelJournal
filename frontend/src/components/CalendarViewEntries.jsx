@@ -29,6 +29,9 @@ const CalendarViewEntries = ({ scale, entry }) => {
         }
     }
 
+    // Render calendar with custom day props
+    //getDayProps: Adds props to Day component, getEntryDayProps: Highlight the date of the entry in the calendar
+    //renderDay: What is rendered in the day cell
     return (
         <Stack >
             <Text size='xl' fw={700}>Your Calendar</Text>
