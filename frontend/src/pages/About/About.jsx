@@ -30,7 +30,7 @@ const About = () => {
                     <Button color='black' onClick={handleCreateJournalButtonClick} style={{ width: '35%' }}>Start Journaling</Button>
                 </Stack>
                 <Container>
-                    <Text>Video Here</Text>
+                    <Text>I'm going to put a Video here, I know there isn't a video here so dont tell me there isnt a video here</Text>
                 </Container>
             </Group>
             <Space h='xl' />

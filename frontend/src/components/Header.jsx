@@ -16,7 +16,7 @@ const Header = () => {
     >
       <Container style={{ width: '55%' }} align='left' >
         <Button component={Link} to="/" color="black">
-          <Text>Travel Journal</Text>
+          <Text>TravelJournal</Text>
         </Button>
       </Container>
       <Container style={{ width: '35%' }} align='right'>
