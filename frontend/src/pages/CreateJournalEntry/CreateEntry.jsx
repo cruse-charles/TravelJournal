@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { format } from 'date-fns'
 
-import { TextInput, Textarea, Button, Flex, Stack, Group, Modal, SimpleGrid, Image, Text, Indicator } from '@mantine/core';
+import { Title, TextInput, Textarea, Button, Flex, Stack, Group, Modal, Center, Image, Text, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
@@ -26,6 +27,7 @@ const CreateEntry = () => {
     // State vars for files, error, formValues
     const [files, setFiles] = useState([]);
     const [error, setError] = useState({ title: false, text: false });
+    const [isSaving, setIsSaving] = useState(false);
     const [previews, setPreviews] = useState([])
     const [formValues, setFormValues] = useState({
         title: '',
@@ -61,6 +63,7 @@ const CreateEntry = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSaving(true);
 
         if (!formValues.title) {
             setError({ ...error, title: 'Title is required' });
@@ -83,6 +86,7 @@ const CreateEntry = () => {
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (error) {
+            setIsSaving(false);
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
@@ -120,33 +124,43 @@ const CreateEntry = () => {
     }
 
     return (
+
+
         <>
             <form onSubmit={handleSubmit}>
-                <Flex style={{ height: '80vh' }}>
-                    <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                        {previews.map((item, index) => {
-                            return (
-                                <Carousel.Slide key={item.imageUrl} >
-                                    <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
-                                    </Indicator>
-                                    <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
-                                </Carousel.Slide>
-                            )
-                        })}
-                        <Carousel.Slide>
-                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
-                                <Image src={placeholderImage} />
-                            </Dropzone>
-                        </Carousel.Slide>
-                    </Carousel>
-                    <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
+                <Stack style={{ height: '70vh' }}>
+                    <Group justify='space-between'>
                         <Group>
-                            <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
-                            <Button type='submit' color='black'>Save</Button>
+                            <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : 'January 1, 2024'}</Title>
+                            <Button color="black" onClick={open}><FaCalendarDay /></Button>
+                            {/* {error.date && <Text color='red'>{error.date}</Text>}
+                        {error.message && <Text color='red'>{error.message}</Text>} */}
                         </Group>
-                        <Textarea name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
-                    </Stack>
-                </Flex>
+                        {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
+                    </Group>
+                    <Center>
+                        <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
+                    </Center>
+                    <Flex style={{ height: '100%' }} gap='xl'>
+                        <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+                            {previews.map((item, index) => {
+                                return (
+                                    <Carousel.Slide key={item.imageUrl} >
+                                        <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
+                                        </Indicator>
+                                        <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
+                                    </Carousel.Slide>
+                                )
+                            })}
+                            <Carousel.Slide>
+                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+                                    <Image src={placeholderImage} />
+                                </Dropzone>
+                            </Carousel.Slide>
+                        </Carousel>
+                        <Textarea style={{ width: '50%', height: '100%' }} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
+                    </Flex>
+                </Stack>
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                     <DatePicker
                         onChange={(date) => setFormValues({ ...formValues, date: date })}
@@ -155,14 +169,64 @@ const CreateEntry = () => {
                     />
                 </Modal>
             </form>
-            <Flex justify='flex-end' >
+            {/* <Flex justify='flex-end' >
                 <Stack>
                     <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
                     {error.date && <Text color='red'>{error.date}</Text>}
                     {error.message && <Text color='red'>{error.message}</Text>}
                 </Stack>
-            </Flex>
+            </Flex> */}
         </>
+
+
+
+
+
+
+
+        // <>
+        //     <form onSubmit={handleSubmit}>
+        //         <Flex style={{ height: '80vh' }}>
+        //             <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
+        //                 {previews.map((item, index) => {
+        //                     return (
+        //                         <Carousel.Slide key={item.imageUrl} >
+        //                             <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
+        //                             </Indicator>
+        //                             <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
+        //                         </Carousel.Slide>
+        //                     )
+        //                 })}
+        //                 <Carousel.Slide>
+        //                     <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+        //                         <Image src={placeholderImage} />
+        //                     </Dropzone>
+        //                 </Carousel.Slide>
+        //             </Carousel>
+        //             <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
+        //                 <Group>
+        //                     <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
+        //                     <Button type='submit' color='black'>Save</Button>
+        //                 </Group>
+        //                 <Textarea name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
+        //             </Stack>
+        //         </Flex>
+        //         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
+        //             <DatePicker
+        //                 onChange={(date) => setFormValues({ ...formValues, date: date })}
+        //                 getDayProps={(date) => getSelectedDayProps(formValues, date)}
+        //                 excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
+        //             />
+        //         </Modal>
+        //     </form>
+        //     <Flex justify='flex-end' >
+        //         <Stack>
+        //             <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
+        //             {error.date && <Text color='red'>{error.date}</Text>}
+        //             {error.message && <Text color='red'>{error.message}</Text>}
+        //         </Stack>
+        //     </Flex>
+        // </>
     )
 }
 
