@@ -54,7 +54,7 @@ const CreateEntry = () => {
         data.append('user', formValues.user)
 
         //TODO: THIS HERE IS ACTUALLY DOING 3 ATTACHMENT KEYS WITH EACH FILE IN ONE, CHANGE TO MAKE IT AN ARRAY UNDER ONE KEY
-        formValues.attachments.forEach((file, index) => {
+        formValues.attachments.forEach((file) => {
             data.append(`attachments`, file);
         });
 
@@ -131,10 +131,10 @@ const CreateEntry = () => {
                 <Stack style={{ height: '70vh' }}>
                     <Group justify='space-between'>
                         <Group>
-                            <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : 'January 1, 2024'}</Title>
+                            {error.message && <Text color='red'>{error.message}</Text>}
+                            <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
                             <Button color="black" onClick={open}><FaCalendarDay /></Button>
-                            {/* {error.date && <Text color='red'>{error.date}</Text>}
-                        {error.message && <Text color='red'>{error.message}</Text>} */}
+                            {error.date && <Text color='red'>{error.date}</Text>}
                         </Group>
                         {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
                     </Group>
@@ -143,7 +143,7 @@ const CreateEntry = () => {
                     </Center>
                     <Flex style={{ height: '100%' }} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                            {previews.map((item, index) => {
+                            {previews.map((item) => {
                                 return (
                                     <Carousel.Slide key={item.imageUrl} >
                                         <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
@@ -169,64 +169,7 @@ const CreateEntry = () => {
                     />
                 </Modal>
             </form>
-            {/* <Flex justify='flex-end' >
-                <Stack>
-                    <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-                    {error.date && <Text color='red'>{error.date}</Text>}
-                    {error.message && <Text color='red'>{error.message}</Text>}
-                </Stack>
-            </Flex> */}
         </>
-
-
-
-
-
-
-
-        // <>
-        //     <form onSubmit={handleSubmit}>
-        //         <Flex style={{ height: '80vh' }}>
-        //             <Carousel style={{ width: '70%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-        //                 {previews.map((item, index) => {
-        //                     return (
-        //                         <Carousel.Slide key={item.imageUrl} >
-        //                             <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
-        //                             </Indicator>
-        //                             <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
-        //                         </Carousel.Slide>
-        //                     )
-        //                 })}
-        //                 <Carousel.Slide>
-        //                     <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
-        //                         <Image src={placeholderImage} />
-        //                     </Dropzone>
-        //                 </Carousel.Slide>
-        //             </Carousel>
-        //             <Stack style={{ width: '30%', padding: '0px 10px', height: '100%' }}>
-        //                 <Group>
-        //                     <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
-        //                     <Button type='submit' color='black'>Save</Button>
-        //                 </Group>
-        //                 <Textarea name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
-        //             </Stack>
-        //         </Flex>
-        //         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
-        //             <DatePicker
-        //                 onChange={(date) => setFormValues({ ...formValues, date: date })}
-        //                 getDayProps={(date) => getSelectedDayProps(formValues, date)}
-        //                 excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
-        //             />
-        //         </Modal>
-        //     </form>
-        //     <Flex justify='flex-end' >
-        //         <Stack>
-        //             <Button color="black" onClick={open}><FaCalendarDay />View Calendar</Button>
-        //             {error.date && <Text color='red'>{error.date}</Text>}
-        //             {error.message && <Text color='red'>{error.message}</Text>}
-        //         </Stack>
-        //     </Flex>
-        // </>
     )
 }
 
