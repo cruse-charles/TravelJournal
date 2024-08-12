@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice.js'
 
 
-import { Flex, Button, Container, Text, Menu } from '@mantine/core';
+import { Flex, Button, Container, Menu } from '@mantine/core';
 
 const Header = () => {
 
@@ -13,7 +13,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleLoginClick = () => {
+  const handleProfileClick = () => {
     navigate('/profile')
   }
 
@@ -22,7 +22,10 @@ const Header = () => {
   }
 
   const handleLogout = async () => {
+    // Dispatch signOutStart action of userSlice to indicate that the sign out process has started
     dispatch(signOutStart());
+
+    // GET request to logout endpoint
     await axios.get('api/auth/logout')
       .then(() => {
         dispatch(signOutSuccess());
@@ -45,6 +48,7 @@ const Header = () => {
       })
   }
 
+  // Display the header with the appropriate buttons based on whether the user is logged in or not
   return (
     <Flex
       align="center"
@@ -79,7 +83,7 @@ const Header = () => {
             </Menu.Dropdown>
           ) : (
             <Menu.Dropdown>
-              <Menu.Item onClick={handleLoginClick}>
+              <Menu.Item onClick={handleProfileClick}>
                 Login
               </Menu.Item>
               <Menu.Item onClick={handleSignUpClick}>

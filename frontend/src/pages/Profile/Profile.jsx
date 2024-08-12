@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
-import { updateUserStart, updateUserSuccess, updateUserFailure, deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../../redux/user/userSlice'
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../../redux/user/userSlice'
 import CalendarViewEntries from '../../components/CalendarViewEntries'
 import UserEntries from './UserEntries'
 import { useNavigate } from 'react-router-dom';
@@ -44,30 +44,6 @@ const Profile = () => {
             })
     }
 
-    // const handleDeleteUser = async () => {
-    //     // Dispatch deleteUserStart action of userSlice to indicate that the delete process has started
-    //     dispatch(deleteUserStart())
-
-    //     // DELETE request to delete user endpoint
-    //     await axios.delete(`api/user/delete/${currentUser._id}`)
-    //         .then(res => {
-    //             dispatch(deleteUserSuccess(res.data))
-    //         }).catch(err => {
-    //             dispatch(deleteUserFailure(err.response.data.message))
-    //         })
-    // }
-
-    // const handleLogout = async () => {
-    //     dispatch(signOutStart());
-    //     await axios.get('api/auth/logout')
-    //         .then(() => {
-    //             dispatch(signOutSuccess());
-    //         })
-    //         .catch(err => {
-    //             dispatch(signOutFailure(err.response.data.message));
-    //         })
-    // }
-
     const handleNewTripClick = () => {
         navigate('/create')
     }
@@ -96,10 +72,6 @@ const Profile = () => {
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
-                    {/* <Group style={{ alignItems: 'center' }} grow>
-                        <Button color='black' variant="filled" onClick={handleLogout}>Logout</Button>
-                        <Button color='black' variant="filled" onClick={handleDeleteUser}>Delete Account</Button>
-                    </Group> */}
                     <p>{error ? error : ''}</p>
                 </Stack>
             </Group>
