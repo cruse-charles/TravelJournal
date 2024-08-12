@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice.js'
@@ -10,9 +11,14 @@ const Header = () => {
 
   const { currentUser } = useSelector(state => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleProfileClick = () => {
+  const handleLoginClick = () => {
     navigate('/profile')
+  }
+
+  const handleSignUpClick = () => {
+    navigate('/signup')
   }
 
   const handleLogout = async () => {
@@ -53,7 +59,7 @@ const Header = () => {
         <Button component={Link} to="" color="black">Home</Button>
         <Menu>
           <Menu.Target>
-            {currentUser ? (<Button color="black">{currentUser.username}</Button>) : (<Button onClick={handleProfileClick} color='black'>Login/Sign Up</Button>)}
+            {currentUser ? (<Button color="black">{currentUser.username}</Button>) : (<Button color='black'>Login/Sign Up</Button>)}
           </Menu.Target>
           {currentUser ? (
             <Menu.Dropdown>
@@ -73,10 +79,10 @@ const Header = () => {
             </Menu.Dropdown>
           ) : (
             <Menu.Dropdown>
-              <Menu.Item onClick={handleProfileClick}>
+              <Menu.Item onClick={handleLoginClick}>
                 Login
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item onClick={handleSignUpClick}>
                 Sign Up
               </Menu.Item>
             </Menu.Dropdown>
