@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice.js'
+
+
 import { Flex, Button, Container, Text, Menu } from '@mantine/core';
 
 const Header = () => {
@@ -10,6 +13,30 @@ const Header = () => {
 
   const handleProfileClick = () => {
     navigate('/profile')
+  }
+
+  const handleLogout = async () => {
+    dispatch(signOutStart());
+    await axios.get('api/auth/logout')
+      .then(() => {
+        dispatch(signOutSuccess());
+      })
+      .catch(err => {
+        dispatch(signOutFailure(err.response.data.message));
+      })
+  }
+
+  const handleDeleteUser = async () => {
+    // Dispatch deleteUserStart action of userSlice to indicate that the delete process has started
+    dispatch(deleteUserStart())
+
+    // DELETE request to delete user endpoint
+    await axios.delete(`api/user/delete/${currentUser._id}`)
+      .then(res => {
+        dispatch(deleteUserSuccess(res.data))
+      }).catch(err => {
+        dispatch(deleteUserFailure(err.response.data.message))
+      })
   }
 
   return (
@@ -24,11 +51,6 @@ const Header = () => {
       </Container>
       <Container style={{ width: '35%' }} align='right'>
         <Button component={Link} to="" color="black">Home</Button>
-
-
-
-
-
         <Menu>
           <Menu.Target>
             {currentUser ? (<Button color="black">{currentUser.username}</Button>) : (<Button onClick={handleProfileClick} color='black'>Login/Sign Up</Button>)}
@@ -38,14 +60,14 @@ const Header = () => {
               <Menu.Item onClick={handleProfileClick}>
                 Profile
               </Menu.Item>
-              <Menu.Item>
+              <Menu.Item onClick={handleLogout}>
                 Logout
               </Menu.Item>
               <Menu.Divider />
               <Menu.Label>
                 Danger zone
               </Menu.Label>
-              <Menu.Item color='red'>
+              <Menu.Item color='red' onClick={handleDeleteUser}>
                 Delete Account
               </Menu.Item>
             </Menu.Dropdown>
