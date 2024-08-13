@@ -7,7 +7,7 @@ import SignUp from './pages/Signup/SignUp';
 import Login from './pages/Login/Login';
 import Header from './components/Header';
 import PrivateProfileRoute from './components/PrivateProfileRoute';
-import Profile from './pages/Profile/Profile';
+import Profile from './pages/Profile/Profile.tsx';
 import About from './pages/About/About';
 
 import '@mantine/core/styles.css';

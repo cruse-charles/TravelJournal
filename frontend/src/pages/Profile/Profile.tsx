@@ -1,29 +1,48 @@
-import React, { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import axios from 'axios'
-import { updateUserStart, updateUserSuccess, updateUserFailure } from '../../redux/user/userSlice'
-import CalendarViewEntries from '../../components/CalendarViewEntries'
-import UserEntries from './UserEntries.tsx'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
+import { updateUserStart, updateUserSuccess, updateUserFailure } from '../../redux/user/userSlice.js'
+import CalendarViewEntries from '../../components/CalendarViewEntries.jsx'
+import UserEntries from './UserEntries'
 
 import { Button, TextInput, Stack, Group, Text, PasswordInput } from '@mantine/core';
+import styles from './Profile.module.css'
+
+type FormData = {
+    username: string,
+    email: string,
+    password: string
+}
+
+type RootState = {
+    user: {
+        currentUser: {
+            _id: string,
+            username: string,
+            email: string
+        },
+        loading: boolean,
+        error: string
+    }
+}
 
 const Profile = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { currentUser, loading, error } = useSelector(state => state.user)
-    const [formData, setFormData] = useState({})
+    const { currentUser, loading, error } = useSelector((state: RootState) => state.user)
+    const [formData, setFormData] = useState<FormData>({username: '', email: '', password: '', })
     const [errors, setErrors] = useState({})
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value })
         setErrors({})
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (!formData.password || formData.password.length < 8) {
@@ -51,7 +70,7 @@ const Profile = () => {
 
     return (
         <Stack >
-            <Group justify='space-between' p='xl' align='flex-start' style={{ width: '100%', height: '40%' }}>
+            <Group justify='space-between' p='xl' align='flex-start'>
                 <Stack style={{ width: '65%' }}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
@@ -59,10 +78,10 @@ const Profile = () => {
                     </Group>
                     <UserEntries />
                 </Stack>
-                <CalendarViewEntries scale={1.6} style={{ width: '30%' }} entry={null} />
+                <CalendarViewEntries scale={1.6} className={styles.calendarViewEntries} entry={null} />
             </Group>
-            <Group style={{ width: '100%' }} justify='center'>
-                <Stack gap='xs' p='xl' style={{ justifyContent: 'center', width: '50%' }}>
+            <Group justify='center'>
+                <Stack gap='xs' p='xl' className={styles.userInformation}>
                     <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <Stack>
