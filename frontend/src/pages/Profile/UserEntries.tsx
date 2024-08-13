@@ -63,7 +63,7 @@ const UserEntries: React.FC = () => {
                 <Carousel.Slide key={entry._id} className={styles.carouselSlide} >
                     <Card onClick={() => handleNavigate(entry._id)} key={entry._id} shadow="sm" padding="lg" radius="md" withBorder >
                         <Card.Section>
-                            <Image style={{ width: '100%', height: '50%' }} h={350} src={entry.attachments?.[0]} />
+                            <Image className={styles.cardImage} h={350} src={entry.attachments?.[0]} />
                         </Card.Section>
                         <Text fw={500} >{entry.title}</Text>
                         <Text truncate='end'>{entry.text}</Text>
