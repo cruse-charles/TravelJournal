@@ -6,10 +6,28 @@ import { Carousel } from '@mantine/carousel';
 import { useNavigate } from 'react-router-dom';
 import Autoplay from 'embla-carousel-autoplay';
 
-const UserEntries = () => {
-    const { currentUser } = useSelector(state => state.user)
+type Entry = {
+    _id: string;
+    title: string;
+    text: string;
+    attachments?: string[];
+}
+
+type User = {
+    _id: string;
+    username: string;
+}
+
+type RootState = {
+    user: {
+        currentUser: User | null;
+    };
+}
+
+const UserEntries: React.FC = () => {
+    const { currentUser } = useSelector((state: RootState) => state.user)
     const navigate = useNavigate();
-    const [entries, setEntries] = useState([])
+    const [entries, setEntries] = useState<Entry[]>([])
     const [errors, setErrors] = useState(null)
     const autoplay = useRef(Autoplay({ delay: 3000 }))
 
@@ -17,12 +35,14 @@ const UserEntries = () => {
 
         const controller = new AbortController();
 
-        axios.get(`api/user/entries/${currentUser._id}`, { signal: controller.signal })
-            .then(res => {
-                setEntries(res.data)
-            }).catch((error) => {
-                setErrors(error.response.data.message)
-            })
+        if (currentUser) {
+            axios.get(`api/user/entries/${currentUser._id}`, { signal: controller.signal })
+                .then(res => {
+                    setEntries(res.data)
+                }).catch((error) => {
+                    setErrors(error.response.data.message)
+                })
+        }
 
         return () => controller.abort();
     }, [])
@@ -31,7 +51,7 @@ const UserEntries = () => {
         return <Text>{errors}</Text>
     }
 
-    const handleNavigate = (id) => {
+    const handleNavigate = (id: string) => {
         navigate(`/entry/${id}`)
     }
 

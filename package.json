@@ -17,6 +17,11 @@
     "@aws-sdk/client-s3": "^3.568.0",
     "@aws-sdk/s3-request-presigner": "^3.569.0",
     "@mantine/dropzone": "^7.11.2",
+    "@types/express": "^4.17.21",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^22.5.4",
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
     "axios": "^1.6.8",
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
@@ -28,6 +33,7 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^3.1.0",
     "react-router-dom": "^6.23.0",
-    "sharp": "^0.33.3"
+    "sharp": "^0.33.3",
+    "typescript": "^5.5.4"
   }
 }

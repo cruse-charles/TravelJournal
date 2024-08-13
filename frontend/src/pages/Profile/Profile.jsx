@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import axios from 'axios'
 import { updateUserStart, updateUserSuccess, updateUserFailure } from '../../redux/user/userSlice'
 import CalendarViewEntries from '../../components/CalendarViewEntries'
-import UserEntries from './UserEntries'
+import UserEntries from './UserEntries.tsx'
 import { useNavigate } from 'react-router-dom';
 
 
