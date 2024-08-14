@@ -41,31 +41,33 @@ const Profile = () => {
 
     const { currentUser, loading, error } = useSelector((state: RootState) => state.user)
     const [formData, setFormData] = useState<FormData>({username: '', email: '', password: '', })
-    const [errors, setErrors] = useState<Errors>({})
+    const [formErrors, setFormErrors] = useState<Errors>({})
 
     const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value })
-        setErrors({})
+        setFormErrors({})
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const newErrors: Errors = {}
+        // Validate form data
+        const newFormErrors: Errors = {}
         if (formData.username.length < 2) {
-            newErrors.username = 'Username must be at least 2 characters long'
+            newFormErrors.username = 'Username must be at least 2 characters long'
         }
 
         if (!formData.email || !formData.email.includes('@')) {
-            newErrors.email = 'Please enter a valid email address'
+            newFormErrors.email = 'Please enter a valid email address'
         }
 
         if (!formData.password || formData.password.length < 8) {
-            newErrors.password = 'Password must be at least 8 characters long'
+            newFormErrors.password = 'Password must be at least 8 characters long'
         }
 
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors)
+        // If there are errors, set the formErrors state and return
+        if (Object.keys(newFormErrors).length > 0) {
+            setFormErrors(newFormErrors)
             return
         }
 
@@ -90,7 +92,7 @@ const Profile = () => {
     return (
         <Stack >
             <Group justify='space-between' p='xl' align='flex-start'>
-                <Stack style={{ width: '65%' }}>
+                <Stack className={styles.userEntriesContainer}>
                     <Group>
                         <Text size="xl" fw={700} >Your Trips</Text>
                         <Button color='black' onClick={handleNewTripClick}>+ New Trip</Button>
@@ -104,9 +106,9 @@ const Profile = () => {
                     <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <Stack>
-                            <TextInput error={errors.username} label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
-                            <TextInput error={errors.password} label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
-                            <PasswordInput error={errors.password} label='Password' type='password' id='password' ></PasswordInput>
+                            <TextInput error={formErrors.username} label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
+                            <TextInput error={formErrors.password} label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
+                            <PasswordInput error={formErrors.password} label='Password' type='password' id='password' ></PasswordInput>
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
                     </form>
