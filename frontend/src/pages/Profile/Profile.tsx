@@ -35,11 +35,11 @@ const Profile = () => {
 
     const { currentUser, loading, error } = useSelector((state: RootState) => state.user)
     const [formData, setFormData] = useState<FormData>({username: '', email: '', password: '', })
-    const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState({password: ''})
 
     const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value })
-        setErrors({})
+        setErrors({password: ''})
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
