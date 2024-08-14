@@ -16,6 +16,12 @@ type FormData = {
     password: string
 }
 
+type Errors = {
+    username?: string;
+    email?: string;
+    password?: string;
+}
+
 type RootState = {
     user: {
         currentUser: {
@@ -35,19 +41,32 @@ const Profile = () => {
 
     const { currentUser, loading, error } = useSelector((state: RootState) => state.user)
     const [formData, setFormData] = useState<FormData>({username: '', email: '', password: '', })
-    const [errors, setErrors] = useState({password: ''})
+    const [errors, setErrors] = useState<Errors>({})
 
     const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value })
-        setErrors({password: ''})
+        setErrors({})
     }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        const newErrors: Errors = {}
+        if (formData.username.length < 2) {
+            newErrors.username = 'Username must be at least 2 characters long'
+        }
+
+        if (!formData.email || !formData.email.includes('@')) {
+            newErrors.email = 'Please enter a valid email address'
+        }
+
         if (!formData.password || formData.password.length < 8) {
-            setErrors((prevErrors) => ({ ...prevErrors, password: 'Password must be at least 8 characters long' }))
-            return;
+            newErrors.password = 'Password must be at least 8 characters long'
+        }
+
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors)
+            return
         }
 
         // Dispatch updateUserStart action of userSlice to indicate that the update process has started
@@ -85,8 +104,8 @@ const Profile = () => {
                     <Text size="xl" fw={700}>Account Information</Text>
                     <form onSubmit={handleSubmit} onChange={handleChange}>
                         <Stack>
-                            <TextInput label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
-                            <TextInput label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
+                            <TextInput error={errors.username} label='Username' type='text' placeholder={currentUser.username} id='username' ></TextInput>
+                            <TextInput error={errors.password} label='Email' type='email' placeholder={currentUser.email} id='email' ></TextInput>
                             <PasswordInput error={errors.password} label='Password' type='password' id='password' ></PasswordInput>
                             <Button color='black' type='submit' disabled={loading} variant="filled">{loading ? 'Updating...' : 'Save Changes'}</Button>
                         </Stack>
