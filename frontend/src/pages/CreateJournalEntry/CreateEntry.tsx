@@ -17,19 +17,35 @@ import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 import { updatePreviews } from '../../utils/uploaderHelper';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 
+type RootState = {
+    user: {
+        currentUser: {
+            _id: string
+        }
+    }
+}
+
+type FormValues = {
+    title: string;
+    text: string;
+    date: Date;
+    attachments: File[];
+    user: string;
+}
+
 const CreateEntry = () => {
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
     // Retrieve current user from redux store, setting errors, setting formValues
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser } = useSelector((state: RootState) => state.user);
 
     // State vars for files, error, formValues
     const [files, setFiles] = useState([]);
     const [error, setError] = useState({ title: false, text: false });
     const [isSaving, setIsSaving] = useState(false);
     const [previews, setPreviews] = useState([])
-    const [formValues, setFormValues] = useState({
+    const [formValues, setFormValues] = useState<FormValues>({
         title: '',
         text: '',
         date: null,
@@ -50,7 +66,8 @@ const CreateEntry = () => {
         // append data and files to FormData object
         data.append('title', formValues.title);
         data.append('text', formValues.text);
-        data.append('date', formValues.date);
+        // data.append('date', formValues.date);
+        data.append('date', formValues.date.toISOString());
         data.append('user', formValues.user)
 
         //TODO: THIS HERE IS ACTUALLY DOING 3 ATTACHMENT KEYS WITH EACH FILE IN ONE, CHANGE TO MAKE IT AN ARRAY UNDER ONE KEY
