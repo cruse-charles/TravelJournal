@@ -28,9 +28,29 @@ type RootState = {
 type FormValues = {
     title: string;
     text: string;
-    date: Date;
+    date: Date | null;
     attachments: File[];
-    user: string;
+    user: string | null;
+}
+
+type Errors = {
+    title?: string;
+    text?: string;
+    date?: string;
+    message?: string;
+}
+
+type ErrorResponse = {
+    response: {
+        data: {
+            message: string;
+        }
+    }
+}
+
+type Preview = {
+    imageUrl: string;
+    fileName: string;
 }
 
 const CreateEntry = () => {
@@ -41,10 +61,10 @@ const CreateEntry = () => {
     const { currentUser } = useSelector((state: RootState) => state.user);
 
     // State vars for files, error, formValues
-    const [files, setFiles] = useState([]);
-    const [error, setError] = useState({ title: false, text: false });
+    const [files, setFiles] = useState<File[]>([]);
+    const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
-    const [previews, setPreviews] = useState([])
+    const [previews, setPreviews] = useState<Preview[]>([])
     const [formValues, setFormValues] = useState<FormValues>({
         title: '',
         text: '',
@@ -67,8 +87,8 @@ const CreateEntry = () => {
         data.append('title', formValues.title);
         data.append('text', formValues.text);
         // data.append('date', formValues.date);
-        data.append('date', formValues.date.toISOString());
-        data.append('user', formValues.user)
+        if (formValues.date) data.append('date', formValues.date.toISOString());
+        if (formValues.user) data.append('user', formValues.user)
 
         //TODO: THIS HERE IS ACTUALLY DOING 3 ATTACHMENT KEYS WITH EACH FILE IN ONE, CHANGE TO MAKE IT AN ARRAY UNDER ONE KEY
         formValues.attachments.forEach((file) => {
@@ -78,7 +98,7 @@ const CreateEntry = () => {
         return data;
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSaving(true);
 
@@ -102,13 +122,14 @@ const CreateEntry = () => {
             const data = createFormData();
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
-        } catch (error) {
+        } catch (err) {
             setIsSaving(false);
+            const error = err as ErrorResponse
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormValues({
             ...formValues,
             [e.target.name]: e.target.value,
@@ -118,7 +139,7 @@ const CreateEntry = () => {
     };
 
     // add new images to entry and previews
-    const handleImageChange = (newFiles) => {
+    const handleImageChange = (newFiles: File[]) => {
         const updatedFiles = [...files, ...newFiles];
         setPreviews(updatePreviews(updatedFiles));
         setFiles(updatedFiles)
@@ -128,7 +149,7 @@ const CreateEntry = () => {
         });
     };
 
-    const deleteSelectedImage = (fileName) => {
+    const deleteSelectedImage = (fileName: string) => {
         // Remove file from files array and update formValues and previews
         const updatedFiles = files.filter((file) => file.name !== fileName);
         setFiles(updatedFiles);
@@ -163,8 +184,8 @@ const CreateEntry = () => {
                             {previews.map((item) => {
                                 return (
                                     <Carousel.Slide key={item.imageUrl} >
-                                        <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X">
-                                        </Indicator>
+                                        <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X" />
+                                        {/* </Indicator> */}
                                         <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
                                     </Carousel.Slide>
                                 )
