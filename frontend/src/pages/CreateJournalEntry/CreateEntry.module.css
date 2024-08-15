@@ -1,0 +1,33 @@
+.entryContainer {
+    height: 70vh;
+}
+
+.entryTitle {
+    width: 70%;
+}
+
+.carouselTextAreaContainer {
+    height: 100%;
+}
+
+.indicator {
+    cursor: pointer;
+}
+
+.image {
+    object-fit: contain;
+}
+
+.dropzone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+.textArea {
+    width: 50%;
+    height: 100%;
+}

@@ -11,6 +11,7 @@ import { Carousel } from '@mantine/carousel';
 
 import { useDisclosure } from '@mantine/hooks';
 import { FaCalendarDay } from "react-icons/fa6";
+import styles from './CreateEntry.module.css';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
@@ -166,7 +167,7 @@ const CreateEntry = () => {
 
         <>
             <form onSubmit={handleSubmit}>
-                <Stack style={{ height: '70vh' }}>
+                <Stack className={styles.entryContainer} >
                     <Group justify='space-between'>
                         <Group>
                             {error.message && <Text color='red'>{error.message}</Text>}
@@ -177,26 +178,25 @@ const CreateEntry = () => {
                         {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
                     </Group>
                     <Center>
-                        <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} maxLength={40} />
+                        <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
                     </Center>
-                    <Flex style={{ height: '100%' }} gap='xl'>
+                    <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {
                                 return (
                                     <Carousel.Slide key={item.imageUrl} >
-                                        <Indicator size={15} color="red" offset={12} style={{ cursor: 'pointer' }} onClick={() => deleteSelectedImage(item.fileName)} label="X" />
-                                        {/* </Indicator> */}
-                                        <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} style={{ fit: 'contain' }} />
+                                        <Indicator size={15} color="red" offset={12} className={styles.indicator} onClick={() => deleteSelectedImage(item.fileName)} label="X" />
+                                        <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} className={styles.image} />
                                     </Carousel.Slide>
                                 )
                             })}
                             <Carousel.Slide>
-                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} style={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '0px' }}>
+                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} className={styles.dropzone}>
                                     <Image src={placeholderImage} />
                                 </Dropzone>
                             </Carousel.Slide>
                         </Carousel>
-                        <Textarea style={{ width: '50%', height: '100%' }} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
+                        <Textarea className={styles.textArea} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Flex>
                 </Stack>
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
