@@ -19,6 +19,7 @@ import { updateFormData } from '../../utils/updateFormData';
 import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
+import EntryHeader from '../CreateJournalEntry/EntryHeader';
 
 type Entry = {
     title: string;
@@ -175,7 +176,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
-                        <Group justify='space-between'>
+                        {/* <Group justify='space-between'>
                             <Group>
                                 <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
                                 <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
@@ -187,7 +188,8 @@ const SingleEntry = () => {
                         </Group>
                         <Center>
                             <Title order={1}>{entry?.title}</Title>
-                        </Center>
+                        </Center> */}
+                        <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
                         <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {entry?.attachments?.map((imageURL) => {
@@ -212,7 +214,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
-                            <Group justify='space-between'>
+                            {/* <Group justify='space-between'>
                                 <Group>
                                     <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
                                     <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
@@ -221,7 +223,8 @@ const SingleEntry = () => {
                             </Group>
                             <Center>
                                 <TextInput error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
-                            </Center>
+                            </Center> */}
+                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                     {previews.map((item) => {

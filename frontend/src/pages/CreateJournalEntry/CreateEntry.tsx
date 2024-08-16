@@ -167,7 +167,7 @@ const CreateEntry = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
-            <EntryHeader error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
+                    <EntryHeader isEditing={true} error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {
