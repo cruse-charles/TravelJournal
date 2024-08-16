@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 import { getFormattedDate } from '../utils/dateUtils.js';
-import { getUserEntries } from '../utils/apiService.js';
+import { getUserEntries } from '../utils/apiService';
 
 // const entryIdHash = useRef({});
 const useUserEntryDateHash = () => {

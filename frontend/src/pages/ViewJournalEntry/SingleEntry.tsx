@@ -20,14 +20,30 @@ import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 
+type Entry = {
+    title: string;
+    text: string;
+    date: Date | null;
+    attachments: File[];
+}
+
+type Errors = {
+    title?: string;
+    text?: string;
+    message?: string;
+}
+
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
-    const [entry, setEntry] = useState({});
+    const [entry, setEntry] = useState({title: '', text: '', date: null, attachments: []});
+    // const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
     const [previews, setPreviews] = useState([]);
+    // const [previews, setPreviews] = useState<(File | string)[]>([]);
     const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const [errors, setErrors] = useState({})
+    // const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
     // custom hook to get entryIdHash
@@ -40,14 +56,16 @@ const SingleEntry = () => {
     const [opened, { open, close }] = useDisclosure(false);
 
     // extract entry id from url, and navigate function
-    const { id } = useParams();
+    // const { id } = useParams();
+    const { id } = useParams<{id: string}>();
     const navigate = useNavigate();
 
     useEffect(() => {
         // fetch entry data and set entry and previews state vars
         const controller = new AbortController();
 
-        getUserEntry(id, controller.id)
+        getUserEntry(id, controller.signal)
+        // getUserEntry(id, controller.id)
             .then(entryResponse => {
                 setEntry(entryResponse);
                 setOriginalEntryDate(entryResponse.date);
@@ -155,9 +173,9 @@ const SingleEntry = () => {
                                 <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
                             </Group>
                         </Group>
-                        <Group justify='center'>
+                        <Center justify='center'>
                             <Title order={1}>{entry?.title}</Title>
-                        </Group>
+                        </Center>
                         <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {entry?.attachments?.map((imageURL, index) => {

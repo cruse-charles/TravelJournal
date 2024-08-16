@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { MantineProvider, AppShell } from '@mantine/core';
 
 import CreateEntry from './pages/CreateJournalEntry/CreateEntry';
-import SingleEntry from './pages/ViewJournalEntry/SingleEntry';
+import SingleEntry from './pages/ViewJournalEntry/SingleEntry.tsx';
 import SignUp from './pages/Signup/SignUp';
 import Login from './pages/Login/Login';
 import Header from './components/Header';
