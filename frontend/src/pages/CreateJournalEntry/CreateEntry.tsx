@@ -168,18 +168,6 @@ const CreateEntry = () => {
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
             <EntryHeader error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
-                    {/* <Group justify='space-between'>
-                        <Group>
-                            {error.message && <Text color='red'>{error.message}</Text>}
-                            <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
-                            <Button color="black" onClick={open}><FaCalendarDay /></Button>
-                            {error.date && <Text color='red'>{error.date}</Text>}
-                        </Group>
-                        {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
-                    </Group>
-                    <Center>
-                        <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
-                    </Center> */}
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {

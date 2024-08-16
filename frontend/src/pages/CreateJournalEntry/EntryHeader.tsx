@@ -26,8 +26,8 @@ const EntryHeader = ({error, formValues, isSaving, handleChange, open }: Props) 
         <>
             <Group justify='space-between'>
                 <Group>
-                    {error.message && <Text color='red'>{error.message}</Text>}
                     <Button color="black" onClick={open}><FaCalendarDay /></Button>
+                    {error.message && <Text color='red'>{error.message}</Text>}
                     <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
                     {error.date && <Text color='red'>{error.date}</Text>}
                 </Group>
