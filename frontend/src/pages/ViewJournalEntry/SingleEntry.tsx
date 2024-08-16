@@ -64,6 +64,8 @@ const SingleEntry = () => {
         // fetch entry data and set entry and previews state vars
         const controller = new AbortController();
 
+        // retrieve entry or navigate to profile page if undefined
+        // TODO: navigate to 404 page if entry is not found
         if (id) {
             getUserEntry(id, controller.signal)
             // getUserEntry(id, controller.id)
