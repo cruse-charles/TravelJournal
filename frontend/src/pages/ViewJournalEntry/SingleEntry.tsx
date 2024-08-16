@@ -64,17 +64,21 @@ const SingleEntry = () => {
         // fetch entry data and set entry and previews state vars
         const controller = new AbortController();
 
-        getUserEntry(id, controller.signal)
-        // getUserEntry(id, controller.id)
-            .then(entryResponse => {
-                setEntry(entryResponse);
-                setOriginalEntryDate(entryResponse.date);
-                setIsLoading(false);
-                setPreviews(entryResponse.attachments)
-            }).catch(error => {
-                setErrors({ message: error.response.data.message })
-                setIsLoading(false)
-            })
+        if (id) {
+            getUserEntry(id, controller.signal)
+            // getUserEntry(id, controller.id)
+                .then(entryResponse => {
+                    setEntry(entryResponse);
+                    setOriginalEntryDate(entryResponse.date);
+                    setIsLoading(false);
+                    setPreviews(entryResponse.attachments)
+                }).catch(error => {
+                    setErrors({ message: error.response.data.message })
+                    setIsLoading(false)
+                })
+        } else {
+            navigate('/profile')
+        }
 
         return () => controller.abort();
     }, [id, isEditing])
