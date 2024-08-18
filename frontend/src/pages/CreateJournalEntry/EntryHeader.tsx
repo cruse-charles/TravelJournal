@@ -26,6 +26,27 @@ type Props = {
 
 const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, startEdit, handleDelete, open }: Props) => {
 
+    const renderButtons = () => {
+        if (isEditing) {
+            return <Button type='submit' disabled={isSaving} color="black">Save</Button>
+        } else {
+            return (
+                <Group>
+                    <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
+                    <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
+                </Group>
+            )
+        }
+    }
+
+    const renderTitleOrInput = () => {
+        if (isEditing) {
+            return <TextInput value={formValues.title} onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
+        } else {
+            return <Title order={1}>{formValues?.title}</Title>
+        }
+    }
+
     return (
         <>
             { isEditing ? 
@@ -37,10 +58,12 @@ const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, star
                         <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
                         {error.date && <Text color='red'>{error.date}</Text>}
                     </Group>
-                    <Button type='submit' disabled={isSaving} color="black">Save</Button>
+                    {/* <Button type='submit' disabled={isSaving} color="black">Save</Button> */}
+                    {renderButtons()}
                 </Group>
                 <Center>
-                    <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
+                    {/* <TextInput value={formValues.title} onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} /> */}
+                    {renderTitleOrInput()}
                 </Center>
             </> 
             : 
@@ -50,13 +73,15 @@ const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, star
                             <Title order={3}>{formValues?.date ? format(formValues.date, 'MMMM do, yyy') : ''}</Title>
                             <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
                         </Group>
-                        <Group>
+                        {/* <Group>
                             <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
                             <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
-                    </Group>
+                        </Group> */}
+                        {renderButtons()}
                     </Group>
                     <Center>
-                        <Title order={1}>{formValues?.title}</Title>
+                        {/* <Title order={1}>{formValues?.title}</Title> */}
+                        {renderTitleOrInput()}
                     </Center>
             </>
             }
