@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, TextInput, Textarea, Indicator, Center } from '@mantine/core';
@@ -24,7 +24,7 @@ type Entry = {
     title: string;
     text: string;
     date: Date | null;
-    attachments: File[];
+    attachments: (File | string)[];
 }
 
 type Errors = {
@@ -33,17 +33,26 @@ type Errors = {
     message?: string;
 }
 
+type ErrorResponse = {
+    response: {
+        data: {
+            message: string;
+        }
+    }
+}
+
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
-    const [entry, setEntry] = useState({title: '', text: '', date: null, attachments: []});
-    // const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
+    // const [entry, setEntry] = useState({title: '', text: '', date: null, attachments: []});
+    const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
-    const [previews, setPreviews] = useState([]);
-    // const [previews, setPreviews] = useState<(File | string)[]>([]);
-    const [originalEntryDate, setOriginalEntryDate] = useState(null);
-    const [errors, setErrors] = useState({})
-    // const [errors, setErrors] = useState<Errors>({})
+    // const [previews, setPreviews] = useState([]);
+    const [previews, setPreviews] = useState<(File | string)[]>([]);
+    // const [originalEntryDate, setOriginalEntryDate] = useState(null);
+    const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
+    // const [errors, setErrors] = useState({})
+    const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
     // custom hook to get entryIdHash
@@ -95,7 +104,8 @@ const SingleEntry = () => {
         try {
             await deleteEntry(id)
             navigate('/profile')
-        } catch (error) {
+        } catch (err) {
+            const error = err as ErrorResponse;
             setErrors({ message: error.response.data.message })
         }
     }
@@ -104,14 +114,14 @@ const SingleEntry = () => {
         setIsEditing(true)
     }
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
         setEntry({ ...entry, [name]: value })
         setErrors({})
     }
 
     // add new images to entry and previews
-    const handleImageChange = (newFiles) => {
+    const handleImageChange = (newFiles: File[]) => {
         const updatedFiles = [...entry.attachments, ...newFiles];
         setPreviews((prevState) => [...prevState, ...newFiles])
         setEntry({
@@ -121,7 +131,7 @@ const SingleEntry = () => {
     };
 
     // delete preview image from preview and entry
-    const deleteSelectedImage = (key) => {
+    const deleteSelectedImage = (key: string) => {
         const updatedFiles = deleteSelectedFiles(previews, key)
 
         setPreviews(updatedFiles)
@@ -132,7 +142,7 @@ const SingleEntry = () => {
     };
 
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         if (entry.title === '') {
@@ -152,14 +162,15 @@ const SingleEntry = () => {
     };
 
     // update entry with new data and set isEditing to false
-    const updateEntry = async (formData) => {
+    const updateEntry = async (formData: FormData) => {
         try {
             setIsSaving(true)
             const response = await getUpdatedEntry(id, formData)
             setEntry(response.data)
             setIsEditing(false)
             setIsSaving(false)
-        } catch (error) {
+        } catch (err) {
+            const error = err as ErrorResponse;
             setErrors({ message: error.response.data.message })
         }
     }
@@ -179,15 +190,16 @@ const SingleEntry = () => {
                                 <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
                             </Group>
                         </Group>
-                        <Center justify='center'>
+                        <Center>
                             <Title order={1}>{entry?.title}</Title>
                         </Center>
                         <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                                {entry?.attachments?.map((imageURL, index) => {
+                                {entry?.attachments?.map((imageURL) => {
+                                    const src = imageURL as string;
                                     return (
-                                        <Carousel.Slide key={imageURL} >
-                                            <Image key={imageURL} src={imageURL} />
+                                        <Carousel.Slide key={src} >
+                                            <Image key={src} src={src} />
                                         </Carousel.Slide>
                                     )
                                 })}
@@ -213,7 +225,7 @@ const SingleEntry = () => {
                                 {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
                             </Group>
                             <Center>
-                                <TextInput justify='center  ' error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
+                                <TextInput error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
                             </Center>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
