@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { Image, Title, Flex, Text, Stack, Group, ScrollArea, Button, Modal, TextInput, Textarea, Indicator, Center } from '@mantine/core';
+import { Image, Flex, Text, Stack, ScrollArea, Modal, Textarea, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
-import { format } from 'date-fns'
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
@@ -15,8 +14,6 @@ import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
 
-// https://react-icons.github.io/react-icons/icons/fa6/
-import { FaPencil, FaRegTrashCan, FaCalendarDay } from "react-icons/fa6";
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 import EntryHeader from '../CreateJournalEntry/EntryHeader';
@@ -176,19 +173,6 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
-                        {/* <Group justify='space-between'>
-                            <Group>
-                                <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
-                                <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
-                            </Group>
-                            <Group>
-                                <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
-                                <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
-                            </Group>
-                        </Group>
-                        <Center>
-                            <Title order={1}>{entry?.title}</Title>
-                        </Center> */}
                         <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
                         <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
@@ -214,16 +198,6 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
-                            {/* <Group justify='space-between'>
-                                <Group>
-                                    <Title order={3}>{entry?.date ? format(entry.date, 'MMMM do, yyy') : ''}</Title>
-                                    <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
-                                </Group>
-                                {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>}
-                            </Group>
-                            <Center>
-                                <TextInput error={errors.title} onChange={handleChange} placeholder='Title of your day!' name='title' radius="xs" size='lg' style={{ width: '70%' }} value={entry.title} maxLength={40} />
-                            </Center> */}
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>

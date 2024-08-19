@@ -2,6 +2,7 @@ import { Title, TextInput, Button, Group, Center, Text } from '@mantine/core';
 import styles from './CreateEntry.module.css';
 import { format } from 'date-fns'
 
+// https://react-icons.github.io/react-icons/icons/fa6/
 import { FaPencil, FaRegTrashCan,FaCalendarDay } from "react-icons/fa6";
 
 type Props = {
@@ -17,8 +18,8 @@ type Props = {
     isSaving: boolean;
     isEditing: boolean;
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    handleDelete: () => void;
-    startEdit: () => void;
+    handleDelete?: () => void;
+    startEdit?: () => void;
     open: () => void;
 }
 
@@ -27,38 +28,38 @@ const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, star
 
     return (
         <>
-        { isEditing ? 
-<>
-            <Group justify='space-between'>
-                <Group>
-                    <Button color="black" onClick={open}><FaCalendarDay /></Button>
-                    {error.message && <Text color='red'>{error.message}</Text>}
-                    <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
-                    {error.date && <Text color='red'>{error.date}</Text>}
+            { isEditing ? 
+            <>
+                <Group justify='space-between'>
+                    <Group>
+                        <Button color="black" onClick={open}><FaCalendarDay /></Button>
+                        {error.message && <Text color='red'>{error.message}</Text>}
+                        <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
+                        {error.date && <Text color='red'>{error.date}</Text>}
+                    </Group>
+                    <Button type='submit' disabled={isSaving} color="black">Save</Button>
                 </Group>
-                {/* {isSaving ? <Button type='submit' disabled={isSaving} color="black">Saving...</Button> : <Button type='submit' color="black">Save</Button>} */}
-                <Button type='submit' disabled={isSaving} color="black">Save</Button>
-            </Group>
-            <Center>
-                <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
-            </Center>
-</> : 
-<>
-<Group justify='space-between'>
-                            <Group>
-                                <Title order={3}>{formValues?.date ? format(formValues.date, 'MMMM do, yyy') : ''}</Title>
-                                <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
-                            </Group>
-                            <Group>
-                                <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
-                                <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
-                            </Group>
+                <Center>
+                    <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
+                </Center>
+            </> 
+            : 
+            <>
+                <Group justify='space-between'>
+                    <Group>
+                            <Title order={3}>{formValues?.date ? format(formValues.date, 'MMMM do, yyy') : ''}</Title>
+                            <Button color="black" onClick={open} size='sm' variant='outline' style={{ border: 'none' }}><FaCalendarDay /></Button>
                         </Group>
-                        <Center>
-                            <Title order={1}>{formValues?.title}</Title>
-                        </Center>
-</>
-        }
+                        <Group>
+                            <Button variant="outline" color="black" size="xs" onClick={startEdit}><FaPencil /></Button>
+                            <Button onClick={handleDelete} variant="outline" color="black" size="xs"><FaRegTrashCan /></Button>
+                    </Group>
+                    </Group>
+                    <Center>
+                        <Title order={1}>{formValues?.title}</Title>
+                    </Center>
+            </>
+            }
         </>
     )
 }

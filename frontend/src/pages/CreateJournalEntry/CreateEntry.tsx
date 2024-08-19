@@ -2,15 +2,13 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { format } from 'date-fns'
 
-import { Title, TextInput, Textarea, Button, Flex, Stack, Group, Modal, Center, Image, Text, Indicator } from '@mantine/core';
+import { Textarea, Flex, Stack, Modal, Image, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import { useDisclosure } from '@mantine/hooks';
-import { FaCalendarDay } from "react-icons/fa6";
 import styles from './CreateEntry.module.css';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
