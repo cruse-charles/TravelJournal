@@ -43,15 +43,11 @@ type ErrorResponse = {
 
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
-    // const [entry, setEntry] = useState({title: '', text: '', date: null, attachments: []});
     const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
-    // const [previews, setPreviews] = useState([]);
     const [previews, setPreviews] = useState<(File | string)[]>([]);
-    // const [originalEntryDate, setOriginalEntryDate] = useState(null);
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
-    // const [errors, setErrors] = useState({})
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
@@ -77,7 +73,6 @@ const SingleEntry = () => {
         // TODO: navigate to 404 page if entry is not found
         if (id) {
             getUserEntry(id, controller.signal)
-            // getUserEntry(id, controller.id)
                 .then(entryResponse => {
                     setEntry(entryResponse);
                     setOriginalEntryDate(entryResponse.date);
