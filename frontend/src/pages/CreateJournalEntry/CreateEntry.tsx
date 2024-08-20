@@ -17,6 +17,7 @@ import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 import { updatePreviews } from '../../utils/uploaderHelper';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
+import EntryHeader from './EntryHeader';
 
 type RootState = {
     user: {
@@ -163,12 +164,11 @@ const CreateEntry = () => {
     }
 
     return (
-
-
         <>
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
-                    <Group justify='space-between'>
+            <EntryHeader error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
+                    {/* <Group justify='space-between'>
                         <Group>
                             {error.message && <Text color='red'>{error.message}</Text>}
                             <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
@@ -179,7 +179,7 @@ const CreateEntry = () => {
                     </Group>
                     <Center>
                         <TextInput onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
-                    </Center>
+                    </Center> */}
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {
