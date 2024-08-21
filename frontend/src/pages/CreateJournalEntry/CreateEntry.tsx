@@ -14,6 +14,7 @@ import styles from './CreateEntry.module.css';
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 import { updatePreviews } from '../../utils/uploaderHelper';
+import { updateFormData } from '../../utils/updateFormData';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import EntryHeader from './EntryHeader';
 
@@ -119,7 +120,9 @@ const CreateEntry = () => {
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
-            const data = createFormData();
+            // const data = createFormData();
+            const { attachments, ...restOfFormValues } = formValues;
+            const data = updateFormData(restOfFormValues, attachments);
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
         } catch (err) {
