@@ -78,27 +78,6 @@ const CreateEntry = () => {
     const [opened, { open, close }] = useDisclosure(false);
     const navigate = useNavigate();
 
-    // TODO: Look into using axios library to make a POST request to the backend instead of doing this basic 'createform'
-    const createFormData = () => {
-
-        //create FormData object to submit object with files
-        const data = new FormData();
-
-        // append data and files to FormData object
-        data.append('title', formValues.title);
-        data.append('text', formValues.text);
-        // data.append('date', formValues.date);
-        if (formValues.date) data.append('date', formValues.date.toISOString());
-        if (formValues.user) data.append('user', formValues.user)
-
-        //TODO: THIS HERE IS ACTUALLY DOING 3 ATTACHMENT KEYS WITH EACH FILE IN ONE, CHANGE TO MAKE IT AN ARRAY UNDER ONE KEY
-        formValues.attachments.forEach((file) => {
-            data.append(`attachments`, file);
-        });
-
-        return data;
-    }
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSaving(true);
@@ -120,7 +99,6 @@ const CreateEntry = () => {
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
-            // const data = createFormData();
             const { attachments, ...restOfFormValues } = formValues;
             const data = updateFormData(restOfFormValues, attachments);
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
