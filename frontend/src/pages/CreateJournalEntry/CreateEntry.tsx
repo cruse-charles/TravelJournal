@@ -16,7 +16,9 @@ import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
 import { updatePreviews } from '../../utils/uploaderHelper';
 import { updateFormData } from '../../utils/updateFormData';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
+import { useEntryForm } from './useEntryForm';
 import EntryHeader from './EntryHeader';
+import { title } from 'process';
 
 type RootState = {
     user: {
@@ -26,13 +28,15 @@ type RootState = {
     }
 }
 
-type FormValues = {
-    title: string;
-    text: string;
-    date: Date | null;
-    attachments: File[];
-    user: string | null;
-}
+// OLD
+// type FormValues = {
+//     title: string;
+//     text: string;
+//     date: Date | null;
+//     attachments: File[];
+//     user: string | null;
+// }
+// OLD
 
 type Errors = {
     title?: string;
@@ -66,13 +70,27 @@ const CreateEntry = () => {
     const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
     const [previews, setPreviews] = useState<Preview[]>([])
-    const [formValues, setFormValues] = useState<FormValues>({
+
+// OLD
+    // const [formValues, setFormValues] = useState<FormValues>({
+    //     title: '',
+    //     text: '',
+    //     date: null,
+    //     attachments: [],
+    //     user: currentUser ? currentUser._id : null,
+    // });
+// OLD 
+
+    const initialFormValues = {
         title: '',
         text: '',
         date: null,
         attachments: [],
         user: currentUser ? currentUser._id : null,
-    });
+    }
+
+    const {formValues, formErrors, setFormValues, handleChange} = useEntryForm(initialFormValues)
+
 
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
     const [opened, { open, close }] = useDisclosure(false);
@@ -110,14 +128,16 @@ const CreateEntry = () => {
         }
     }
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setFormValues({
-            ...formValues,
-            [e.target.name]: e.target.value,
-        });
+    // OLD
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //     setFormValues({
+    //         ...formValues,
+    //         [e.target.name]: e.target.value,
+    //     });
 
-        setError({})
-    };
+    //     setError({})
+    // };
+    // OLD
 
     // add new images to entry and previews
     const handleImageChange = (newFiles: File[]) => {
@@ -146,7 +166,8 @@ const CreateEntry = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
-                    <EntryHeader isEditing={true} error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
+                    {/* <EntryHeader isEditing={true} error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} /> */}
+                    <EntryHeader isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {
@@ -163,7 +184,8 @@ const CreateEntry = () => {
                                 </Dropzone>
                             </Carousel.Slide>
                         </Carousel>
-                        <Textarea className={styles.textArea} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
+                        {/* <Textarea className={styles.textArea} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" /> */}
+                        <Textarea className={styles.textArea} name='text' onChange={handleChange} error={formErrors.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Flex>
                 </Stack>
                 <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
