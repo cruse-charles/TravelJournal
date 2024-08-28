@@ -18,12 +18,18 @@ import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 import EntryHeader from '../CreateJournalEntry/EntryHeader';
 
+//TRPC - typescript remote procedure call, way to call backend functions, something more advanced 
+// Deno TS Config - check this, 
+
 type Entry = {
     title: string;
     text: string;
     date: Date | null;
     attachments: (File | string)[];
 }
+// have it higher up in a folder in a .ts
+
+//.d.ts = type declaration file, it's a file that tells typescript what the types are for a certain library, try not to use too much.
 
 type Errors = {
     title?: string;
@@ -44,6 +50,11 @@ const SingleEntry = () => {
     const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
+    // Can try to bundle these together into a single state/union type if these are always changing together of editing state: 'loading, editing, saving'
+        // Can even put objects out of these where loading is the type and has percent with it, then in editing maybe editing obj with a message
+        // {kind: 'loading', percent: 0} | {kind: 'editing', message: 'saving'} | {kind: 'saving', message: 'saving'}
+
+        // can look into using never type sometimes too, to make sure something is never used, like a default case in a switch statement
     const [previews, setPreviews] = useState<(File | string)[]>([]);
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
     const [errors, setErrors] = useState<Errors>({})
