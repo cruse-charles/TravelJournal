@@ -18,7 +18,6 @@ import { updateFormData } from '../../utils/updateFormData';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import { useEntryForm } from './useEntryForm';
 import EntryHeader from './EntryHeader';
-import { title } from 'process';
 
 type RootState = {
     user: {
@@ -27,16 +26,6 @@ type RootState = {
         }
     }
 }
-
-// OLD
-// type FormValues = {
-//     title: string;
-//     text: string;
-//     date: Date | null;
-//     attachments: File[];
-//     user: string | null;
-// }
-// OLD
 
 type Errors = {
     title?: string;
@@ -70,16 +59,6 @@ const CreateEntry = () => {
     const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
     const [previews, setPreviews] = useState<Preview[]>([])
-
-// OLD
-    // const [formValues, setFormValues] = useState<FormValues>({
-    //     title: '',
-    //     text: '',
-    //     date: null,
-    //     attachments: [],
-    //     user: currentUser ? currentUser._id : null,
-    // });
-// OLD 
 
     const initialFormValues = {
         title: '',
@@ -127,17 +106,6 @@ const CreateEntry = () => {
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
-
-    // OLD
-    // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    //     setFormValues({
-    //         ...formValues,
-    //         [e.target.name]: e.target.value,
-    //     });
-
-    //     setError({})
-    // };
-    // OLD
 
     // add new images to entry and previews
     const handleImageChange = (newFiles: File[]) => {
