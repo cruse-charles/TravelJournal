@@ -68,7 +68,7 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     }
 
-    const {formValues, formErrors, setFormValues, handleChange} = useEntryForm(initialFormValues)
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm(initialFormValues)
 
 
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
@@ -79,20 +79,23 @@ const CreateEntry = () => {
         e.preventDefault();
         setIsSaving(true);
 
-        if (!formValues.title) {
-            setError({ ...error, title: 'Title is required' });
-            return
-        }
+        // if (!formValues.title) {
+        //     setError({ ...error, title: 'Title is required' });
+        //     return
+        // }
 
-        if (!formValues.title) {
-            setError({ ...error, text: 'Text is required' });
-            return
-        }
+        // if (!formValues.title) {
+        //     setError({ ...error, text: 'Text is required' });
+        //     return
+        // }
 
-        if (!formValues.date) {
-            setError({ ...error, date: 'Date is required' });
-            return
-        }
+        // if (!formValues.date) {
+        //     setError({ ...error, date: 'Date is required' });
+        //     return
+        // }
+
+        const hasFormErrors = checkFormErrors(formValues)
+        if (hasFormErrors) return
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {

@@ -29,5 +29,28 @@ export const useEntryForm = (initialFormValues: FormValues) => {
         setFormErrors({})
     }
 
-    return { formValues, setFormValues, formErrors, handleChange }
+    const checkFormErrors = (formValues: FormValues) => {
+
+        let hasFormErrors = false
+        const newFormErrors: Errors = {}
+        if (!formValues.title) {
+            newFormErrors.title = 'Title is required'
+            hasFormErrors = true
+        }
+
+        if (!formValues.text) {
+            newFormErrors.text = 'Text is required'
+            hasFormErrors = true
+        }
+
+        if (!formValues.date) {
+            newFormErrors.date = 'Date is required'
+            hasFormErrors = true
+        }
+
+        setFormErrors((prev) => ({ ...prev, ...newFormErrors }))
+        return hasFormErrors
+    }
+
+    return { formValues, setFormValues, formErrors, handleChange, checkFormErrors }
 }
