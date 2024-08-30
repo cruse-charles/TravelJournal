@@ -77,25 +77,10 @@ const CreateEntry = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setIsSaving(true);
-
-        // if (!formValues.title) {
-        //     setError({ ...error, title: 'Title is required' });
-        //     return
-        // }
-
-        // if (!formValues.title) {
-        //     setError({ ...error, text: 'Text is required' });
-        //     return
-        // }
-
-        // if (!formValues.date) {
-        //     setError({ ...error, date: 'Date is required' });
-        //     return
-        // }
 
         const hasFormErrors = checkFormErrors(formValues)
         if (hasFormErrors) return
+        setIsSaving(true);
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
@@ -137,7 +122,6 @@ const CreateEntry = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
-                    {/* <EntryHeader isEditing={true} error={error} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} /> */}
                     <EntryHeader isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
