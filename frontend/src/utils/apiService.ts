@@ -5,6 +5,7 @@ type EntryResponse = {
   text: string;
   date: Date;
   attachments: (File | string)[];
+  user: string
 }
 
 // get all entries for a user

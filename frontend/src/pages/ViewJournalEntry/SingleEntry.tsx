@@ -13,6 +13,7 @@ import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
 import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
+import { useEntryForm } from '../CreateJournalEntry/useEntryForm';
 
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
@@ -26,6 +27,7 @@ type Entry = {
     text: string;
     date: Date | null;
     attachments: (File | string)[];
+    user: string | null;
 }
 // have it higher up in a folder in a .ts
 
@@ -47,7 +49,7 @@ type ErrorResponse = {
 
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
-    const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: []});
+    // const [entry, setEntry] = useState<Entry>({title: '', text: '', date: null, attachments: [], user: null});
     const [isLoading, setIsLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false)
     // Can try to bundle these together into a single state/union type if these are always changing together of editing state: 'loading, editing, saving'
@@ -59,6 +61,9 @@ const SingleEntry = () => {
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
+
+    const initialFormValues: Entry = { title: '', text: '', date: null, attachments: [], user: null };
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm(initialFormValues)
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -83,7 +88,8 @@ const SingleEntry = () => {
         if (id) {
             getUserEntry(id, controller.signal)
                 .then(entryResponse => {
-                    setEntry(entryResponse);
+                    // setEntry(entryResponse);
+                    setFormValues(entryResponse)
                     setOriginalEntryDate(entryResponse.date);
                     setIsLoading(false);
                     setPreviews(entryResponse.attachments)
@@ -118,18 +124,25 @@ const SingleEntry = () => {
         setIsEditing(true)
     }
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target
-        setEntry({ ...entry, [name]: value })
-        setErrors({})
-    }
+    // const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    //     const { name, value } = e.target
+    //     setEntry({ ...entry, [name]: value })
+    //     setErrors({})
+    // }
 
     // add new images to entry and previews
     const handleImageChange = (newFiles: File[]) => {
-        const updatedFiles = [...entry.attachments, ...newFiles];
+        // const updatedFiles = [...entry.attachments, ...newFiles];
+        // setPreviews((prevState) => [...prevState, ...newFiles])
+        // setEntry({
+        //     ...entry,
+        //     attachments: updatedFiles,
+        // });
+
+        const updatedFiles = [...formValues.attachments, ...newFiles];
         setPreviews((prevState) => [...prevState, ...newFiles])
-        setEntry({
-            ...entry,
+        setFormValues({
+            ...formValues,
             attachments: updatedFiles,
         });
     };
@@ -139,8 +152,13 @@ const SingleEntry = () => {
         const updatedFiles = deleteSelectedFiles(previews, key)
 
         setPreviews(updatedFiles)
-        setEntry({
-            ...entry,
+        // setEntry({
+        //     ...entry,
+        //     attachments: updatedFiles,
+        // });
+
+        setFormValues({
+            ...formValues,
             attachments: updatedFiles,
         });
     };
@@ -149,19 +167,24 @@ const SingleEntry = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        if (entry.title === '') {
-            setErrors((prevErrors) => ({ ...prevErrors, title: 'Title is required' }));
-            return
-        }
+        // if (entry.title === '') {
+        //     setErrors((prevErrors) => ({ ...prevErrors, title: 'Title is required' }));
+        //     return
+        // }
 
-        if (entry.text === '') {
-            setErrors((prevErrors) => ({ ...prevErrors, text: 'Text is required' }));
-            return
-        }
+        // if (entry.text === '') {
+        //     setErrors((prevErrors) => ({ ...prevErrors, text: 'Text is required' }));
+        //     return
+        // }
+
+        // const hasFormErrors = checkFormErrors(entry)
+        const hasFormErrors = checkFormErrors(formValues)
+        if (hasFormErrors) return
 
         // evaluate if the file is a URL or a file object, then add to formData
         const updatedFiles = await getUpdatedFiles(previews)
-        const formData = updateFormData(entry, updatedFiles)
+        // const formData = updateFormData(entry, updatedFiles)
+        const formData = updateFormData(formValues, updatedFiles)
         updateEntry(formData);
     };
 
@@ -170,7 +193,8 @@ const SingleEntry = () => {
         try {
             setIsSaving(true)
             const response = await getUpdatedEntry(id, formData)
-            setEntry(response.data)
+            // setEntry(response.data)
+            setFormValues(response.data)
             setIsEditing(false)
             setIsSaving(false)
         } catch (err) {
@@ -184,10 +208,13 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
-                        <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
+                        {/* <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/> */}
+                        <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                         <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
-                                {entry?.attachments?.map((imageURL) => {
+                                {/* {entry?.attachments?.map((imageURL) => { */}
+                                {formValues?.attachments?.map((imageURL) => {
+
                                     const src = imageURL as string;
                                     return (
                                         <Carousel.Slide key={src} >
@@ -197,19 +224,22 @@ const SingleEntry = () => {
                                 })}
                             </Carousel>
                             <ScrollArea style={{ width: '50%', height: '100%' }}>
-                                <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text>
+                                {/* <Text style={{ whiteSpace: 'pre-wrap' }}>{entry?.text}</Text> */}
+                                <Text style={{ whiteSpace: 'pre-wrap' }}>{formValues?.text}</Text>
                             </ScrollArea>
                         </Flex>
                     </Stack>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
-                        <CalendarViewEntries scale={1} entry={entry} />
+                        {/* <CalendarViewEntries scale={1} entry={entry} /> */}
+                        <CalendarViewEntries scale={1} entry={formValues} />
                     </Modal>
                 </>
             ) : (
                 <>
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
-                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/>
+                            {/* <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={entry} isSaving={isSaving} handleChange={handleChange} open={open}/> */}
+                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                     {previews.map((item) => {
@@ -230,13 +260,16 @@ const SingleEntry = () => {
                                         </Dropzone>
                                     </Carousel.Slide>
                                 </Carousel>
-                                <Textarea style={{ width: '50%', height: '100%' }} error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={entry.text} />
+                                {/* <Textarea style={{ width: '50%', height: '100%' }} error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={entry.text} /> */}
+                                <Textarea style={{ width: '50%', height: '100%' }} error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={formValues.text} />
                             </Flex>
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
-                                onChange={(date) => setEntry({ ...entry, date: date })}
-                                getDayProps={(date) => getEntryDayProps(entry, date)}
+                                // onChange={(date) => setEntry({ ...entry, date: date })}
+                                // getDayProps={(date) => getEntryDayProps(entry, date)}
+                                onChange={(date) => setFormValues({ ...formValues, date: date })}
+                                getDayProps={(date) => getEntryDayProps(formValues, date)}
                                 excludeDate={(date) => excludeDateFunction(date, originalEntryDate, entryIdHash)}
                             />
                         </Modal>
