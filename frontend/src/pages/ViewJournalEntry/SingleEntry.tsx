@@ -22,14 +22,6 @@ import EntryHeader from '../CreateJournalEntry/EntryHeader';
 //TRPC - typescript remote procedure call, way to call backend functions, something more advanced 
 // Deno TS Config - check this, 
 
-type Entry = {
-    title: string;
-    text: string;
-    date: Date | null;
-    attachments: (File | string)[];
-    user: string | null;
-}
-// have it higher up in a folder in a .ts
 
 //.d.ts = type declaration file, it's a file that tells typescript what the types are for a certain library, try not to use too much.
 
@@ -38,6 +30,8 @@ type Errors = {
     text?: string;
     message?: string;
 }
+// have it higher up in a folder in a .ts
+
 
 type ErrorResponse = {
     response: {
@@ -61,8 +55,7 @@ const SingleEntry = () => {
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
-    const initialFormValues: Entry = { title: '', text: '', date: null, attachments: [], user: null };
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm(initialFormValues)
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm()
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -201,7 +194,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
-                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={errors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
+                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                     {previews.map((item) => {
@@ -222,7 +215,7 @@ const SingleEntry = () => {
                                         </Dropzone>
                                     </Carousel.Slide>
                                 </Carousel>
-                                <Textarea style={{ width: '50%', height: '100%' }} error={errors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={formValues.text} />
+                                <Textarea style={{ width: '50%', height: '100%' }} error={formErrors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={formValues.text} />
                             </Flex>
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>

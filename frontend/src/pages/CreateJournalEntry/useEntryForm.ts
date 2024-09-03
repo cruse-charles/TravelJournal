@@ -10,6 +10,14 @@ type FormValues = {
     user: string | null;
 }
 
+const defaultFormValues: FormValues = {
+    title: '',
+    text: '',
+    date: null,
+    attachments: [],
+    user: null,
+};
+
 type Errors = {
     title?: string;
     text?: string;
@@ -17,7 +25,7 @@ type Errors = {
     message?: string;
 }
 
-export const useEntryForm = (initialFormValues: FormValues) => {
+export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) => {
     const [formValues, setFormValues] = useState<FormValues>(initialFormValues)
     const [formErrors, setFormErrors] = useState<Errors>({})
 
