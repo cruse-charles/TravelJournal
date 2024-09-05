@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Image, Flex, Text, Stack, ScrollArea, Modal, Textarea, Indicator } from '@mantine/core';
@@ -14,10 +14,11 @@ import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
 import { useEntryForm } from '../CreateJournalEntry/useEntryForm';
+import EntryHeader from '../CreateJournalEntry/EntryHeader';
+import EntryImagesAndText from '../CreateJournalEntry/EntryImagesAndText'
 
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import CalendarViewEntries from '../../components/CalendarViewEntries';
-import EntryHeader from '../CreateJournalEntry/EntryHeader';
 
 //TRPC - typescript remote procedure call, way to call backend functions, something more advanced 
 // Deno TS Config - check this, 
@@ -169,10 +170,9 @@ const SingleEntry = () => {
                 <>
                     <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
                         <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
-                        <Flex style={{ height: '100%' }} gap='xl'>
+                        {/* <Flex style={{ height: '100%' }} gap='xl'>
                             <Carousel style={{ width: '50%' }} plugins={[autoplay.current]} onMouseEnter={autoplay.current.stop} onMouseLeave={autoplay.current.reset} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                 {formValues?.attachments?.map((imageURL) => {
-
                                     const src = imageURL as string;
                                     return (
                                         <Carousel.Slide key={src} >
@@ -184,7 +184,8 @@ const SingleEntry = () => {
                             <ScrollArea style={{ width: '50%', height: '100%' }}>
                                 <Text style={{ whiteSpace: 'pre-wrap' }}>{formValues?.text}</Text>
                             </ScrollArea>
-                        </Flex>
+                        </Flex> */}
+                        <EntryImagesAndText formValues={formValues} />
                     </Stack>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <CalendarViewEntries scale={1} entry={formValues} />
