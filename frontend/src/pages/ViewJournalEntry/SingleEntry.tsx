@@ -185,7 +185,7 @@ const SingleEntry = () => {
                                 <Text style={{ whiteSpace: 'pre-wrap' }}>{formValues?.text}</Text>
                             </ScrollArea>
                         </Flex> */}
-                        <EntryImagesAndText formValues={formValues} />
+                        <EntryImagesAndText formValues={formValues} isEditing={isEditing}/>
                     </Stack>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                         <CalendarViewEntries scale={1} entry={formValues} />
@@ -196,7 +196,7 @@ const SingleEntry = () => {
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
-                            <Flex style={{ height: '100%' }} gap='xl'>
+                            {/* <Flex style={{ height: '100%' }} gap='xl'>
                                 <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                                     {previews.map((item) => {
                                         const isFile = item instanceof File;
@@ -217,7 +217,8 @@ const SingleEntry = () => {
                                     </Carousel.Slide>
                                 </Carousel>
                                 <Textarea style={{ width: '50%', height: '100%' }} error={formErrors.text} name='text' onChange={handleChange} placeholder='Write what happened this day!' autosize minRows={17} maxRows={17} size='lg' radius="xs" value={formValues.text} />
-                            </Flex>
+                            </Flex> */}
+                            <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleImageChange={handleImageChange} handleChange={handleChange}/>
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
