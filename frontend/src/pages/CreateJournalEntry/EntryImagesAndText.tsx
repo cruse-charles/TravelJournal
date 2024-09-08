@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 
-import { Image, Flex, Text, Stack, ScrollArea, Modal, Textarea, Indicator } from '@mantine/core';
+import { Image, Flex, Text, ScrollArea, Textarea, Indicator } from '@mantine/core';
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
-import { useDisclosure } from '@mantine/hooks';
-import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 import Autoplay from 'embla-carousel-autoplay';
 
@@ -26,8 +24,8 @@ type Props = {
 } 
 
 const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleImageChange = () => {}, handleChange}: Props) => {
+    // ref for autoplay plugin
     const autoplay = useRef(Autoplay({ delay: 3000 }))
-
 
     return (
         <>
