@@ -1,5 +1,6 @@
 import { Title, TextInput, Button, Group, Center, Text } from '@mantine/core';
-import styles from './CreateEntry.module.css';
+import styles from './Entry.module.css';
+
 import { format } from 'date-fns'
 
 // https://react-icons.github.io/react-icons/icons/fa6/

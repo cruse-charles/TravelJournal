@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { Stack, Modal } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { DatePicker } from '@mantine/dates';
-import Autoplay from 'embla-carousel-autoplay';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
