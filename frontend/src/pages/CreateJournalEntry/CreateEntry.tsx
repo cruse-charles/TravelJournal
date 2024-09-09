@@ -9,7 +9,7 @@ import { DatePicker } from '@mantine/dates';
 import { Carousel } from '@mantine/carousel';
 
 import { useDisclosure } from '@mantine/hooks';
-import styles from './CreateEntry.module.css';
+import styles from './Entry.module.css';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';

@@ -31,3 +31,29 @@
     width: 50%;
     height: 100%;
 }
+
+.carouselContainer {
+    width: 50%;
+}
+
+.scrollArea {
+    height: 100%;
+    width: 50%;
+}
+
+.entryText {
+    white-space: pre-wrap;
+}
+
+.dropzone {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px;
+}
+
+.indicator {
+    cursor: pointer;
+}
