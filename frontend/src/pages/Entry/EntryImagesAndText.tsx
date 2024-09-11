@@ -8,11 +8,17 @@ import Autoplay from 'embla-carousel-autoplay';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import styles from './Entry.module.css';
 
+import { useEntryForm } from './useEntryForm';
+
+
 
 type Props = {
     formValues: {
+        title: string;
         text: string;
+        date: Date | null;
         attachments: (File | string)[];
+        user: string | null;
     }
     isEditing: boolean;
     previews?: (File | string)[];
@@ -25,8 +31,12 @@ type Props = {
 } 
 
 const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleImageChange = () => {}, handleChange}: Props) => {
+    // const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, handleChange}: Props) => {
+
     // ref for autoplay plugin
     const autoplay = useRef(Autoplay({ delay: 3000 }))
+
+    // const {handleImageChange, deleteSelectedImage} = useEntryForm(formValues);
 
     return (
         <>

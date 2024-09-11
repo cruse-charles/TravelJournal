@@ -47,12 +47,12 @@ const SingleEntry = () => {
         // {kind: 'loading', percent: 0} | {kind: 'editing', message: 'saving'} | {kind: 'saving', message: 'saving'}
 
         // can look into using never type sometimes too, to make sure something is never used, like a default case in a switch statement
-    const [previews, setPreviews] = useState<(File | string)[]>([]);
+    // const [previews, setPreviews] = useState<(File | string)[]>([]);
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm()
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleImageChange, deleteSelectedImage} = useEntryForm()
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -108,26 +108,26 @@ const SingleEntry = () => {
         setIsEditing(true)
     }
 
-    // add new images to entry and previews
-    const handleImageChange = (newFiles: File[]) => {
-        const updatedFiles = [...formValues.attachments, ...newFiles];
-        setPreviews((prevState) => [...prevState, ...newFiles])
-        setFormValues({
-            ...formValues,
-            attachments: updatedFiles,
-        });
-    };
+    // // add new images to entry and previews
+    // const handleImageChange = (newFiles: File[]) => {
+    //     const updatedFiles = [...formValues.attachments, ...newFiles];
+    //     setPreviews((prevState) => [...prevState, ...newFiles])
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: updatedFiles,
+    //     });
+    // };
 
-    // delete preview image from preview and entry
-    const deleteSelectedImage = (key: string) => {
-        const updatedFiles = deleteSelectedFiles(previews, key)
+    // // delete preview image from preview and entry
+    // const deleteSelectedImage = (key: string) => {
+    //     const updatedFiles = deleteSelectedFiles(previews, key)
 
-        setPreviews(updatedFiles);
-        setFormValues({
-            ...formValues,
-            attachments: updatedFiles,
-        });
-    };
+    //     setPreviews(updatedFiles);
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: updatedFiles,
+    //     });
+    // };
 
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -175,6 +175,7 @@ const SingleEntry = () => {
                         <Stack style={{ height: '70vh' }}>
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleImageChange={handleImageChange} handleChange={handleChange}/>
+                            {/* <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} handleChange={handleChange} previews={previews}/> */}
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
