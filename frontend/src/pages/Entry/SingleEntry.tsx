@@ -10,9 +10,9 @@ import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
 import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
-import { useEntryForm } from '../CreateJournalEntry/useEntryForm';
-import EntryHeader from '../CreateJournalEntry/EntryHeader';
-import EntryImagesAndText from '../CreateJournalEntry/EntryImagesAndText'
+import { useEntryForm } from './useEntryForm';
+import EntryHeader from './EntryHeader';
+import EntryImagesAndText from './EntryImagesAndText'
 
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 

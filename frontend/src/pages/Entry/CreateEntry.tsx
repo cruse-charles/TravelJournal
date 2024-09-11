@@ -139,7 +139,6 @@ const CreateEntry = () => {
                                 </Dropzone>
                             </Carousel.Slide>
                         </Carousel>
-                        {/* <Textarea className={styles.textArea} name='text' onChange={handleChange} error={error.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" /> */}
                         <Textarea className={styles.textArea} name='text' onChange={handleChange} error={formErrors.text} placeholder='Write what happened this day!' autosize minRows={15} maxRows={15} size='lg' radius="xs" />
                     </Flex>
                 </Stack>
