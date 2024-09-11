@@ -58,7 +58,7 @@ const CreateEntry = () => {
     const [files, setFiles] = useState<File[]>([]);
     const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
-    const [previews, setPreviews] = useState<Preview[]>([])
+    // const [previews, setPreviews] = useState<Preview[]>([])
 
     const initialFormValues = {
         title: '',
@@ -68,7 +68,7 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     }
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors} = useEntryForm(initialFormValues)
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleImageChange, deleteSelectedImage, previews} = useEntryForm(initialFormValues)
 
 
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
@@ -96,27 +96,27 @@ const CreateEntry = () => {
     }
 
     // add new images to entry and previews
-    const handleImageChange = (newFiles: File[]) => {
-        const updatedFiles = [...files, ...newFiles];
-        setPreviews(updatePreviews(updatedFiles));
-        setFiles(updatedFiles)
-        setFormValues({
-            ...formValues,
-            attachments: updatedFiles,
-        });
-    };
+    // const handleImageChange = (newFiles: File[]) => {
+    //     const updatedFiles = [...files, ...newFiles];
+    //     setPreviews(updatePreviews(updatedFiles));
+    //     setFiles(updatedFiles)
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: updatedFiles,
+    //     });
+    // };
 
-    const deleteSelectedImage = (fileName: string) => {
-        // Remove file from files array and update formValues and previews
-        const updatedFiles = files.filter((file) => file.name !== fileName);
-        setFiles(updatedFiles);
-        setPreviews(updatePreviews(updatedFiles));
+    // const deleteSelectedImage = (fileName: string) => {
+    //     // Remove file from files array and update formValues and previews
+    //     const updatedFiles = files.filter((file) => file.name !== fileName);
+    //     setFiles(updatedFiles);
+    //     setPreviews(updatePreviews(updatedFiles));
 
-        setFormValues({
-            ...formValues,
-            attachments: updatedFiles
-        })
-    }
+    //     setFormValues({
+    //         ...formValues,
+    //         attachments: updatedFiles
+    //     })
+    // }
 
     return (
         <>

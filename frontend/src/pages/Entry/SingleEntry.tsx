@@ -11,6 +11,8 @@ import { getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
 import { useEntryForm } from './useEntryForm';
+import { updatePreviews } from '../../utils/uploaderHelper';
+
 import EntryHeader from './EntryHeader';
 import EntryImagesAndText from './EntryImagesAndText'
 
@@ -46,13 +48,12 @@ const SingleEntry = () => {
         // Can even put objects out of these where loading is the type and has percent with it, then in editing maybe editing obj with a message
         // {kind: 'loading', percent: 0} | {kind: 'editing', message: 'saving'} | {kind: 'saving', message: 'saving'}
 
-        // can look into using never type sometimes too, to make sure something is never used, like a default case in a switch statement
-    // const [previews, setPreviews] = useState<(File | string)[]>([]);
+    // can look into using never type sometimes too, to make sure something is never used, like a default case in a switch statement
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleImageChange, deleteSelectedImage} = useEntryForm()
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleImageChange, deleteSelectedImage, files, setFiles} = useEntryForm()
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -76,7 +77,10 @@ const SingleEntry = () => {
                     setFormValues(entryResponse)
                     setOriginalEntryDate(entryResponse.date);
                     setIsLoading(false);
-                    setPreviews(entryResponse.attachments)
+                    // setPreviews(entryResponse.attachments)
+                    setPreviews(updatePreviews(entryResponse.attachments))
+                    // new
+                    setFiles(entryResponse.attachments)
                 }).catch(error => {
                     setErrors({ message: error.response.data.message })
                     setIsLoading(false)
@@ -116,7 +120,9 @@ const SingleEntry = () => {
         if (hasFormErrors) return
 
         // evaluate if the file is a URL or a file object, then add to formData
-        const updatedFiles = await getUpdatedFiles(previews)
+        // const updatedFiles = await getUpdatedFiles(previews)
+        const updatedFiles = await getUpdatedFiles(files)
+        console.log(updatedFiles)
         const formData = updateFormData(formValues, updatedFiles)
         updateEntry(formData);
     };

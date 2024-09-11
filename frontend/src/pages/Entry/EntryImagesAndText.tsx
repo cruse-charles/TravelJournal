@@ -8,9 +8,6 @@ import Autoplay from 'embla-carousel-autoplay';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import styles from './Entry.module.css';
 
-import { useEntryForm } from './useEntryForm';
-
-
 
 type Props = {
     formValues: {
@@ -21,7 +18,11 @@ type Props = {
         user: string | null;
     }
     isEditing: boolean;
-    previews?: (File | string)[];
+    // previews?: (File | string)[];
+    previews?: {
+        imageUrl: string;
+        fileName: string;
+    }[];
     formErrors?: {
         text?: string;
     };
@@ -31,12 +32,9 @@ type Props = {
 } 
 
 const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleImageChange = () => {}, handleChange}: Props) => {
-    // const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, handleChange}: Props) => {
 
     // ref for autoplay plugin
     const autoplay = useRef(Autoplay({ delay: 3000 }))
-
-    // const {handleImageChange, deleteSelectedImage} = useEntryForm(formValues);
 
     return (
         <>
@@ -60,9 +58,11 @@ const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, delete
                 <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                     <Carousel className={styles.carouselContainer} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                         {(previews ?? []).map((item) => {
-                            const isFile = item instanceof File;
-                            const src = isFile ? URL.createObjectURL(item) : item;
-                            const key = isFile ? `file-${item.name}` : `url-${item}`;
+                            // const isFile = item instanceof File;
+                            // const src = isFile ? URL.createObjectURL(item) : item;
+                            // const key = isFile ? `file-${item.name}` : `url-${item}`;
+                            const key = item.fileName;
+                            const src = item.imageUrl;
                             return (
                                 <Carousel.Slide key={key} >
                                     <Indicator size={15} color="black" label='X' offset={12} className={styles.indicator} onClick={() => deleteSelectedImage(key)}>
