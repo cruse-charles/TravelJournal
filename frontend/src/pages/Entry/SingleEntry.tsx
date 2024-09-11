@@ -53,7 +53,7 @@ const SingleEntry = () => {
     const [errors, setErrors] = useState<Errors>({})
     const [isSaving, setIsSaving] = useState(false)
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleImageChange, deleteSelectedImage, files, setFiles} = useEntryForm()
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleAddImage, deleteSelectedImage, files, setFiles} = useEntryForm()
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -77,9 +77,7 @@ const SingleEntry = () => {
                     setFormValues(entryResponse)
                     setOriginalEntryDate(entryResponse.date);
                     setIsLoading(false);
-                    // setPreviews(entryResponse.attachments)
                     setPreviews(updatePreviews(entryResponse.attachments))
-                    // new
                     setFiles(entryResponse.attachments)
                 }).catch(error => {
                     setErrors({ message: error.response.data.message })
@@ -120,7 +118,6 @@ const SingleEntry = () => {
         if (hasFormErrors) return
 
         // evaluate if the file is a URL or a file object, then add to formData
-        // const updatedFiles = await getUpdatedFiles(previews)
         const updatedFiles = await getUpdatedFiles(files)
         console.log(updatedFiles)
         const formData = updateFormData(formValues, updatedFiles)
@@ -158,7 +155,7 @@ const SingleEntry = () => {
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
-                            <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleImageChange={handleImageChange} handleChange={handleChange}/>
+                            <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleAddImage={handleAddImage} handleChange={handleChange}/>
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker

@@ -13,7 +13,6 @@ import styles from './Entry.module.css';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getFormattedDate, getSelectedDayProps } from '../../utils/dateUtils';
-import { updatePreviews } from '../../utils/uploaderHelper';
 import { updateFormData } from '../../utils/updateFormData';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import { useEntryForm } from './useEntryForm';
@@ -68,7 +67,7 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     }
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleImageChange, deleteSelectedImage, previews} = useEntryForm(initialFormValues)
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews} = useEntryForm(initialFormValues)
 
 
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
@@ -94,17 +93,6 @@ const CreateEntry = () => {
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
-
-    // add new images to entry and previews
-    // const handleImageChange = (newFiles: File[]) => {
-    //     const updatedFiles = [...files, ...newFiles];
-    //     setPreviews(updatePreviews(updatedFiles));
-    //     setFiles(updatedFiles)
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles,
-    //     });
-    // };
 
     // const deleteSelectedImage = (fileName: string) => {
     //     // Remove file from files array and update formValues and previews
@@ -134,7 +122,7 @@ const CreateEntry = () => {
                                 )
                             })}
                             <Carousel.Slide>
-                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} className={styles.dropzone}>
+                                <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleAddImage} className={styles.dropzone}>
                                     <Image src={placeholderImage} />
                                 </Dropzone>
                             </Carousel.Slide>

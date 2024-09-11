@@ -60,42 +60,17 @@ export const deleteSelectedFiles = (previews, key) => {
     return updatedFiles
 }
 
-// // update previews with new files and return imageUrl
-// export const updatePreviews = (files) => {
-//     return files.map((file) => {
-//         const imageUrl = URL.createObjectURL(file)
-//         return {imageUrl, fileName: file.name}
-//     })
-// }
-
-// update previews with new files and return imageUrl
-// export const updatePreviews = (files) => {
-//     // console.log('BEGINNING OF UPDATEPREVIEWS', files)
-//     return files.map((file) => {
-//         if (isUrl(file)) {
-//             // console.log('ISURL', {imageUrl: file, fileName: file})
-//             return {imageUrl: file, fileName: file}
-//         } else {
-//             const imageUrl = URL.createObjectURL(file)
-//             // console.log('BLOB', {imageUrl, fileName: file.name})
-//             return {imageUrl, fileName: file.name}
-//         }
-//     })
-// }
-
+// Receive file object or URL, return an array of objects with imageUrl and fileName
+    // if file object, create an objectURL. If URL, use the URL as imageUrl
 export const updatePreviews = (files) => {
-    // console.log('BEGINNING OF UPDATEPREVIEWS', files)
     const updatedPreviews = files.map((file) => {
         if (isUrl(file)) {
-            // console.log('ISURL', {imageUrl: file, fileName: file})
             return {imageUrl: file, fileName: file}
         } else {
             const imageUrl = URL.createObjectURL(file)
-            // console.log('BLOB', {imageUrl, fileName: file.name})
             return {imageUrl, fileName: file.name}
         }
     })
 
-    console.log('UPDATED PREVIEWS', updatedPreviews)
     return updatedPreviews;
 }

@@ -18,7 +18,6 @@ type Props = {
         user: string | null;
     }
     isEditing: boolean;
-    // previews?: (File | string)[];
     previews?: {
         imageUrl: string;
         fileName: string;
@@ -27,11 +26,11 @@ type Props = {
         text?: string;
     };
     deleteSelectedImage?: (key: string) => void;
-    handleImageChange?: (files: File[]) => void;
+    handleAddImage?: (files: File[]) => void;
     handleChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } 
 
-const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleImageChange = () => {}, handleChange}: Props) => {
+const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleAddImage = () => {}, handleChange}: Props) => {
 
     // ref for autoplay plugin
     const autoplay = useRef(Autoplay({ delay: 3000 }))
@@ -72,7 +71,7 @@ const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, delete
                             )
                         })}
                         <Carousel.Slide>
-                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleImageChange} className={styles.dropzone}>
+                            <Dropzone accept={IMAGE_MIME_TYPE} onDrop={handleAddImage} className={styles.dropzone}>
                                 <Image src={placeholderImage} />
                             </Dropzone>
                         </Carousel.Slide>

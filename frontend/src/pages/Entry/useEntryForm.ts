@@ -1,7 +1,5 @@
-import { ChangeEvent, useState, useEffect } from 'react'
-//NEW
+import { ChangeEvent, useState } from 'react'
 import { deleteSelectedFiles, getUpdatedFiles, updatePreviews } from '../../utils/uploaderHelper';
-//NEW
 
 type FormValues = {
     title: string;
@@ -26,21 +24,16 @@ type Errors = {
     message?: string;
 }
 
-//NEW
 type Preview = {
     imageUrl: string;
     fileName: string;
 }
-//NEW
 
 export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) => {
     const [formValues, setFormValues] = useState<FormValues>(initialFormValues)
     const [formErrors, setFormErrors] = useState<Errors>({})
-    //NEW
-    // const [previews, setPreviews] = useState<(File | string)[]>([]);
     const [previews, setPreviews] = useState<(Preview)[]>([]);
     const [files, setFiles] = useState<(File | string)[]>(initialFormValues.attachments);
-    //NEW
 
 
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -74,35 +67,10 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
         return hasFormErrors
     }
 
-    //NEW
-    // add new images to entry and previews
-    // // works on edit entry
-    // const handleImageChange = (newFiles: File[]) => {
-    //     const updatedFiles = [...formValues.attachments, ...newFiles];
-    //     setPreviews((prevState) => [...prevState, ...newFiles])
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles,
-    //     });
-    // };
-
-    // // works in create entry
-    // const handleImageChange = (newFiles: File[]) => {
-    //     const updatedFiles = [...files, ...newFiles];
-    //     setPreviews(updatePreviews(updatedFiles));
-    //     setFiles(updatedFiles)
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles,
-    //     });
-    // };
-
-    const handleImageChange = (newFiles: File[]) => {
-        // const updatedFiles = [...formValues.attachments, ...newFiles];
+    // Add new file images to entry previews
+    const handleAddImage = (newFiles: File[]) => {
         const updatedFiles = [...files, ...newFiles];
-        // console.log('UPDATED FileS', updatedFiles)
         setPreviews(updatePreviews(updatedFiles));
-        // setPreviews((prevState) => [...prevState, ...updatedFiles])
         setFiles(updatedFiles)
         setFormValues({
             ...formValues,
@@ -121,9 +89,6 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
         });
     };
 
-    //NEW
-
-    // return { formValues, setFormValues, formErrors, handleChange, checkFormErrors }
-    return { formValues, setFormValues, formErrors, handleChange, checkFormErrors, handleImageChange, deleteSelectedImage, previews, setPreviews, files, setFiles }
+    return { formValues, setFormValues, formErrors, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews, setPreviews, files, setFiles }
 
 }
