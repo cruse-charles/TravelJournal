@@ -7,7 +7,7 @@ import { DatePicker } from '@mantine/dates';
 
 import useUserEntryDateHash from '../../hooks/useUserEntryDateHash';
 import { getEntryDayProps, excludeDateFunction } from '../../utils/dateUtils';
-import { deleteSelectedFiles, getUpdatedFiles } from '../../utils/uploaderHelper';
+import { getUpdatedFiles } from '../../utils/uploaderHelper';
 import { getUserEntry, getUpdatedEntry, deleteEntry } from '../../utils/apiService';
 import { updateFormData } from '../../utils/updateFormData';
 import { useEntryForm } from './useEntryForm';
@@ -108,28 +108,6 @@ const SingleEntry = () => {
         setIsEditing(true)
     }
 
-    // // add new images to entry and previews
-    // const handleImageChange = (newFiles: File[]) => {
-    //     const updatedFiles = [...formValues.attachments, ...newFiles];
-    //     setPreviews((prevState) => [...prevState, ...newFiles])
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles,
-    //     });
-    // };
-
-    // // delete preview image from preview and entry
-    // const deleteSelectedImage = (key: string) => {
-    //     const updatedFiles = deleteSelectedFiles(previews, key)
-
-    //     setPreviews(updatedFiles);
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles,
-    //     });
-    // };
-
-
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
@@ -175,7 +153,6 @@ const SingleEntry = () => {
                         <Stack style={{ height: '70vh' }}>
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleImageChange={handleImageChange} handleChange={handleChange}/>
-                            {/* <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} handleChange={handleChange} previews={previews}/> */}
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
                             <DatePicker
