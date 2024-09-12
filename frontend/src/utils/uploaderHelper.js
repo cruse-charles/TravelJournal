@@ -60,7 +60,7 @@ export const deleteSelectedFiles = (previews, key) => {
     return updatedFiles
 }
 
-// Receive file object or URL, return an array of objects with imageUrl and fileName
+// Receive file object or URL, return an array of objects: {imageUrl, fileName}
     // if file object, create an objectURL. If URL, use the URL as imageUrl
 export const updatePreviews = (files) => {
     const updatedPreviews = files.map((file) => {

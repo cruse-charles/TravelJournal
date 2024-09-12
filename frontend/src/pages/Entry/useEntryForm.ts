@@ -30,9 +30,12 @@ type Preview = {
 }
 
 export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) => {
+    // initialize formValues with entry values, set errors and previews empty
     const [formValues, setFormValues] = useState<FormValues>(initialFormValues)
     const [formErrors, setFormErrors] = useState<Errors>({})
     const [previews, setPreviews] = useState<(Preview)[]>([]);
+
+    // initialize files with entry attachments (URLs)
     const [files, setFiles] = useState<(File | string)[]>(initialFormValues.attachments);
 
 
@@ -44,6 +47,7 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
         setFormErrors({})
     }
 
+    // Check form errors for title, text, date
     const checkFormErrors = (formValues: FormValues) => {
 
         let hasFormErrors = false
@@ -69,8 +73,13 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
 
     // Add new file images to entry previews
     const handleAddImage = (newFiles: File[]) => {
+        // updatedFiles is array of files or objectURLs
         const updatedFiles = [...files, ...newFiles];
+
+        // Configure updatedFiles to array of objects, {imageUrl, fileName}
         setPreviews(updatePreviews(updatedFiles));
+
+        // set files and FormValues.attachments to array of files or objectURLs
         setFiles(updatedFiles)
         setFormValues({
             ...formValues,
