@@ -19,9 +19,9 @@ const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') 
 // }
 
 export const getUpdatedFiles = async (previews) => {
-    console.log('HERE ARE THE PREVIEWS', previews)
+    console.log('getUpdatedFiles, Param Previews', previews)
     const filePromises = previews.map(async (file) => {
-        console.log('FILE in getupdatedfiles', file)
+        console.log('getupdatedfiles, each file', file)
         // const { imageUrl } = file;
         if (isUrl(file)) {
             try {
@@ -44,19 +44,35 @@ export const getUpdatedFiles = async (previews) => {
         }
     });
 
+    console.log('END OF getUpdatedFiles')
     return await Promise.all(filePromises);
 };
 
+// // filter out file or URL that matches given key
+// export const deleteSelectedFiles = (previews, key) => {
+//     console.log('PREVIEWS', previews)
+//     console.log('KEY', key)
+//     const updatedFiles = previews.filter((item) => {
+//         if (isUrl(item)) {
+//             return `url-${item}` !== key
+//         } else {
+//             return `file-${item.name}` !== key
+//         }
+//     })
+
+//     return updatedFiles
+// }
+
 // filter out file or URL that matches given key
 export const deleteSelectedFiles = (previews, key) => {
+    // console.log('PREVIEWS', previews)
+    // console.log('KEY', key)
     const updatedFiles = previews.filter((item) => {
-        if (isUrl(item)) {
-            return `url-${item}` !== key
-        } else {
-            return `file-${item.name}` !== key
-        }
+        const { imageUrl } = item;
+        return imageUrl !== key;
     })
 
+    console.log('UPDATED FILES', updatedFiles)
     return updatedFiles
 }
 

@@ -29,7 +29,7 @@ type Preview = {
     fileName: string;
 }
 
-export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) => {
+export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, create: boolean = false) => {
     // initialize formValues with entry values, set errors and previews empty
     const [formValues, setFormValues] = useState<FormValues>(initialFormValues)
     const [formErrors, setFormErrors] = useState<Errors>({})
@@ -79,6 +79,15 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
         // Configure updatedFiles to array of objects, {imageUrl, fileName}
         setPreviews(updatePreviews(updatedFiles));
 
+
+
+        // if (create) {
+        //     setPreviews(updatedFiles)
+        // } else {
+        //     setPreviews(updatePreviews(updatedFiles));
+        // }
+
+        console.log('ADD IMAGES', updatedFiles)
         // set files and FormValues.attachments to array of files or objectURLs
         setFiles(updatedFiles)
         setFormValues({
@@ -89,12 +98,19 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues) 
 
     // delete preview image from preview and entry
     const deleteSelectedImage = (key: string) => {
+        // updatedFiles is array objects, {imageUrl, fileName}
         const updatedFiles = deleteSelectedFiles(previews, key)
 
         setPreviews(updatedFiles);
+
+        const fileUrls = updatedFiles.map((file: Preview) => file.imageUrl)
+        setFiles(fileUrls)
+
+        console.log('RETURNED FROM DELETESELECTED IMAGE', fileUrls)
         setFormValues({
             ...formValues,
             attachments: updatedFiles,
+            // attachments: fileUrls,
         });
     };
 

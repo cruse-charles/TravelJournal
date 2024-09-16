@@ -119,9 +119,13 @@ const SingleEntry = () => {
 
         // evaluate if the file is a URL or a file object, then add to formData
         const updatedFiles = await getUpdatedFiles(files)
-        console.log(updatedFiles)
-        const formData = updateFormData(formValues, updatedFiles)
-        updateEntry(formData);
+        console.log('FILES RIGHT BEFORE SAVING TO FORM DATA',updatedFiles)
+        // const formData = updateFormData(formValues, updatedFiles)
+        // updateEntry(formData);
+
+        const formData = await updateFormData(formValues, updatedFiles)
+        await updateEntry(formData);
+
     };
 
     // update entry with new data and set isEditing to false

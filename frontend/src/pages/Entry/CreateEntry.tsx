@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import { updateFormData } from '../../utils/updateFormData';
 import placeholderImage from '../../assets/DropzonePlaceholder.svg'
 import { useEntryForm } from './useEntryForm';
 import EntryHeader from './EntryHeader';
+import { getUpdatedFiles } from '../../utils/uploaderHelper';
 
 type RootState = {
     user: {
@@ -47,17 +48,17 @@ type Preview = {
 }
 
 const CreateEntry = () => {
-    // Retrieve entryIdHash containing date:id of user's entries from custom hook
+    // Retrieve entryIdHash containing {date:id} of user's entries
     const { entryIdHash } = useUserEntryDateHash();
 
-    // Retrieve current user from redux store, setting errors, setting formValues
+    // Retrieve current user from redux store
     const { currentUser } = useSelector((state: RootState) => state.user);
 
     // State vars for files, error, formValues
     const [files, setFiles] = useState<File[]>([]);
     const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
-    // const [previews, setPreviews] = useState<Preview[]>([])
+
 
     const initialFormValues = {
         title: '',
@@ -67,8 +68,17 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     }
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews} = useEntryForm(initialFormValues)
+    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews} = useEntryForm(initialFormValues, true)
 
+
+    useEffect(() => {
+        // Cleanup function to revoke blob URLs when component unmounts
+        return () => {
+            previews.forEach((preview) => {
+                URL.revokeObjectURL(preview.imageUrl);
+            });
+        };
+    }, []);
 
     // useDisclosure hook to open and close modal, useNavigate hook to navigate to new entry
     const [opened, { open, close }] = useDisclosure(false);
@@ -83,10 +93,28 @@ const CreateEntry = () => {
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
+            // old
+            // const { attachments, ...restOfFormValues } = formValues;
+            // console.log('ATTACHMENTS', attachments)
+            
+            // const data = updateFormData(restOfFormValues, attachments);
+            // const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+            // navigate(`/entry/${res.data}`)
+            // old
+
+
+            // new
             const { attachments, ...restOfFormValues } = formValues;
-            const data = updateFormData(restOfFormValues, attachments);
+            console.log('ATTACHMENTS', attachments)
+            const convertAttachmentsToFiles = await getUpdatedFiles(attachments);
+            console.log('CONVERTED ATTACHMENTS', convertAttachmentsToFiles)
+            
+            const data = await updateFormData(restOfFormValues, convertAttachmentsToFiles);
+            console.log('DATA FOR ENTRY', data.forEach((value, key) => console.log(key, value)))
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
+            
+            // new
         } catch (err) {
             setIsSaving(false);
             const error = err as ErrorResponse
@@ -106,6 +134,9 @@ const CreateEntry = () => {
     //     })
     // }
 
+    // <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} className={styles.image} />
+
+
     return (
         <>
             <form onSubmit={handleSubmit}>
@@ -116,9 +147,9 @@ const CreateEntry = () => {
                             {previews.map((item) => {
                                 return (
                                     <Carousel.Slide key={item.imageUrl} >
-                                        <Indicator size={15} color="red" offset={12} className={styles.indicator} onClick={() => deleteSelectedImage(item.fileName)} label="X" />
-                                        <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} className={styles.image} />
-                                    </Carousel.Slide>
+                                        <Indicator size={15} color="red" offset={12} className={styles.indicator} onClick={() => deleteSelectedImage(item.imageUrl)} label="X" />
+                                        <Image key={item.imageUrl} src={item.imageUrl} className={styles.image} />
+                                        </Carousel.Slide>
                                 )
                             })}
                             <Carousel.Slide>
