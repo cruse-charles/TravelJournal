@@ -113,15 +113,11 @@ const SingleEntry = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // const hasFormErrors = checkFormErrors(entry)
         const hasFormErrors = checkFormErrors(formValues)
         if (hasFormErrors) return
 
         // evaluate if the file is a URL or a file object, then add to formData
         const updatedFiles = await getUpdatedFiles(files)
-        console.log('FILES RIGHT BEFORE SAVING TO FORM DATA',updatedFiles)
-        // const formData = updateFormData(formValues, updatedFiles)
-        // updateEntry(formData);
 
         const formData = await updateFormData(formValues, updatedFiles)
         await updateEntry(formData);

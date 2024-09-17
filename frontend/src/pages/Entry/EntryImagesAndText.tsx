@@ -57,9 +57,6 @@ const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, delete
                 <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                     <Carousel className={styles.carouselContainer} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                         {(previews ?? []).map((item) => {
-                            // const isFile = item instanceof File;
-                            // const src = isFile ? URL.createObjectURL(item) : item;
-                            // const key = isFile ? `file-${item.name}` : `url-${item}`;
                             const key = item.fileName;
                             const src = item.imageUrl;
                             return (

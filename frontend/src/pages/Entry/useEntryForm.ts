@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react'
-import { deleteSelectedFiles, getUpdatedFiles, updatePreviews } from '../../utils/uploaderHelper';
+import { deleteSelectedFiles, updatePreviews } from '../../utils/uploaderHelper';
 
 type FormValues = {
     title: string;
@@ -79,15 +79,6 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
         // Configure updatedFiles to array of objects, {imageUrl, fileName}
         setPreviews(updatePreviews(updatedFiles));
 
-
-
-        // if (create) {
-        //     setPreviews(updatedFiles)
-        // } else {
-        //     setPreviews(updatePreviews(updatedFiles));
-        // }
-
-        console.log('ADD IMAGES', updatedFiles)
         // set files and FormValues.attachments to array of files or objectURLs
         setFiles(updatedFiles)
         setFormValues({
@@ -106,11 +97,9 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
         const fileUrls = updatedFiles.map((file: Preview) => file.imageUrl)
         setFiles(fileUrls)
 
-        console.log('RETURNED FROM DELETESELECTED IMAGE', fileUrls)
         setFormValues({
             ...formValues,
             attachments: updatedFiles,
-            // attachments: fileUrls,
         });
     };
 

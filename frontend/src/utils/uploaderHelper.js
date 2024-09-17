@@ -1,31 +1,10 @@
 // check if the file is a URL or a file object
 const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') || file.startsWith('https://') || file.startsWith('blob:'));
 
-// if the file is a URL, fetch the file and create a new file object, return as an array of files
-// export const getUpdatedFiles = async (previews) => {
-//     const filePromises = previews.map(async (file) => {
-//         if (isUrl(file)) {
-//             const response = await fetch(file)
-//             const blob = await response.blob()
-//             const fileName = file.split('/').pop()
-//             const newFile = new File([blob], fileName, { type: blob.type })
-//             return newFile
-//         } else {
-//             return file
-//         }
-//     })
-
-//     return await Promise.all(filePromises)
-// }
-
 export const getUpdatedFiles = async (previews) => {
-    console.log('getUpdatedFiles, Param Previews', previews)
     const filePromises = previews.map(async (file) => {
-        console.log('getupdatedfiles, each file', file)
-        // const { imageUrl } = file;
         if (isUrl(file)) {
             try {
-                console.log(`Fetching file from URL: ${file}`);
                 const response = await fetch(file);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch ${file}: ${response.statusText}`);
@@ -39,40 +18,20 @@ export const getUpdatedFiles = async (previews) => {
                 throw error;
             }
         } else {
-            console.log('RETURNING FILE ITSELF')
             return file;
         }
     });
 
-    console.log('END OF getUpdatedFiles')
     return await Promise.all(filePromises);
 };
 
-// // filter out file or URL that matches given key
-// export const deleteSelectedFiles = (previews, key) => {
-//     console.log('PREVIEWS', previews)
-//     console.log('KEY', key)
-//     const updatedFiles = previews.filter((item) => {
-//         if (isUrl(item)) {
-//             return `url-${item}` !== key
-//         } else {
-//             return `file-${item.name}` !== key
-//         }
-//     })
-
-//     return updatedFiles
-// }
-
 // filter out file or URL that matches given key
 export const deleteSelectedFiles = (previews, key) => {
-    // console.log('PREVIEWS', previews)
-    // console.log('KEY', key)
     const updatedFiles = previews.filter((item) => {
         const { imageUrl } = item;
         return imageUrl !== key;
     })
 
-    console.log('UPDATED FILES', updatedFiles)
     return updatedFiles
 }
 

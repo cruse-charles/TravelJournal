@@ -42,11 +42,6 @@ type ErrorResponse = {
     }
 }
 
-type Preview = {
-    imageUrl: string;
-    fileName: string;
-}
-
 const CreateEntry = () => {
     // Retrieve entryIdHash containing {date:id} of user's entries
     const { entryIdHash } = useUserEntryDateHash();
@@ -55,7 +50,6 @@ const CreateEntry = () => {
     const { currentUser } = useSelector((state: RootState) => state.user);
 
     // State vars for files, error, formValues
-    const [files, setFiles] = useState<File[]>([]);
     const [error, setError] = useState<Errors>({});
     const [isSaving, setIsSaving] = useState(false);
 
@@ -93,46 +87,18 @@ const CreateEntry = () => {
 
         // Post request with FormData object and content type for files, navigate to entry upon creation
         try {
-            // old
-            // const { attachments, ...restOfFormValues } = formValues;
-            // console.log('ATTACHMENTS', attachments)
-            
-            // const data = updateFormData(restOfFormValues, attachments);
-            // const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
-            // navigate(`/entry/${res.data}`)
-            // old
-
-
-            // new
             const { attachments, ...restOfFormValues } = formValues;
-            console.log('ATTACHMENTS', attachments)
             const convertAttachmentsToFiles = await getUpdatedFiles(attachments);
-            console.log('CONVERTED ATTACHMENTS', convertAttachmentsToFiles)
             
             const data = await updateFormData(restOfFormValues, convertAttachmentsToFiles);
-            console.log('DATA FOR ENTRY', data.forEach((value, key) => console.log(key, value)))
             const res = await axios.post('api/entry', data, { headers: { 'Content-Type': 'multipart/form-data' } });
             navigate(`/entry/${res.data}`)
-            
-            // new
         } catch (err) {
             setIsSaving(false);
             const error = err as ErrorResponse
             setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
         }
     }
-
-    // const deleteSelectedImage = (fileName: string) => {
-    //     // Remove file from files array and update formValues and previews
-    //     const updatedFiles = files.filter((file) => file.name !== fileName);
-    //     setFiles(updatedFiles);
-    //     setPreviews(updatePreviews(updatedFiles));
-
-    //     setFormValues({
-    //         ...formValues,
-    //         attachments: updatedFiles
-    //     })
-    // }
 
     // <Image key={item.imageUrl} src={item.imageUrl} onLoad={() => URL.revokeObjectURL(item.imageUrl)} className={styles.image} />
 
