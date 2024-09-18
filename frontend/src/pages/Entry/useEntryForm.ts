@@ -1,13 +1,6 @@
 import { ChangeEvent, useState } from 'react'
 import { deleteSelectedFiles, updatePreviews } from '../../utils/uploaderHelper';
-
-type FormValues = {
-    title: string;
-    text: string;
-    date: Date | null;
-    attachments: (File | string)[];
-    user: string | null;
-}
+import { FormValues, Errors, Preview } from './types';
 
 const defaultFormValues: FormValues = {
     title: '',
@@ -17,17 +10,6 @@ const defaultFormValues: FormValues = {
     user: null,
 };
 
-type Errors = {
-    title?: string;
-    text?: string;
-    date?: string;
-    message?: string;
-}
-
-type Preview = {
-    imageUrl: string;
-    fileName: string;
-}
 
 export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, create: boolean = false) => {
     // initialize formValues with entry values, set errors and previews empty
