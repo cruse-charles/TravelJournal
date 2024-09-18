@@ -7,7 +7,7 @@ import { format } from 'date-fns'
 import { FaPencil, FaRegTrashCan,FaCalendarDay } from "react-icons/fa6";
 
 type Props = {
-    error: {
+    formErrors: {
         message?: string;
         date?: string;
         title?: string;
@@ -25,7 +25,7 @@ type Props = {
 }
 
 
-const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, startEdit, handleDelete, open }: Props) => {
+const EntryHeader = ({formErrors, formValues, isSaving, isEditing, handleChange, startEdit, handleDelete, open }: Props) => {
 
     const renderButtons = () => {
         if (isEditing) {
@@ -42,7 +42,7 @@ const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, star
 
     const renderTitleOrInput = () => {
         if (isEditing) {
-            return <TextInput value={formValues.title} onChange={handleChange} error={error.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
+            return <TextInput value={formValues.title} onChange={handleChange} error={formErrors.title} placeholder='Title of your day!' name='title' radius="xs" size='lg' className={styles.entryTitle} maxLength={40} />
         } else {
             return <Title order={1}>{formValues?.title}</Title>
         }
@@ -53,9 +53,9 @@ const EntryHeader = ({error, formValues, isSaving, isEditing, handleChange, star
                 <Group justify='space-between'>
                     <Group>
                         <Button color="black" onClick={open}><FaCalendarDay /></Button>
-                        {error.message && <Text color='red'>{error.message}</Text>}
+                        {formErrors.title && <Text color='red'>{formErrors.title}</Text>}
                         <Title order={3}>{formValues?.date ? format(formValues?.date, 'MMMM do, yyy') : ''}</Title>
-                        {error.date && <Text color='red'>{error.date}</Text>}
+                        {formErrors.date && <Text color='red'>{formErrors.date}</Text>}
                     </Group>
                     {renderButtons()}
                 </Group>

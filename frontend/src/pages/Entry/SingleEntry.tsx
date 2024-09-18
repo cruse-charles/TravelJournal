@@ -40,6 +40,8 @@ type ErrorResponse = {
     }
 }
 
+type ApiErrors = string | null;
+
 const SingleEntry = () => {
     // state vars for entry, loading, and previews
     const [isLoading, setIsLoading] = useState(true);
@@ -50,7 +52,7 @@ const SingleEntry = () => {
 
     // can look into using never type sometimes too, to make sure something is never used, like a default case in a switch statement
     const [originalEntryDate, setOriginalEntryDate] = useState<Date | null>(null);
-    const [errors, setErrors] = useState<Errors>({})
+    const [apiErrors, setApiErrors] = useState<ApiErrors>(null)
     const [isSaving, setIsSaving] = useState(false)
 
     const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleAddImage, deleteSelectedImage, files, setFiles} = useEntryForm()
@@ -80,7 +82,7 @@ const SingleEntry = () => {
                     setPreviews(updatePreviews(entryResponse.attachments))
                     setFiles(entryResponse.attachments)
                 }).catch(error => {
-                    setErrors({ message: error.response.data.message })
+                    setApiErrors(error.response.data.message)
                     setIsLoading(false)
                 })
         } else {
@@ -102,8 +104,7 @@ const SingleEntry = () => {
             navigate('/profile')
         } catch (err) {
             const error = err as ErrorResponse;
-            setErrors({ message: error.response.data.message })
-        }
+            setApiErrors(error.response.data.message)        }
     }
 
     const startEdit = () => {
@@ -134,7 +135,7 @@ const SingleEntry = () => {
             setIsSaving(false)
         } catch (err) {
             const error = err as ErrorResponse;
-            setErrors({ message: error.response.data.message })
+            setApiErrors(error.response.data.message)        
         }
     }
 
@@ -143,7 +144,7 @@ const SingleEntry = () => {
             {!isEditing ? (
                 <>
                     <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
-                        <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} error={errors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
+                        <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} formErrors={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                         <EntryImagesAndText formValues={formValues} isEditing={isEditing}/>
                     </Stack>
                     <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>
@@ -154,7 +155,7 @@ const SingleEntry = () => {
                 <>
                     <form onSubmit={handleSubmit}>
                         <Stack style={{ height: '70vh' }}>
-                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
+                            <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} formErrors={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleAddImage={handleAddImage} handleChange={handleChange}/>
                         </Stack>
                         <Modal opened={opened} onClose={close} title="Select a Date" size='auto'>

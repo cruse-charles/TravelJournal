@@ -85,6 +85,6 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
         });
     };
 
-    return { formValues, setFormValues, formErrors, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews, setPreviews, files, setFiles }
+    return { formValues, setFormValues, formErrors, setFormErrors, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews, setPreviews, files, setFiles }
 
 }

@@ -19,6 +19,8 @@ import { useEntryForm } from './useEntryForm';
 import EntryHeader from './EntryHeader';
 import { getUpdatedFiles } from '../../utils/uploaderHelper';
 
+import { ErrorResponse, ApiErrors } from './types';
+
 type RootState = {
     user: {
         currentUser: {
@@ -27,20 +29,7 @@ type RootState = {
     }
 }
 
-type Errors = {
-    title?: string;
-    text?: string;
-    date?: string;
-    message?: string;
-}
 
-type ErrorResponse = {
-    response: {
-        data: {
-            message: string;
-        }
-    }
-}
 
 const CreateEntry = () => {
     // Retrieve entryIdHash containing {date:id} of user's entries
@@ -50,7 +39,7 @@ const CreateEntry = () => {
     const { currentUser } = useSelector((state: RootState) => state.user);
 
     // State vars for files, error, formValues
-    const [error, setError] = useState<Errors>({});
+    const [apiErrors, setApiErrors] = useState<ApiErrors>(null);
     const [isSaving, setIsSaving] = useState(false);
 
 
@@ -62,7 +51,7 @@ const CreateEntry = () => {
         user: currentUser ? currentUser._id : null,
     }
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews} = useEntryForm(initialFormValues, true)
+    const {formValues, formErrors, setFormValues, setFormErrors, handleChange, checkFormErrors, handleAddImage, deleteSelectedImage, previews} = useEntryForm(initialFormValues, true)
 
 
     useEffect(() => {
@@ -96,7 +85,7 @@ const CreateEntry = () => {
         } catch (err) {
             setIsSaving(false);
             const error = err as ErrorResponse
-            setError((prevErrors) => ({ ...prevErrors, message: error.response.data.message }))
+            setApiErrors(error.response.data.message)
         }
     }
 
@@ -107,7 +96,7 @@ const CreateEntry = () => {
         <>
             <form onSubmit={handleSubmit}>
                 <Stack className={styles.entryContainer} >
-                    <EntryHeader isEditing={true} error={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
+                    <EntryHeader isEditing={true} formErrors={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open} />
                     <Flex className={styles.carouselTextAreaContainer} gap='xl'>
                         <Carousel style={{ width: '50%' }} height='100%' loop withIndicators slideSize={{ base: '100%' }}>
                             {previews.map((item) => {

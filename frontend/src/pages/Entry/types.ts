@@ -17,3 +17,13 @@ export type Preview = {
     imageUrl: string;
     fileName: string;
 }
+
+export type ErrorResponse = {
+    response: {
+        data: {
+            message: string;
+        }
+    }
+}
+
+export type ApiErrors = string | null;
