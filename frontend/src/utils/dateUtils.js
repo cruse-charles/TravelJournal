@@ -1,4 +1,4 @@
-// format date to match with the date format in the database
+// format date to match with the date format in the database, YYYY-MM-DD
 export const getFormattedDate = (date) => {
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`
 }

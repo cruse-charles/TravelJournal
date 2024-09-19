@@ -1,10 +1,13 @@
 // check if the file is a URL or a file object
 const isUrl = (file) => typeof file === 'string' && (file.startsWith('http://') || file.startsWith('https://') || file.startsWith('blob:'));
 
+// Receive array of previews, [{imageUrl, fileName}, File] and convert to blobs, return an array of files
 export const getUpdatedFiles = async (previews) => {
+    // create an array of promises to fetch the files from the URLs
     const filePromises = previews.map(async (file) => {
         if (isUrl(file)) {
             try {
+                // fetch the image from the URL
                 const response = await fetch(file);
                 if (!response.ok) {
                     throw new Error(`Failed to fetch ${file}: ${response.statusText}`);
@@ -22,6 +25,7 @@ export const getUpdatedFiles = async (previews) => {
         }
     });
 
+    // wait for all promises to resolve
     return await Promise.all(filePromises);
 };
 

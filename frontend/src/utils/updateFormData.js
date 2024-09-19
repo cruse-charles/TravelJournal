@@ -5,7 +5,7 @@ export const updateFormData = async (entry, updatedFiles) => {
     //create FormData object to submit object with files
     const formData = new FormData()
 
-    // turn previews, {imageurl} into an array of files
+    // turn previews, {imageurl, fileName}, into an array of files
     const files = await getUpdatedFiles(updatedFiles);
     files.forEach((file) => {
         formData.append(`attachments`, file);

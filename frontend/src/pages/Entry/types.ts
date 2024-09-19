@@ -26,4 +26,12 @@ export type ErrorResponse = {
     }
 }
 
+export type RootState = {
+    user: {
+        currentUser: {
+            _id: string
+        }
+    }
+}
+
 export type ApiErrors = string | null;

@@ -120,7 +120,7 @@ const CreateEntry = () => {
                     <DatePicker
                         onChange={(date) => setFormValues({ ...formValues, date: date })}
                         getDayProps={(date) => getSelectedDayProps(formValues, date)}
-                        excludeDate={(date) => entryIdHash[getFormattedDate(date)]}
+                        excludeDate={(date) => !!entryIdHash[getFormattedDate(date)]}
                     />
                 </Modal>
             </form>

@@ -20,7 +20,7 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
     // initialize files with entry attachments (URLs)
     const [files, setFiles] = useState<(File | string)[]>(initialFormValues.attachments);
 
-
+    // Handle form input changes, clear errors on change
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormValues({
             ...formValues,
@@ -74,8 +74,10 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
         // updatedFiles is array objects, {imageUrl, fileName}
         const updatedFiles = deleteSelectedFiles(previews, key)
 
+        // set previews to array of objets, {imageUrl, fileName}
         setPreviews(updatedFiles);
 
+        // set files to array objectURLs
         const fileUrls = updatedFiles.map((file: Preview) => file.imageUrl)
         setFiles(fileUrls)
 

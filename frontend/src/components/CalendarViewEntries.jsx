@@ -1,11 +1,10 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { Text, Stack } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 
 import { getEntryDayProps, getFormattedDate } from '../utils/dateUtils.js';
-import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
+import useUserEntryDateHash from '../hooks/useUserEntryDateHash';
 
 const CalendarViewEntries = ({ scale, entry }) => {
 

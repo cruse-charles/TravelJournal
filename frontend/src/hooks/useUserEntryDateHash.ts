@@ -2,24 +2,30 @@ import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 
 import { getFormattedDate } from '../utils/dateUtils.js';
-import { getUserEntries } from '../utils/apiService';
+import { getUserEntries } from '../utils/apiService.js';
 
-// const entryIdHash = useRef({});
+import { RootState } from '../pages/Entry/types.js';
+
+type EntryIdHash = {
+    [key: string]: string;
+}
+
 const useUserEntryDateHash = () => {
     // Get current user from redux store and set entries state variable
-    const { currentUser } = useSelector(state => state.user)
-    const [entryIdHash, setEntryIdHash] = useState({});
+    const { currentUser } = useSelector((state: RootState) => state.user)
+    const [entryIdHash, setEntryIdHash] = useState<EntryIdHash>({});
 
     useEffect(() => {
         const controller = new AbortController();
 
+        // Fetch user entries and create hash with dates as keys and entryIDs as values, {date: id}
         getUserEntries(currentUser._id, controller.signal)
             .then(userEntryData => {
-                const hash = {}
+                const hash: EntryIdHash = {}
 
-                // Create hash with dates as keys and entryID as values
                 for (let entry of userEntryData) {
                     let date = new Date(entry.date);
+                    // Format date as YYYY-MM-DD
                     let formattedDate = getFormattedDate(date);
 
                     hash[formattedDate] = entry._id;
