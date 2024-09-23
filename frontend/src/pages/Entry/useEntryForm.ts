@@ -20,6 +20,8 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
     // initialize files with entry attachments (URLs)
     const [files, setFiles] = useState<(File | string)[]>(initialFormValues.attachments);
 
+    console.log('entry', formValues)
+
     // Handle form input changes, clear errors on change
     const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setFormValues({
@@ -58,6 +60,7 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
         // updatedFiles is array of files or objectURLs
         const updatedFiles = [...files, ...newFiles];
 
+        console.log('added image', updatedFiles)
         // Configure updatedFiles to array of objects, {imageUrl, fileName}
         setPreviews(updatePreviews(updatedFiles));
 
@@ -71,14 +74,19 @@ export const useEntryForm = (initialFormValues: FormValues = defaultFormValues, 
 
     // delete preview image from preview and entry
     const deleteSelectedImage = (key: string) => {
+        // console.log('previews in DelteSelectImage', previews)
+        // console.log('deleting image, key', key)
+
         // updatedFiles is array objects, {imageUrl, fileName}
         const updatedFiles = deleteSelectedFiles(previews, key)
+        console.log('UPDATED FILES', updatedFiles)
 
         // set previews to array of objets, {imageUrl, fileName}
         setPreviews(updatedFiles);
 
         // set files to array objectURLs
         const fileUrls = updatedFiles.map((file: Preview) => file.imageUrl)
+        // console.log('FILE URLS FOR SET FILE', fileUrls)
         setFiles(fileUrls)
 
         setFormValues({

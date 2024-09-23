@@ -30,6 +30,9 @@ type Props = {
     handleChange?: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 } 
 
+{/* <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} className={styles.image} /> */}
+
+
 const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, deleteSelectedImage = () => {}, handleAddImage = () => {}, handleChange}: Props) => {
 
     // ref for autoplay plugin
@@ -63,7 +66,7 @@ const EntryImagesAndText = ({formValues, isEditing, previews, formErrors, delete
                                 <Carousel.Slide key={key} >
                                     <Indicator size={15} color="black" label='X' offset={12} className={styles.indicator} onClick={() => deleteSelectedImage(key)}>
                                     </Indicator>
-                                    <Image key={key} src={src} onLoad={() => URL.revokeObjectURL(src)} className={styles.image} />
+                                    <Image key={key} src={src} className={styles.image} />
                                 </Carousel.Slide>
                             )
                         })}
