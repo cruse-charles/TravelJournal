@@ -29,8 +29,6 @@ type Errors = {
     text?: string;
     message?: string;
 }
-// have it higher up in a folder in a .ts
-
 
 type ErrorResponse = {
     response: {
@@ -117,16 +115,8 @@ const SingleEntry = () => {
         const hasFormErrors = checkFormErrors(formValues)
         if (hasFormErrors) return
 
-        // OLD
-        // evaluate if the file is a URL or a file object, then add to formData
-        // const updatedFiles = await getUpdatedFiles(files)
-        // OLD
-
-        // NEW
         const convertedFiles = updatePreviews(files)
-        console.log('CONVERTED FILES', convertedFiles)
         const updatedFiles = await getUpdatedFiles(convertedFiles)
-        // new
 
         const formData = await updateFormData(formValues, updatedFiles)
         await updateEntry(formData);
