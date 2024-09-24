@@ -68,6 +68,7 @@ const CreateEntry = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
+        // Check form errors, if any, return
         const hasFormErrors = checkFormErrors(formValues)
         if (hasFormErrors) return
         setIsSaving(true);
