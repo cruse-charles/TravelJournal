@@ -21,15 +21,6 @@ import CalendarViewEntries from '../../components/CalendarViewEntries';
 //TRPC - typescript remote procedure call, way to call backend functions, something more advanced 
 // Deno TS Config - check this, 
 
-
-//.d.ts = type declaration file, it's a file that tells typescript what the types are for a certain library, try not to use too much.
-
-type Errors = {
-    title?: string;
-    text?: string;
-    message?: string;
-}
-
 type ErrorResponse = {
     response: {
         data: {
@@ -53,7 +44,7 @@ const SingleEntry = () => {
     const [apiErrors, setApiErrors] = useState<ApiErrors>(null)
     const [isSaving, setIsSaving] = useState(false)
 
-    const {formValues, formErrors, setFormValues, handleChange, checkFormErrors, previews, setPreviews, handleAddImage, deleteSelectedImage, files, setFiles} = useEntryForm()
+    const {formValues, setFormValues, formErrors, checkFormErrors, previews, setPreviews, handleChange, handleAddImage, deleteSelectedImage, files, setFiles} = useEntryForm()
 
     // custom hook to get entryIdHash
     const { entryIdHash } = useUserEntryDateHash();
@@ -95,16 +86,6 @@ const SingleEntry = () => {
         return <div>Loading...</div>
     }
 
-    // delete entry and navigate to profile page
-    const handleDelete = async () => {
-        try {
-            await deleteEntry(id)
-            navigate('/profile')
-        } catch (err) {
-            const error = err as ErrorResponse;
-            setApiErrors(error.response.data.message)        }
-    }
-
     const startEdit = () => {
         setIsEditing(true)
     }
@@ -125,12 +106,25 @@ const SingleEntry = () => {
 
     // update entry with new data and set isEditing to false
     const updateEntry = async (formData: FormData) => {
+        if (!id) return
         try {
             setIsSaving(true)
             const response = await getUpdatedEntry(id, formData)
             setFormValues(response.data)
             setIsEditing(false)
             setIsSaving(false)
+        } catch (err) {
+            const error = err as ErrorResponse;
+            setApiErrors(error.response.data.message)        
+        }
+    }
+
+    // delete entry and navigate to profile page
+    const handleDelete = async () => {
+        if (!id) return
+        try {
+            await deleteEntry(id)
+            navigate('/profile')
         } catch (err) {
             const error = err as ErrorResponse;
             setApiErrors(error.response.data.message)        
