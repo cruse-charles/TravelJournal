@@ -1,11 +1,10 @@
-import React from 'react'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, signOutSuccess, signOutStart } from '../redux/user/userSlice.js'
 
-
 import { Flex, Button, Container, Menu } from '@mantine/core';
+import styles from './Header.module.css'
 
 const Header = () => {
 
@@ -54,12 +53,12 @@ const Header = () => {
       align="center"
       direction="row"
       wrap="wrap"
-      style={{ backgroundColor: 'black', height: '100%', padding: '0px' }}
+      className={styles.headerContainer}
     >
-      <Container style={{ width: '55%' }} align='left' >
+      <Container className={styles.travelJournalButtonContainer} align='left' >
         <Button component={Link} to="/" color="black">TravelJournal</Button>
       </Container>
-      <Container style={{ width: '35%' }} align='right'>
+      <Container className={styles.homeButtonContainer} align='right'>
         <Button component={Link} to="" color="black">Home</Button>
         <Menu>
           <Menu.Target>

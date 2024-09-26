@@ -1,0 +1,13 @@
+.headerContainer {
+    background-color: black;
+    height: 100%;
+    padding: 0px;
+}
+
+.travelJournalButtonContainer {
+    width: 55%;
+}
+
+.homeButtonContainer {
+    width: 35%;
+}
