@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
 import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
+
+import styles from './Login.module.css'
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -36,7 +38,7 @@ const Login = () => {
 
     return (
         <Center>
-            <Paper style={{ width: '50%' }}>
+            <Paper className={styles.loginContainer}>
                 <Text size='xl' fw={700}>Login</Text>
                 <form onSubmit={handleSubmit}>
                     <TextInput type="email" id="email" label="Email" onChange={handleChange} />

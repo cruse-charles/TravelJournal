@@ -18,6 +18,7 @@ import EntryImagesAndText from './EntryImagesAndText'
 
 import CalendarViewEntries from '../../components/CalendarViewEntries';
 
+import styles from './Entry.module.css';
 //TRPC - typescript remote procedure call, way to call backend functions, something more advanced 
 // Deno TS Config - check this, 
 
@@ -135,7 +136,7 @@ const SingleEntry = () => {
         <>
             {!isEditing ? (
                 <>
-                    <Stack style={{ height: '70vh' }} p='lg' gap='xs'>
+                    <Stack className={styles.entryContainer} p='lg' gap='xs'>
                         <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={false} formErrors={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                         <EntryImagesAndText formValues={formValues} isEditing={isEditing}/>
                     </Stack>
@@ -146,7 +147,7 @@ const SingleEntry = () => {
             ) : (
                 <>
                     <form onSubmit={handleSubmit}>
-                        <Stack style={{ height: '70vh' }}>
+                        <Stack className={styles.entryContainer}>
                             <EntryHeader handleDelete={handleDelete} startEdit={startEdit} isEditing={true} formErrors={formErrors} formValues={formValues} isSaving={isSaving} handleChange={handleChange} open={open}/>
                             <EntryImagesAndText formValues={formValues} isEditing={isEditing} formErrors={formErrors} previews={previews} deleteSelectedImage={deleteSelectedImage} handleAddImage={handleAddImage} handleChange={handleChange}/>
                         </Stack>
