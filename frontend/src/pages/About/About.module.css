@@ -1,0 +1,20 @@
+.aboutContainer {
+    padding-top: 100px;
+}
+
+.firstSectionContainer {
+    width: 100%;
+    padding-left: 10%;
+}
+
+.firstSectionText {
+    width: 40%;
+}
+
+.secondSectionContainer {
+    width: 66%;
+}
+
+.secondSectionText {
+    width: 30%
+}
