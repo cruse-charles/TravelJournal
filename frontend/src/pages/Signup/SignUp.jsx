@@ -1,12 +1,11 @@
-import React from 'react';
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
+import { signInSuccess } from '../../redux/user/userSlice';
 
 import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
-
+import styles from './Signup.module.css'
 
 const SignUp = () => {
     const [formValues, setFormValues] = useState({})
@@ -42,7 +41,7 @@ const SignUp = () => {
 
     return (
         <Center >
-            <Paper style={{ width: '50%' }}>
+            <Paper className={styles.signupContainer}>
                 <Text size="xl" fw={700}>SignUp</Text>
                 <form onSubmit={handleSubmit} onChange={handleChange}>
                     <TextInput type="text" id="username" label="Username"></TextInput>
