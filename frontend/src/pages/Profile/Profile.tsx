@@ -99,7 +99,7 @@ const Profile = () => {
                     </Group>
                     <UserEntries />
                 </Stack>
-                <CalendarViewEntries scale={1.6} className={styles.calendarViewEntries} entry={null} />
+                <CalendarViewEntries scale={1.6} entry={null} />
             </Group>
             <Group justify='center'>
                 <Stack gap='xs' p='xl' className={styles.userInformation}>

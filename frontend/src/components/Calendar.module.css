@@ -9,3 +9,7 @@
     transform: translateX(-50%);
     background-color: rgba(80, 252, 255, 0.746);
 }
+
+.calendarViewEntries {
+    padding-right: 10%;
+}

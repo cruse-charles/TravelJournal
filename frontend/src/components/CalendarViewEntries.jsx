@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { Text, Stack } from '@mantine/core';
+import { Text, Stack, Center } from '@mantine/core';
 import { Calendar } from '@mantine/dates';
 import { Indicator } from '@mantine/core';
 
 import { getEntryDayProps, getFormattedDate } from '../utils/dateUtils.js';
 import useUserEntryDateHash from '../hooks/useUserEntryDateHash';
+
+import styles from './Calendar.module.css';
 
 const CalendarViewEntries = ({ scale, entry }) => {
 
@@ -32,10 +34,13 @@ const CalendarViewEntries = ({ scale, entry }) => {
     //getDayProps: Adds props to Day component, getEntryDayProps: Highlight the date of the entry in the calendar
     //renderDay: What is rendered in the day cell
     return (
-        <Stack >
-            <Text size='xl' fw={700}>Your Calendar</Text>
+        <Stack className={styles.calendarViewEntries}>
+            <Center>
+                <Text size='xl' fw={700}>Your Calendar</Text>
+            </Center>
             <Calendar
-                style={{ transform: `scale(${scale})`, transformOrigin: 'top right' }}
+                // style={{ transform: `scale(${scale})`, transformOrigin: 'top right' }}
+                size='xl'
                 getDayProps={(date) => ({
                     onClick: () => handleDateClick(date),
                     ...getEntryDayProps(entry, date)
