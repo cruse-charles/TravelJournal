@@ -1,8 +1,10 @@
 .userInformation {
-    justify-content: 'center';
+    justify-content: center;
     width: 50%;
 }
 
 .userEntriesContainer {
-    width: 55%;
+    width: 60%;
 }
+
+.tripsButtonContainer {}

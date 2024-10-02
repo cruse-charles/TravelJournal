@@ -91,16 +91,18 @@ const Profile = () => {
 
     return (
         <Stack >
-            <Group justify='space-between' p='xl' align='flex-start'>
-                <Stack className={styles.userEntriesContainer}>
-                    <Group>
-                        <Text size="xl" fw={700} >Your Trips</Text>
-                        <Button color='black' onClick={handleNewTripClick}>+ New Trip</Button>
-                    </Group>
-                    <UserEntries />
-                </Stack>
-                <CalendarViewEntries scale={1.6} entry={null} />
-            </Group>
+            <Stack>
+                <Group pl='xl' pt='xl' align='flex-start' className={styles.tripsButtonContainer}>
+                    <Text size="xl" fw={700}>Your Trips</Text>
+                    <Button color='black' onClick={handleNewTripClick}>+ New Trip</Button>
+                </Group>
+                <Group justify='space-between' pl='xl' pr='xl' align='flex-start'>
+                    <Stack className={styles.userEntriesContainer}>
+                        <UserEntries />
+                    </Stack>
+                    <CalendarViewEntries scale={1.6} entry={null} />
+                </Group>
+            </Stack>
             <Group justify='center'>
                 <Stack gap='xs' p='xl' className={styles.userInformation}>
                     <Text size="xl" fw={700}>Account Information</Text>
