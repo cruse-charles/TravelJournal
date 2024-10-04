@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -6,6 +6,8 @@ import { signInSuccess } from '../../redux/user/userSlice';
 
 import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
 import styles from './Signup.module.css'
+import { ErrorResponse } from './types';
+
 
 const SignUp = () => {
     const [formValues, setFormValues] = useState({})
@@ -15,12 +17,12 @@ const SignUp = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target
         setFormValues({ ...formValues, [id]: value })
     }
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
 
@@ -33,7 +35,8 @@ const SignUp = () => {
             dispatch(signInSuccess(loginResponse.data));
             navigate('/profile');
         } catch (err) {
-            setError(err.response?.data?.message);
+            const error = err as ErrorResponse
+            setError(error.response?.data?.message);
         } finally {
             setLoading(false);
         }
