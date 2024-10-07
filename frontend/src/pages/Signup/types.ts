@@ -1,3 +1,9 @@
+export type UserFormValues = {
+    username: string;
+    email: string;
+    password: string;
+}
+
 export type ErrorResponse = {
     response: {
         data: {
@@ -5,3 +11,5 @@ export type ErrorResponse = {
         }
     }
 }
+
+export type ApiErrors = string | null;

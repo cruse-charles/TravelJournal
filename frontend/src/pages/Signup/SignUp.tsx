@@ -6,18 +6,24 @@ import { signInSuccess } from '../../redux/user/userSlice';
 
 import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
 import styles from './Signup.module.css'
-import { ErrorResponse } from './types';
+import { ErrorResponse, ApiErrors, UserFormValues } from './types';
+
+const defaultUserFormValues = {
+    username: '',
+    email: '',
+    password: ''
+}
 
 
 const SignUp = () => {
-    const [formValues, setFormValues] = useState({})
-    const [error, setError] = useState(null)
+    const [formValues, setFormValues] = useState<UserFormValues>(defaultUserFormValues)
+    const [error, setError] = useState<ApiErrors>(null)
     const [loading, setLoading] = useState(false)
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: ChangeEvent<HTMLFormElement>) => {
         const { id, value } = e.target
         setFormValues({ ...formValues, [id]: value })
     }
