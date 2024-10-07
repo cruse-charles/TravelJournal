@@ -1,26 +1,38 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { signInStart, signInSuccess, signInFailure } from '../../redux/user/userSlice';
-import { NavLink, Text, Button, TextInput, Space, Paper, PasswordInput, Center } from '@mantine/core';
+import { NavLink, Text, Button, TextInput, Space, Paper, Center } from '@mantine/core';
 
 import styles from './Login.module.css'
+
+type RootState = {
+    user: {
+        currentUser: {
+            _id: string,
+            username: string,
+            email: string
+        },
+        loading: boolean,
+        error: string
+    }
+}
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [loginCredentials, setLoginCredentials] = useState({})
-    const { currentUser, loading, error } = useSelector(state => state.user);
+    const { currentUser, loading, error } = useSelector((state: RootState) => state.user);
 
-    const handleChange = (e) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target
         setLoginCredentials({ ...loginCredentials, [id]: value })
     }
 
     // POST request to login endpoint
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
         // Dispatch signInStart action of userSlice
