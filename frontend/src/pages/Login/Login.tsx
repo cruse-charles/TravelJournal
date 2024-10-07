@@ -6,25 +6,14 @@ import { signInStart, signInSuccess, signInFailure } from '../../redux/user/user
 import { NavLink, Text, Button, TextInput, Space, Paper, Center } from '@mantine/core';
 
 import styles from './Login.module.css'
-
-type RootState = {
-    user: {
-        currentUser: {
-            _id: string,
-            username: string,
-            email: string
-        },
-        loading: boolean,
-        error: string
-    }
-}
+import {RootState} from './types'
 
 const Login = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [loginCredentials, setLoginCredentials] = useState({})
-    const { currentUser, loading, error } = useSelector((state: RootState) => state.user);
+    const { loading, error } = useSelector((state: RootState) => state.user);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target
