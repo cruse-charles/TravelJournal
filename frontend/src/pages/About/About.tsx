@@ -1,12 +1,24 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Title, Flex, Text, Stack, Group, Paper, Button, Space, Container } from '@mantine/core';
+import { Title, Flex, Text, Stack, Group, Button, Space, Container } from '@mantine/core';
 import styles from './About.module.css'
+
+type RootState = {
+    user: {
+        currentUser: {
+            _id: string,
+            username: string,
+            email: string
+        },
+        loading: boolean,
+        error: string
+    }
+}
 
 const About = () => {
     const navigate = useNavigate();
-    const { currentUser } = useSelector(state => state.user);
+    const { currentUser } = useSelector((state: RootState) => state.user);
 
     const handleSignupButtonClick = () => {
         navigate(`/signup`)
