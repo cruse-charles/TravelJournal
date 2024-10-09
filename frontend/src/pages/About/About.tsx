@@ -4,17 +4,7 @@ import { useSelector } from 'react-redux';
 import { Title, Flex, Text, Stack, Group, Button, Space, Container } from '@mantine/core';
 import styles from './About.module.css'
 
-type RootState = {
-    user: {
-        currentUser: {
-            _id: string,
-            username: string,
-            email: string
-        },
-        loading: boolean,
-        error: string
-    }
-}
+import { RootState } from './types';
 
 const About = () => {
     const navigate = useNavigate();
