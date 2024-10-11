@@ -6,6 +6,7 @@
 
 .travelJournalButtonContainer {
     width: 55%;
+    align-items: left;
 }
 
 .homeButtonContainer {

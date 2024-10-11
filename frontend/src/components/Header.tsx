@@ -55,10 +55,10 @@ const Header = () => {
       wrap="wrap"
       className={styles.headerContainer}
     >
-      <Container className={styles.travelJournalButtonContainer} align='left' >
+      <Container className={styles.travelJournalButtonContainer} >
         <Button component={Link} to="/" color="black">TravelJournal</Button>
       </Container>
-      <Container className={styles.homeButtonContainer} align='right'>
+      <Container className={styles.homeButtonContainer}>
         <Button component={Link} to="" color="black">Home</Button>
         <Menu>
           <Menu.Target>
