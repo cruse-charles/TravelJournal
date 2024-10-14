@@ -7,7 +7,7 @@ import { getEntryDayProps, getFormattedDate } from '../utils/dateUtils.js';
 import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
 
 import styles from './Calendar.module.css';
-import { Entry } from './types.js';
+import { Entry } from './types';
 
 type Props = {
     entry: Entry;
