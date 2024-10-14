@@ -7,21 +7,27 @@ import { getEntryDayProps, getFormattedDate } from '../utils/dateUtils.js';
 import useUserEntryDateHash from '../hooks/useUserEntryDateHash.js';
 
 import styles from './Calendar.module.css';
+import { Entry } from './types.js';
 
-const CalendarViewEntries = ({ scale, entry }) => {
+type Props = {
+    entry: Entry;
+    scale: number;
+} 
+
+const CalendarViewEntries = ({ scale, entry }: Props) => {
 
     // Retrieve entryIdHash containing date:id of user's entries from custom hook
     const { entryIdHash } = useUserEntryDateHash();
 
     const navigate = useNavigate();
 
-    const handleRenderDate = (date) => {
+    const handleRenderDate = (date: Date) => {
         // Check if date is in hash of entry dates and add indicator if true
         let formattedDate = getFormattedDate(date)
         return !entryIdHash[formattedDate]
     }
 
-    const handleDateClick = (date) => {
+    const handleDateClick = (date: Date) => {
         let formattedCalendarDate = getFormattedDate(date);
 
         // When selecting calendar cell, navigate to entry with matching date in hash
