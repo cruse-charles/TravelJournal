@@ -5,10 +5,11 @@ import { deleteUserStart, deleteUserSuccess, deleteUserFailure, signOutFailure, 
 
 import { Flex, Button, Container, Menu } from '@mantine/core';
 import styles from './Header.module.css'
+import { RootState } from './types'
 
 const Header = () => {
 
-  const { currentUser } = useSelector(state => state.user);
+  const { currentUser } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
