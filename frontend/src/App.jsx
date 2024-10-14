@@ -6,7 +6,7 @@ import SingleEntry from './pages/Entry/SingleEntry';
 import SignUp from './pages/Signup/SignUp.tsx';
 import Login from './pages/Login/Login.tsx';
 import Header from './components/Header.tsx';
-import PrivateProfileRoute from './components/PrivateProfileRoute';
+import PrivateProfileRoute from './components/PrivateProfileRoute.tsx';
 import Profile from './pages/Profile/Profile.tsx';
 import About from './pages/About/About.tsx';
 
