@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import { Title, Flex, Text, Stack, Group, Button, Space, Container } from '@mantine/core';
+import { Title, Flex, Text, Stack, Group, Button, Space, Container, AspectRatio } from '@mantine/core';
 import styles from './About.module.css'
 
 import { RootState } from './types';
+import travelVideo from '../../assets/TravelJournal_Presentation.mp4'
 
 const About = () => {
     const navigate = useNavigate();
@@ -32,8 +33,10 @@ const About = () => {
                     <Space h='md' />
                     <Button color='black' onClick={handleCreateJournalButtonClick} style={{ width: '35%' }}>Start Journaling</Button>
                 </Stack>
-                <Container>
-                    <Text>I'm going to put a Video here, I know there isn't a video here so dont tell me there isnt a video here</Text>
+                <Container style={{ width: '50%', height: '50%' }}>
+                    <AspectRatio ratio={16 / 9} >
+                        <iframe src={travelVideo}/>
+                    </AspectRatio>
                 </Container>
             </Group>
             <Space h='xl' />
